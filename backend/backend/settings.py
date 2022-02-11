@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'ticking'
 ]
 
+CORS_ORIGIN_WHITELIST = [
+     'http://localhost:3000'
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
