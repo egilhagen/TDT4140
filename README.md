@@ -9,7 +9,7 @@ En nettside for kjøp og salg av billetter til sosiale arrangement.
 ### Backend førstegangsoppsett
 1. Installer **python3.9**
 2. Klone prosjektet 
-3. Lag en venv: **pip3.9 install pipenv**
+3. Installer venv: **pip3.9 install pipenv**
 4. Gå inn i venv: **pipenv shell**
 5. **pipenv install django**
 6. Kjøre denne når dere er inni i repoet: **pip install -r requirements.txt**
@@ -49,7 +49,7 @@ Dersom du får denne feilmeldingen under backend-førstegangsoppsettet, gjør f�
 2. Start venv: **pipenv shell**
 3. Sjekk at du e på rett plass/får opp req. lista med: **pip freeze**
 4. **cd backend**
-5. **python manage.py runserver**
+5. **python3.9 manage.py runserver**
 
 
 
