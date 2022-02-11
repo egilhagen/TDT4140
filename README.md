@@ -1,50 +1,80 @@
 # ticking
+En nettside for kjøp og salg av billetter til sosiale arrangement.
 
 
-## Prerequisites
 
-### Backend
 
-1. Klone prosjektet 
-2. Lag en venv, Komandoer for virtual env: pip3 install pipenv
-3. pipenv shell
-4. pipenv install django
-5. Kjøre denne når dere er inni i repoet:pip install -r requirements.txt
-6. Da kan dere se at dere har de riktige installasjonene med: pip freeze
+## Førstegangsoppsett
 
 ### Backend førstegangsoppsett
-Start I ticking mappa
-1. Start venv: pipenv shell
-2. (Sjekk at du e på ret plass med: pip freeze )
-3. cd backend
-4. python3.9 manage.py migrate
-5. python3.9 manage.py makemigrations ticking
-6. python3.9 manage.py migrate ticking
-7. python3.9 manage.py runserver
-8. Gå til denne nettaddresen: http://localhost:8000/admin/ 
-9. Lag superuser: åpne ny terminal og naviger til backend mappa
-10. python manage.py createsuperuser
-
-Vanlig oppstart backend
-python manage.py runserver
-
-
-
-Nyttige lenker:
-http://localhost:8000/api/
-http://localhost:8000/api/users/
+1. Installer **python3.9**
+2. Klone prosjektet 
+3. Lag en venv: **pip3.9 install pipenv**
+4. Gå inn i venv: **pipenv shell**
+5. **pipenv install django**
+6. Kjøre denne når dere er inni i repoet: **pip install -r requirements.txt**
+7. Da kan dere se at dere har de riktige installasjonene med: **pip freeze**
+8. **cd backend**
+9. **python3.9 manage.py migrate**
+10. **python3.9 manage.py makemigrations ticking**
+11. **python3.9 manage.py migrate ticking**
+12. **python3.9 manage.py runserver**
+13. sjekk at loginvinduet dukker opp når du går til denne nettsiden: http://localhost:8000/admin/ 
+14. Lag superuser: åpne ny terminal og naviger til **backend** mappa
+15. **python manage.py createsuperuser**
+16. Lag superuser og logg inn på admin-siden
 
 
 
-Errorfix: ModuleNotFoundError: No module named 'corsheaders'
+### **Errorfix:** ModuleNotFoundError: No module named 'corsheaders'
+Dersom du får denne feilmeldingen under backend-førstegangsoppsettet, gjør følgende:
 1. pip3.9 install tzdata
 2. Pipenv install Django
 3. pipenv install djangorestframework django-cors-headers
 
 
-
-### Frontend
+## Frontend førstegangsoppsett
 1. Installer Node.js Version: 16.14.0 (includes npm 8.3.1)
+2. **cd frontend**
+3. **npm start**
+4. Gå til: http://localhost:3000
+
+
+
+
+## Vanlig oppstart
+
+### Vanlig oppstart backend
+1. Start I ticking mappa
+2. Start venv: **pipenv shell**
+3. Sjekk at du e på rett plass/får opp req. lista med: **pip freeze**
+4. **cd backend**
+5. **python manage.py runserver**
+
+
+
+### Nyttige backend lenker:
+http://localhost:8000/admin/
+
+http://localhost:8000/api/
+
+http://localhost:8000/api/users/
+
+
+
+
+### Vanlig oppstart frontend
+1. **cd frontend**
+2. **npm start**
+3. Gå til: http://localhost:3000
+
+
+
+
+
+
+
+
 
 
 
