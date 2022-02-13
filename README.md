@@ -28,8 +28,8 @@ En nettside for kjøp og salg av billetter til sosiale arrangement.
 
 ### **Errorfix:** ModuleNotFoundError: No module named 'corsheaders'
 Dersom du får denne feilmeldingen under backend-førstegangsoppsettet, gjør følgende:
-1. pip3.9 install tzdata
-2. Pipenv install Django
+1. ~~pip3.9 install tzdata~~
+2. ~~Pipenv install Django~~
 3. pipenv install djangorestframework django-cors-headers
 
 
