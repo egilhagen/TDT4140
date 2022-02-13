@@ -36,8 +36,9 @@ Dersom du får denne feilmeldingen under backend-førstegangsoppsettet, gjør f�
 ## Frontend førstegangsoppsett
 1. Installer Node.js Version: 16.14.0 (includes npm 8.3.1)
 2. **cd frontend**
-3. **npm start**
-4. Gå til: http://localhost:3000
+3. **npm install**
+4. **npm start**
+5. Gå til: http://localhost:3000
 
 
 
