@@ -15,14 +15,16 @@ En nettside for kjøp og salg av billetter til sosiale arrangement.
 6. Kjøre denne når dere er inni i repoet: **pip install -r requirements.txt**
 7. Da kan dere se at dere har de riktige installasjonene med: **pip freeze**
 8. **cd backend**
-9. **python3.9 manage.py migrate**
-10. **python3.9 manage.py makemigrations ticking**
-11. **python3.9 manage.py migrate ticking**
-12. **python3.9 manage.py runserver**
-13. sjekk at loginvinduet dukker opp når du går til denne nettsiden: http://localhost:8000/admin/ 
-14. Lag superuser: åpne ny terminal og naviger til **backend** mappa
-15. **python manage.py createsuperuser**
-16. Lag superuser og logg inn på admin-siden
+9. **pipenv install djangorestframework django-cors-headers**
+10. **python3.9 manage.py migrate**
+11. **python3.9 manage.py makemigrations ticking**
+12. **python3.9 manage.py migrate ticking**
+13. **python3.9 manage.py runserver**
+14. sjekk at loginvinduet dukker opp når du går til denne nettsiden: http://localhost:8000/admin/ 
+15. Lag superuser: åpne ny terminal og naviger til **backend** mappa
+17. **pipenv shell**
+18. **python manage.py createsuperuser**
+19. Lag superuser og logg inn på admin-siden
 
 
 
