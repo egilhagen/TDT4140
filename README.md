@@ -22,8 +22,9 @@ En nettside for kjøp og salg av billetter til sosiale arrangement.
 13. **python3.9 manage.py runserver**
 14. sjekk at loginvinduet dukker opp når du går til denne nettsiden: http://localhost:8000/admin/ 
 15. Lag superuser: åpne ny terminal og naviger til **backend** mappa
-16. **python manage.py createsuperuser**
-17. Lag superuser og logg inn på admin-siden
+17. **pipenv shell**
+18. **python manage.py createsuperuser**
+19. Lag superuser og logg inn på admin-siden
 
 
 
