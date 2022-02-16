@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
+import LoginWindow from "./components/LoginWindow";
 import axios from "axios";
+
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +20,8 @@ class App extends Component {
     };
   }
 
+
+  // Lifecycle method, invoked immediately after component is mounted.
   componentDidMount() {
     this.refreshList();
   }
@@ -138,6 +142,9 @@ class App extends Component {
             activeItem={this.state.activeItem}
             toggle={this.toggle}
             onSave={this.handleSubmit}
+            view = {<LoginWindow/>}
+            
+
           />
         ) : null}
       </main>
