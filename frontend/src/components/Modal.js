@@ -22,9 +22,6 @@ export default class CustomModal extends Component {
   handleChange = (e) => {
     let { name, value } = e.target;
 
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
-    }
 
     const activeItem = { ...this.state.activeItem, [name]: value };
 
@@ -40,38 +37,40 @@ export default class CustomModal extends Component {
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="todo-title">Title</Label>
+              <Label for="user-name">Name</Label>
               <Input
                 type="text"
-                id="todo-title"
-                name="title"
-                value={this.state.activeItem.title}
+                id="user-name"
+                name="name"
+                value={this.state.activeItem.name}
                 onChange={this.handleChange}
-                placeholder="Enter Todo Title"
+                placeholder="Enter full name"
               />
             </FormGroup>
             <FormGroup>
-              <Label for="todo-description">Description</Label>
+              <Label for="user-email">Email</Label>
               <Input
                 type="text"
-                id="todo-description"
-                name="description"
-                value={this.state.activeItem.description}
+                id="user-email"
+                name="email"
+                value={this.state.activeItem.email}
                 onChange={this.handleChange}
-                placeholder="Enter Todo description"
+                placeholder="Enter email"
               />
             </FormGroup>
-            <FormGroup check>
-              <Label check>
-                <Input
-                  type="checkbox"
-                  name="completed"
-                  checked={this.state.activeItem.completed}
-                  onChange={this.handleChange}
-                />
-                Completed
-              </Label>
+            <FormGroup>
+              <Label for="user-username">Username</Label>
+              <Input
+                type="text"
+                id="user-username"
+                name="username"
+                value={this.state.activeItem.username}
+                onChange={this.handleChange}
+                placeholder="Enter username"
+              />
             </FormGroup>
+            
+
           </Form>
         </ModalBody>
         <ModalFooter>
