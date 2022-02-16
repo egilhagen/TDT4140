@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+//import LoginWindow from "./LoginWindow";
 import {
   Button,
   Modal,
@@ -10,6 +11,18 @@ import {
   Input,
   Label,
 } from "reactstrap";
+
+/*
+// props bruk i app.js
+<Modal
+            activeItem={this.state.activeItem}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          />
+
+
+*/
+
 
 export default class CustomModal extends Component {
   constructor(props) {
@@ -29,47 +42,16 @@ export default class CustomModal extends Component {
   };
 
   render() {
-    const { toggle, onSave } = this.props;
+    const { toggle, onSave, view } = this.props;    // this.props.toggle <LoginWindow></LoginWindow>
 
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader toggle={toggle}>Todo Item</ModalHeader>
         <ModalBody>
           <Form>
-            <FormGroup>
-              <Label for="user-name">Name</Label>
-              <Input
-                type="text"
-                id="user-name"
-                name="name"
-                value={this.state.activeItem.name}
-                onChange={this.handleChange}
-                placeholder="Enter full name"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="user-email">Email</Label>
-              <Input
-                type="text"
-                id="user-email"
-                name="email"
-                value={this.state.activeItem.email}
-                onChange={this.handleChange}
-                placeholder="Enter email"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="user-username">Username</Label>
-              <Input
-                type="text"
-                id="user-username"
-                name="username"
-                value={this.state.activeItem.username}
-                onChange={this.handleChange}
-                placeholder="Enter username"
-              />
-            </FormGroup>
-            
+
+          {view}
+          
 
           </Form>
         </ModalBody>
