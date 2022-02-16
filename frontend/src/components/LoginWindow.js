@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import CreateUserWindow from "./CreateUserWindow"
 export default class Login extends Component {
     render() {
         return (
             <form>
                 <h3>Sign In</h3>
-                <div className="form-group">
+                <div className="form-group" id="test">
                     <label>Email address</label>
                     <input type="email" className="form-control" placeholder="Enter email" />
                 </div>
@@ -26,7 +27,9 @@ export default class Login extends Component {
                 <p className="forgot-password text-left">
                     Dont have an account?
                 </p>
-                <button type="submit" className="btn btn-primary btn-block">Create new user</button>
+                
+                <button onClick={ () => document.getElementById("test").innerHTML = "hellow world" } className="btn btn-primary btn-block">Create new user</button>
+                
             </form>
         );
     }
