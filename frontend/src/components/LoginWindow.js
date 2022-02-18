@@ -1,11 +1,36 @@
 import React, { Component } from "react";
 import CreateUserWindow from "./CreateUserWindow"
 export default class Login extends Component {
+
+    /*
+    swapView  = () => {
+        document.getElementById("test").innerHTML = "hellow world"; 
+        // prevent page from redirecting 
+        preventDefault();  
+        
+        //this.setState({ activeItem });
+      };
+*/
+
+/*
+// Old test for changing div content with .innerHTML, can be deleted.
+    DisplayUserCreationForm = event => {
+        //TODO: dette kjem ikkje til å funke sånn me vil, løsning: https://stackoverflow.com/questions/33840150/onclick-doesnt-render-new-react-component
+        document.getElementById("outer-container-div").innerHTML = "Create user form here";  //<CreateUserWindow/>
+        // forhindrer standard html oppførsel med redirect etter form submit
+        event.preventDefault();
+    }
+*/
+
+
     render() {
+        // pakker ut child prop som kjem fra app.js
+        const { toggleCreateUserWindow } = this.props;  
+
         return (
             <form>
                 <h3>Sign In</h3>
-                <div className="form-group" id="test">
+                <div className="form-group" >
                     <label>Email address</label>
                     <input type="email" className="form-control" placeholder="Enter email" />
                 </div>
@@ -28,8 +53,9 @@ export default class Login extends Component {
                     Dont have an account?
                 </p>
                 
-                <button onClick={ () => document.getElementById("test").innerHTML = "hellow world" } className="btn btn-primary btn-block">Create new user</button>
-                
+                {/* TODO: onClick={() =>toggleCreateUserWindow()} Fungerer, men onClick={toggleCreateUserWindow()}  fungerer ikkje, finn ut av forskjellen!*/}
+                <button  onClick={() =>toggleCreateUserWindow()} className="btn btn-primary btn-block">Create new user</button> 
+                 
             </form>
         );
     }
