@@ -81,6 +81,7 @@ export default class CreateUser extends Component {
               <Button
               color="success"
                   onClick={() => onSave(this.state.activeItem)}
+                  // TODO: bruker bør bli logget inn etter Save.
                 >
                 Save
               </Button>
