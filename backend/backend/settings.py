@@ -39,8 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'ticking'
+    'ticking',
+    'knox'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication')
+}
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
