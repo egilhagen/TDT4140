@@ -130,7 +130,7 @@ class App extends Component {
   render() {
     return (
       <main className="container">
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
+        <h1 className="text-black text-uppercase text-center my-4">Ticking</h1>
         <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
@@ -139,7 +139,7 @@ class App extends Component {
                   className="btn btn-primary"
                   onClick={this.createItem}
                 >
-                  Add task
+                  Login
                 </button>
               </div>
               {this.renderTabList()}
@@ -156,14 +156,16 @@ class App extends Component {
               <Modal
                 //activeItem={this.state.activeItem} 
                 toggle={this.toggle}
-                onSave={this.handleSubmit}
-                modalContent = {<CreateUserWindow activeItem = {this.state.activeItem}/>} //onChange = {}
+                //onSave={this.handleSubmit}
+                modalTitle = {<h3>Create new user</h3>}
+                modalContent = {<CreateUserWindow activeItem = {this.state.activeItem}  onSave={this.handleSubmit} />} //onChange = {}
               />
             ) : <Modal
-              activeItem={this.state.activeItem}
+              //activeItem={this.state.activeItem}
               toggle={this.toggle}
               onSave={this.handleSubmit}
               // setter Content = LoginWindow, og sender inn funksjonen som lar deg bytte fra LoginWindow til CreateUserWindow som child prop 
+              modalTitle = {<h3>Sign In</h3>}
               modalContent = {<LoginWindow toggleCreateUserWindow = {this.toggleCreateUserWindow}/>}
             />
         ) : null
