@@ -27,12 +27,16 @@ import {
 export default class CustomModal extends Component {
  
  //TEST: flyttet til CreateUserWindow, ligger begge plasser atm, det blir feil...
-  constructor(props) {
+ /* 
+ constructor(props) {
     super(props);
     this.state = {
       activeItem: this.props.activeItem, // burde denne staten kanskje og flyttes?
     };
   }
+  */
+
+
 /*
   // Burde denne vere her? eller i CreateUserWindow
   handleChange = (e) => {
@@ -44,16 +48,18 @@ export default class CustomModal extends Component {
   };
 */
   render() {
-    const { toggle, onSave, modalContent } = this.props;    // Children props  this.props.toggle <LoginWindow></LoginWindow>
+    const { toggle, onSave, modalContent, modalTitle } = this.props;    // Children props  this.props.toggle <LoginWindow></LoginWindow>
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Todo Item</ModalHeader>
+        <ModalHeader toggle={toggle}>{modalTitle}</ModalHeader>
         <ModalBody>
           
           {modalContent}
         
         </ModalBody>
+        {/* 
+        // Denne blir laget i CreateUserWindow istedenfor her
         <ModalFooter>
           <Button
             color="success"
@@ -62,6 +68,8 @@ export default class CustomModal extends Component {
             Save
           </Button>
         </ModalFooter>
+        */}
+
       </Modal>
     );
   }
