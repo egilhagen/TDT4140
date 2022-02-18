@@ -14,7 +14,7 @@ import {
   } from "reactstrap";
 
 export default class CreateUser extends Component {
-  // TEEST flytta constructor og undereelent fra Modal, ligger
+  // TEEST flytta constructor og undereelent fra Modal
 
   constructor(props) {
     super(props);
@@ -38,6 +38,7 @@ export default class CreateUser extends Component {
     render() {
       // TODO: send inn som children fra app.js og pakk ut value og onChange!
       //const { activeItem } = this.props; 
+      const {onSave} = this.props;  
         return (
             <div>
               <Form>
@@ -75,6 +76,15 @@ export default class CreateUser extends Component {
                   />
                 </FormGroup>
               </Form>
+              {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
+              <ModalFooter>
+              <Button
+              color="success"
+                  onClick={() => onSave(this.state.activeItem)}
+                >
+                Save
+              </Button>
+              </ModalFooter>
               </div> 
             );
         }
