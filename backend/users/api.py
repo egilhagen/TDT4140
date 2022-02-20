@@ -30,12 +30,11 @@ class LoginAPI(generics.GenericAPIView):
         serializers = self.get_serializer(data=request.data)
         serializers.is_valid(raise_exception=False)
         user = serializers.validated_data
-        _, token = AuthToken.objects.create(user)
         # Serializert bruker
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             #Gjør at man kan logge inn umiddelbart ved registrering. Vet hvem man er utifra token. Kommer i header.
-            "token": token
+            "token": AuthToken.objects.create(user)[1]
         })
 # Get User API
 
