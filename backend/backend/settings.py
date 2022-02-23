@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'users',
-    'knox'
+    'knox',
+    'post',
 ]
 
 REST_FRAMEWORK = {
