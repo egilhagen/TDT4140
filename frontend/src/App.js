@@ -1,3 +1,42 @@
+
+
+// frontend/src/components/App.js
+
+import LoginForm from './components/auth/LoginForm';
+import PrivateRoute from './components/common/PrivateRoute'; // added
+
+import { loadUser } from './actions/auth'; // added
+
+class App extends Component {
+  // added
+  componentDidMount() {
+    store.dispatch(loadUser());
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <Router history={history}>
+          <Header />
+          <Switch>
+            <PrivateRoute exact path='/' component={Dashboard} /> // updated
+            <Route exact path='/delete/:id' component={TodoDelete} />
+            <Route exact path='/edit/:id' component={TodoEdit} />
+            <Route exact path='/login' component={LoginForm} /> // added
+          </Switch>
+        </Router>
+      </Provider>
+    );
+  }
+}
+
+
+
+
+
+
+
+/*
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import LoginWindow from "./components/LoginWindow";
@@ -150,7 +189,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        {/* Først, sjekk om me skal vise modalen */}
+        
         {this.state.modal ? (
             // Deretter sjekk om den skal vise CreateUserWindow eller LoginWindow inne i modalen,  true= CreateUserWindow, false = LoginWindow
             this.state.modalDisplayCreateUser ? (
@@ -177,3 +216,4 @@ class App extends Component {
 }
 
 export default App;
+*/
