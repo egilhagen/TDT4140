@@ -73,9 +73,11 @@ http://localhost:8000/api/users/
 
 
 
-
-
-
+### For å teste backend:
+1. Start i ticking mappa
+2. Start venv: **pipenv shell**
+3. **cd backend**
+4. **py manage.py test**
 
 
 
