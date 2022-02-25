@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Post
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'price', 'date', 'location', 'description', 'category' )
+    list_display = ('title', 'price', 'date', 'location', 'description', 'category', 'user', 'saleOrBuy' )
 
 # Register your models here.
 
