@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import CreateUserWindow from "./CreateUserWindow";
+//import CreateUserWindow from "./CreateUserWindow";
+// Navigate va Redirect i gammel versjon
+import { Navigate, Router } from "react-router-dom";
 
-import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../actions/auth";
@@ -13,16 +14,19 @@ export class Login extends Component {
     password: "",
   };
 
+  // passed from Redux store with connect at the bottom
   static propTypes = {
     login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
   };
 
   onSubmit = (e) => {
-    //prevents default redirect
+    //prevents default redirect with login info in header
     e.preventDefault();
-    console.log("clicked login submit");
+    //console.log("clicked login submit");
     // call login action in auth.js
+    //dispatch(loadUser());
+    //dispatch(login(this.state.username, this.state.password));
     this.props.login(this.state.username, this.state.password);
   };
 
@@ -51,7 +55,14 @@ export class Login extends Component {
   render() {
     // Denne redirecter til startside dersom allerede logget inn?
     if (this.props.isAuthenticated) {
-      return <Navigate to="/" />;
+      //alert("user is authenticated");
+      //gå til post side med kontaktinfo
+      return (
+        // TODO: finn ut av kordan dette funker
+        <Router>
+          <Navigate to="/userHasBeenAuthenticated" />
+        </Router>
+      );
     }
 
     // pakker ut child prop som kjem fra app.js
@@ -100,7 +111,7 @@ export class Login extends Component {
           Login
         </button>
         <p className="forgot-password text-right">
-          Forgot <a href="#">password?</a>
+          <a href="reset-password"> Forgot password?</a>
         </p>
 
         <p className="forgot-password text-left">Dont have an account?</p>
@@ -117,9 +128,25 @@ export class Login extends Component {
   }
 }
 
+/*
+//test: funke, kan bytte ut {login} i connect med "mapDispatchToProps"
+const mapDispatchToProps = (dispatch) => ({
+  login: (username, password) => {
+    dispatch(login(username, password));
+  },
+});
+*/
+
+/* test: funker, e ein anna måte å sette propTypes på utanfor Login-klassen
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
+};
+*/
+
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-// The connect() function connects a React component to a Redux store.
+// The connect() function connects a React component to a Redux store. makes isAuthenticated state, and the login-action func available in this component (Login)
 export default connect(mapStateToProps, { login })(Login);

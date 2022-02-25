@@ -33,9 +33,10 @@ class App extends Component {
 
 import React, { Component } from "react";
 import Modal from "./components/Modal";
-import { Login } from "./components/Login";
+import Login from "./components/Login";
+//import { Login } from "./components/Login"; // HOLY SHIT DETTE VAR PROBLEMET MED login-action!!!!!!: https://stackoverflow.com/questions/65915279/i-have-this-error-uncaught-typeerror-this-props-login-is-not-a-function
 import CreateUserWindow from "./components/CreateUserWindow";
-import axios from "axios";
+//import axios from "axios";
 
 //Redux
 import { Provider } from "react-redux";
@@ -46,15 +47,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userList: [],
+      //userList: [],
       modal: false,
       modalDisplayCreateUser: false, // bestemmer om CreateNewUser skjemaet skal vises inne i modalen isteden for login
+      /*
       activeItem: {
         name: "",
         email: "",
         username: "",
         has_logged_in: false,
-      },
+      },*/
     };
   }
 
@@ -109,11 +111,12 @@ class App extends Component {
   }; */
 
   createItem = () => {
-    const user = { name: "", email: "", username: "", has_logged_in: false };
+    //const user = { name: "", email: "", username: "", has_logged_in: false };
 
-    this.setState({ activeItem: user, modal: !this.state.modal });
+    //this.setState({ activeItem: user, modal: !this.state.modal });
+    this.setState({ modal: !this.state.modal });
   };
-
+  /*
   editItem = (user) => {
     this.setState({ activeItem: user, modal: !this.state.modal });
   };
@@ -156,7 +159,7 @@ class App extends Component {
         </span>
       </li>
     ));
-  };
+  }; */
 
   render() {
     return (
@@ -173,10 +176,10 @@ class App extends Component {
                     Login
                   </button>
                 </div>
-                <h4> List of users in backend database:</h4>
-                {this.renderTabList()}
+                <h4> My posts:</h4>
+                {/*this.renderTabList()*/}
                 <ul className="list-group list-group-flush border-top-0">
-                  {this.renderItems()}
+                  {/*this.renderItems()*/}
                 </ul>
               </div>
             </div>

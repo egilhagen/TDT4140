@@ -16,6 +16,9 @@ const initialState = {
   user: null,
 };
 
+// In essence, a reducer is a function which takes
+// two arguments -- the current state and an action -- and returns based on both arguments a new state. (Redux)
+
 export default function (state = initialState, action) {
   switch (action.type) {
     case USER_LOADING:
