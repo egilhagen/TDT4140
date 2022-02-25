@@ -21,6 +21,8 @@ export class Login extends Component {
   onSubmit = (e) => {
     //prevents default redirect
     e.preventDefault();
+    console.log("clicked login submit");
+    // call login action in auth.js
     this.props.login(this.state.username, this.state.password);
   };
 
@@ -47,6 +49,7 @@ export class Login extends Component {
 */
 
   render() {
+    // Denne redirecter til startside dersom allerede logget inn?
     if (this.props.isAuthenticated) {
       return <Navigate to="/" />;
     }
@@ -58,7 +61,7 @@ export class Login extends Component {
     const { username, password } = this.state;
 
     return (
-      <form>
+      <form onSubmit={this.onSubmit}>
         <div className="form-group">
           <label>Username</label>
           <input
@@ -120,13 +123,3 @@ const mapStateToProps = (state) => ({
 
 // The connect() function connects a React component to a Redux store.
 export default connect(mapStateToProps, { login })(Login);
-
-/* export default connect(
-  (state) => ({
-    state: state.reducer,
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(screenActions, dispatch),
-  })
-)(Login); // <<--- here :)
- */
