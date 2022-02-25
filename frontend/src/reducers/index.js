@@ -1,13 +1,16 @@
 // frontend/src/reducers/index.js
 
+// add the auth , .. etc reducers to the parent reducer.
 
-
-// add the auth reducer to the parent reducer. 
-
-import auth from './auth'; // added
+import { combineReducers } from "redux";
+//import leads from "./leads";
+//import errors from "./errors";
+//import messages from "./messages";
+import auth from "./auth";
 
 export default combineReducers({
-  form: formReducer,
-  todos,
-  auth // added
+  //leads,
+  //errors,
+  //messages,
+  auth,
 });

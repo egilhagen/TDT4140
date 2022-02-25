@@ -2,18 +2,19 @@
 
 // redirect users who are not logged in to the login page when they visit the home page.
 
-import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import React from "react";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   <Route
     {...rest}
-    render={props => {
+    render={(props) => {
       if (auth.isLoading) {
-        return <div>Loading...</div>;
+        return <h2>Loading...</h2>;
       } else if (!auth.isAuthenticated) {
-        return <Redirect to='/login' />;
+        return <Redirect to="/login" />;
       } else {
         return <Component {...props} />;
       }
@@ -21,8 +22,8 @@ const PrivateRoute = ({ component: Component, auth, ...rest }) => (
   />
 );
 
-const mapStateToProps = state => ({
-  auth: state.auth
+const mapStateToProps = (state) => ({
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);
