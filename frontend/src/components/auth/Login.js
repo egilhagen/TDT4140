@@ -5,7 +5,7 @@ import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login } from "../actions/auth";
+import { login } from "../../actions/auth";
 
 // test redirect if auth
 //import App from "../App";
@@ -55,7 +55,7 @@ export class Login extends Component {
 
   render() {
     // pakker ut child prop som kjem fra app.js
-    const { toggleCreateUserWindow, closeModal } = this.props;
+    const { toggleRegisterUserWindow, closeModal } = this.props;
 
     // pakker ut username og password fra Redux state
     const { username, password } = this.state;
@@ -133,9 +133,9 @@ export class Login extends Component {
 
         <p className="forgot-password text-left">Dont have an account?</p>
 
-        {/* TODO: onClick={() =>toggleCreateUserWindow()} Fungerer, men onClick={toggleCreateUserWindow()}  fungerer ikkje, finn ut av forskjellen!*/}
+        {/* TODO: onClick={() =>toggleRegisterUserWindow()} Fungerer, men onClick={toggleRegisterUserWindow()}  fungerer ikkje, finn ut av forskjellen!*/}
         <button
-          onClick={() => toggleCreateUserWindow()}
+          onClick={() => toggleRegisterUserWindow()}
           className="btn btn-primary btn-block"
         >
           Create new user

@@ -25,10 +25,10 @@ class App extends Component {
 */
 
 import React, { Component } from "react";
-import Modal from "./components/Modal";
-import Login from "./components/Login";
+import Modal from "./components/layout/Modal";
+import Login from "./components/auth/Login";
 //import { Login } from "./components/Login"; // HOLY SHIT DETTE VAR PROBLEMET MED login-action!!!!!!: https://stackoverflow.com/questions/65915279/i-have-this-error-uncaught-typeerror-this-props-login-is-not-a-function
-import CreateUserWindow from "./components/CreateUserWindow";
+import RegisterUser from "./components/auth/RegisterUser";
 import Header from "./components/layout/Header";
 
 //Redux
@@ -78,13 +78,13 @@ class App extends Component {
   // Viser/skjuler modal
   toggle = () => {
     this.setState({ modal: !this.state.modal });
-    // sett modalDisplayCreateUser til false kver gang, sånn at du ikkje blir stuck på CreateUserWindow dersom du går inn der.
+    // sett modalDisplayCreateUser til false kver gang, sånn at du ikkje blir stuck på Register dersom du går inn der.
     this.setState({ modalDisplayCreateUser: false });
   };
 
-  // Hopp fra login til CreateUserWindow inne i modal (når "create account" knappen trykkes)
-  toggleCreateUserWindow = (event) => {
-    //alert("toggleCreateUserWindow");
+  // Hopp fra login til Register inne i modal (når "create account" knappen trykkes)
+  toggleRegisterUserWindow = (event) => {
+    //alert("toggleRegister");
     this.setState({
       modalDisplayCreateUser: !this.state.modalDisplayCreateUser,
     });
@@ -207,7 +207,7 @@ class App extends Component {
           </div>
 
           {this.state.modal ? (
-            // Deretter sjekk om den skal vise CreateUserWindow eller LoginWindow inne i modalen,  true= CreateUserWindow, false = LoginWindow
+            // Deretter sjekk om den skal vise Register eller LoginWindow inne i modalen,  true= Register, false = LoginWindow
             this.state.modalDisplayCreateUser ? (
               <Modal
                 //activeItem={this.state.activeItem}
@@ -216,9 +216,9 @@ class App extends Component {
                 //onSave={this.handleSubmit}
                 modalTitle={<h3>Create new user</h3>}
                 modalContent={
-                  <CreateUserWindow
-                    activeItem={this.state.activeItem}
-                    //onSave={this.handleSubmit}
+                  <RegisterUser
+                  //activeItem={this.state.activeItem}
+                  //onSave={this.handleSubmit}
                   />
                 } //onChange = {}
               />
@@ -227,10 +227,12 @@ class App extends Component {
                 //activeItem={this.state.activeItem}
                 toggle={this.toggle}
                 //onSave={this.handleSubmit}
-                // setter Content = LoginWindow, og sender inn funksjonen som lar deg bytte fra LoginWindow til CreateUserWindow som child prop
+                // setter Content = LoginWindow, og sender inn funksjonen som lar deg bytte fra LoginWindow til Register som child prop
                 modalTitle={<h3>Sign In</h3>}
                 modalContent={
-                  <Login toggleCreateUserWindow={this.toggleCreateUserWindow} />
+                  <Login
+                    toggleRegisterUserWindow={this.toggleRegisterUserWindow}
+                  />
                 }
               />
             )
