@@ -137,9 +137,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-# Denne i backend settings.py løser 403 ? 
-REST_FRAMEWORK = {
+# Denne i backend settings.py løser 403 ?  
+# MEN gjorde at default-login windu poppa opp etter implementasjon av token auth. (når du gjorde kall til api/auth/user)
+# denne kan no slettes! 
+
+""" REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
     ]
-}
+} """
