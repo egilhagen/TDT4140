@@ -1,11 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 //import CreateUserWindow from "./CreateUserWindow";
 // Navigate va Redirect i gammel versjon
-import { Navigate, Router } from "react-router-dom";
+//import { Navigate, HashRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../actions/auth";
+
+// test redirect if auth
+//import App from "../App";
+//import { HashRouter, Navigate, Routes } from "react-router-dom";
 
 // uten default importer med {Login} !!!!
 export class Login extends Component {
@@ -14,19 +18,16 @@ export class Login extends Component {
     password: "",
   };
 
-  // passed from Redux store with connect at the bottom
+  // Passed from Redux store with connect at the bottom
   static propTypes = {
     login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
   };
 
   onSubmit = (e) => {
-    //prevents default redirect with login info in header
+    // prevents default redirect with login+pass info in header
     e.preventDefault();
-    //console.log("clicked login submit");
     // call login action in auth.js
-    //dispatch(loadUser());
-    //dispatch(login(this.state.username, this.state.password));
     this.props.login(this.state.username, this.state.password);
   };
 
@@ -53,23 +54,39 @@ export class Login extends Component {
 */
 
   render() {
-    // Denne redirecter til startside dersom allerede logget inn?
+    // pakker ut child prop som kjem fra app.js
+    const { toggleCreateUserWindow, closeModal } = this.props;
+
+    // pakker ut username og password fra Redux state
+    const { username, password } = this.state;
+
+    // Denne redirecter til ..... dersom allerede logget inn
     if (this.props.isAuthenticated) {
-      //alert("user is authenticated");
-      //gå til post side med kontaktinfo
       return (
-        // TODO: finn ut av kordan dette funker
-        <Router>
-          <Navigate to="/userHasBeenAuthenticated" />
-        </Router>
+        //alert("isAuthenticated");
+        //return null;
+        // TODO: skjul modal eller naviger til sida med annonser+kontaktinfo
+        //<Modal isOpen={false} />
+        //{() => closeModal()}
+        //(document.getElementById("testModal").isOpen = false)
+        <div>
+          <h3>
+            TODO: Få til å lukke dette popup/modal-vinduet automatisk når
+            isAuthenticated = true
+          </h3>
+        </div>
+
+        // TODO: dersom me skal redirecte krever <Navigate/>  definisjon av kas komponent som skal visast i app.js
+        // dette funka ikkje
+        /* <HashRouter>
+          <Fragment>
+            <Routes>
+              <Navigate exact path="/test" component={App} />
+            </Routes>
+          </Fragment>
+        </HashRouter> */
       );
     }
-
-    // pakker ut child prop som kjem fra app.js
-    const { toggleCreateUserWindow } = this.props;
-
-    // pakker ut username og password fra state
-    const { username, password } = this.state;
 
     return (
       <form onSubmit={this.onSubmit}>

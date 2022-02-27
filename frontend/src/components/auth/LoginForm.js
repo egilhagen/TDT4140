@@ -1,7 +1,9 @@
 // frontend/src/components/auth/LoginForm.js
 
-
+//UNUSED
+/*
 // component for login using Redux Form.
+
 
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
@@ -86,3 +88,6 @@ LoginForm = connect(
 export default reduxForm({
   form: 'loginForm'
 })(LoginForm);
+
+
+*/

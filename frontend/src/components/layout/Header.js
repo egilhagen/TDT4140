@@ -31,15 +31,19 @@ export class Header extends Component {
 
     const guestLinks = (
       <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
-        <li className="nav-item">
+        {/*  <li className="nav-item">
           <Link to="/register" className="nav-link">
             Register
-          </Link>
-        </li>
+          </Link> 
+        </li> */}
         <li className="nav-item">
-          <Link to="/login" className="nav-link">
+          {/* Todo: spytter ut login-knappen fra app.js, dette er yalla, flytt knappen inn her?  */}
+          {this.props.loginButton}
+
+          {/* Dette er kanskje ein bedre løsning? kan lage ein dedikert modul-komponent som kan matast inn i /login redirecten? */}
+          {/*  <Link to="/login" className="nav-link">
             Login
-          </Link>
+          </Link> */}
         </li>
       </ul>
     );
@@ -60,9 +64,10 @@ export class Header extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a className="navbar-brand" href="#">
-              Lead Manager
+              Ticking
             </a>
           </div>
+          {/* Show login or logout button depending on authentication state */}
           {isAuthenticated ? authLinks : guestLinks}
         </div>
       </nav>

@@ -1,11 +1,4 @@
 /*
-// frontend/src/components/App.js
-
-import LoginForm from './components/auth/LoginForm';
-import PrivateRoute from './components/common/PrivateRoute'; // added
-
-import { loadUser } from './actions/auth'; // added
-
 class App extends Component {
   // added
   componentDidMount() {
@@ -36,12 +29,20 @@ import Modal from "./components/Modal";
 import Login from "./components/Login";
 //import { Login } from "./components/Login"; // HOLY SHIT DETTE VAR PROBLEMET MED login-action!!!!!!: https://stackoverflow.com/questions/65915279/i-have-this-error-uncaught-typeerror-this-props-login-is-not-a-function
 import CreateUserWindow from "./components/CreateUserWindow";
-//import axios from "axios";
+import Header from "./components/layout/Header";
 
 //Redux
 import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
+
+// Router
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
@@ -73,6 +74,7 @@ class App extends Component {
       .catch((err) => console.log(err));
   };*/
 
+  // TODO: flytt desse inn i modal?
   // Viser/skjuler modal
   toggle = () => {
     this.setState({ modal: !this.state.modal });
@@ -80,7 +82,7 @@ class App extends Component {
     this.setState({ modalDisplayCreateUser: false });
   };
 
-  // Test: hopp fra login til CreateUserWindow inne i ein modal
+  // Hopp fra login til CreateUserWindow inne i modal (når "create account" knappen trykkes)
   toggleCreateUserWindow = (event) => {
     //alert("toggleCreateUserWindow");
     this.setState({
@@ -88,6 +90,7 @@ class App extends Component {
     });
     //event.preventDefault();
   };
+
   /*
   handleSubmit = (user) => {
     this.toggle();
@@ -164,6 +167,14 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        {/* Header med login/logout og sidetittel */}
+        <Header
+          loginButton={
+            <button className="btn btn-primary" onClick={this.createItem}>
+              Login
+            </button>
+          }
+        />
         <main className="container">
           <h1 className="text-black text-uppercase text-center my-4">
             Ticking
@@ -171,12 +182,22 @@ class App extends Component {
           <div className="row">
             <div className="col-md-6 col-sm-10 mx-auto p-0">
               <div className="card p-3">
-                <div className="mb-4">
+                {/* Gammel login-knapp, mates nå inn som prop til Header-komponenten */}
+                {/* <div className="mb-4">
                   <button className="btn btn-primary" onClick={this.createItem}>
                     Login
                   </button>
                 </div>
-                <h4> My posts:</h4>
+                */}
+
+                <h4> Show posts without contact info here</h4>
+                {/* TEST: does not work, Show contact info depending on authentication state */}
+                {/*  {store.dispatch(getState(isAuthenticated))? (
+                  <h4> Show posts without contact info here</h4>
+                ) : (
+                  <h4> posts with contact info</h4>
+                )} */}
+
                 {/*this.renderTabList()*/}
                 <ul className="list-group list-group-flush border-top-0">
                   {/*this.renderItems()*/}
@@ -190,6 +211,7 @@ class App extends Component {
             this.state.modalDisplayCreateUser ? (
               <Modal
                 //activeItem={this.state.activeItem}
+
                 toggle={this.toggle}
                 //onSave={this.handleSubmit}
                 modalTitle={<h3>Create new user</h3>}
