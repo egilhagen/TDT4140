@@ -13,7 +13,7 @@ class LocationChoices(Enum):
         return tuple((i.name, i.value) for i in cls)
 
 class TypeChoices(Enum):
-    Consert = "Concert"
+    Consert = "Consert"
     Cinema = "Cinema"
     Theater = "Theater"
     Other = "Other"
