@@ -1,44 +1,60 @@
 import React, { Component } from "react";
-import Modal from "./components/Modal";
-import LoginWindow from "./components/LoginWindow";
-import CreateUserWindow from "./components/CreateUserWindow";
+import Modal from "./components/layout/Modal";
 import CreatePostWindow from "./components/CreatePostWindow";
+import Posts from "./components/posts/Posts";
 import axios from "axios";
 
+import Login from "./components/auth/Login";
+//import { Login } from "./components/Login"; // HOLY SHIT DETTE VAR PROBLEMET MED login-action!!!!!!: https://stackoverflow.com/questions/65915279/i-have-this-error-uncaught-typeerror-this-props-login-is-not-a-function
+import RegisterUser from "./components/auth/RegisterUser";
+import Header from "./components/layout/Header";
+
+//Redux
+import { Provider } from "react-redux";
+import store from "./store";
+import { loadUser } from "./actions/auth";
+
+// Router
+import {
+  HashRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
 
-      userList: [],
-      
- 
+    this.state = {
+      postList: [],
+
       //let displayCreateUser = Symbol(displayCreateUser),
       modal: false,
       modalDisplayCreateUser: false, // bestemmer om CreateNewUser skjemaet skal vises inne i modalen isteden for login
       modalCreatePost: false,
+      /*MERGE
       activeItem: {
         "name": "",
         "email": "",
         "username": "",
         "has_logged_in": false
-      },
+      },*/
       activePost: {
-        "title": "",
-        "price": "",
-        "date": "",
-        "location": "OS",
-        "category": "Concert",
-        "saleOrBuy": "Sell",
-        "description": "",
-      }
+        title: "",
+        price: "",
+        date: "",
+        location: "OS",
+        category: "Concert",
+        saleOrBuy: "Sell",
+        description: "",
+      },
     };
   }
 
-
   // Lifecycle method, invoked immediately after component is mounted.
   componentDidMount() {
+    store.dispatch(loadUser());
     this.refreshList();
   }
 
@@ -46,36 +62,48 @@ class App extends Component {
     axios
       .get("/api/posts")
 
-      .then((res) => this.setState({ userList: res.data }))
+      .then((res) => this.setState({ postList: res.data }))
       .catch((err) => console.log(err));
   };
 
+  // TODO: flytt desse inn i modal?
   // Viser/skjuler modal
   toggle = () => {
     this.setState({ modal: !this.state.modal });
     // sett modalDisplayCreateUser til false kver gang, sånn at du ikkje blir stuck på CreateUserWindow dersom du går inn der.
-    this.setState({ modalDisplayCreateUser: false});
-    this.setState({ modalCreatePost: false});
-
+    this.setState({ modalDisplayCreateUser: false });
+    this.setState({ modalCreatePost: false });
   };
 
   // Test: hopp fra login til CreateUserWindow inne i ein modal
-  toggleCreateUserWindow = event => {
+  toggleRegisterUserWindow = (event) => {
     //alert("toggleCreateUserWindow");
-    this.setState({ modalDisplayCreateUser: !this.state.modalDisplayCreateUser });
-    this.setState({ modalCreatePost: false});
+    this.setState({
+      modalDisplayCreateUser: !this.state.modalDisplayCreateUser,
+    });
+    this.setState({ modalCreatePost: false });
 
     //event.preventDefault();
   };
 
-  toggleCreatePostWindow = event => {
+  toggleCreatePostWindow = (event) => {
     //alert("toggleCreateUserWindow");
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
     //event.preventDefault();
-    this.setState({ modal: false});
-
+    this.setState({ modal: false });
   };
 
+  // Hopp fra login til Register inne i modal (når "create account" knappen trykkes)
+  /* MERGE
+ toggleRegisterUserWindow = (event) => {
+    //alert("toggleRegister");
+    this.setState({
+      modalDisplayCreateUser: !this.state.modalDisplayCreateUser,
+    });
+    //event.preventDefault();
+  };*/
+
+  /*
   handleSubmit = (user) => {
     this.toggle();
     //if user exists, update user(PUT) ?
@@ -85,13 +113,16 @@ class App extends Component {
         .then((res) => this.refreshList());
       return;
     }
-    // else create new user (POST) 
+    // else create new user (POST)
     axios
-      .post("/api/auth/user/", user)
+      .post("/api/users/", user) // api/auth/register
       .then((res) => this.refreshList());
   };
+*/
 
   handleSubmitPost = (post) => {
+    alert("Hei");
+
     this.toggleCreatePostWindow();
     //if user exists, update user(PUT) ?
     if (post.id) {
@@ -100,78 +131,75 @@ class App extends Component {
         .then((res) => this.refreshList());
       return;
     }
-    // else create new user (POST) 
-    axios
-      .post("/api/posts/", post)
-      .then((res) => this.refreshList());
-    
-
+    // else create new user (POST)
+    axios.post("/api/posts/", post).then((res) => this.refreshList());
   };
 
-
-  handleDelete = (user) => {
-    axios
-      .delete(`/api/posts/${user.id}/`)
-      .then((res) => this.refreshList());
-  };
-
+  //TODO: endre navn, creater ingenting
   createItem = () => {
-    const user = { name: "", email: "", username: "", has_logged_in: false };
+    //const user = { name: "", email: "", username: "", has_logged_in: false };
 
-    this.setState({ activeItem: user, modal: !this.state.modal });
+    //this.setState({ activeItem: user, modal: !this.state.modal });
+    this.setState({ modal: !this.state.modal });
   };
 
   createPost = () => {
-    const post = { title: "", price: "", date: "", location: "", category: "", saleOrBuy: "", description: "" };
+    alert("CreatePost");
+    const post = {
+      title: "",
+      price: "",
+      date: "",
+      location: "",
+      category: "",
+      saleOrBuy: "",
+      description: "",
+    };
 
-    this.setState({ activePost: post, modalCreatePost: !this.state.modalCreatePost });
+    this.setState({
+      activePost: post,
+      modalCreatePost: !this.state.modalCreatePost,
+    });
   };
 
   editItem = (user) => {
     this.setState({ activeItem: user, modal: !this.state.modal });
   };
 
-
-
   renderTabList = () => {
-    return (
-      <div className="nav nav-tabs">
-          {this.state.viewCompleted}
-      </div>
-    );
+    return <div className="nav nav-tabs">{this.state.viewCompleted}</div>;
   };
 
   renderItems = () => {
     const { viewCompleted } = this.state;
-    const newItems = this.state.userList;
+    const newItems = this.state.postList;
 
-    return newItems.map((user) => (
+    return newItems.map((post) => (
       <li
-        key={user.id}
+        key={post.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
         <span
           className={`todo-title mr-2 ${
             this.state.viewCompleted ? "completed-todo" : ""
           }`}
-          title={user.name}
+          title={post.title}
         >
-          {user.title}
-          {user.id}
+          {post.title}
+          {post.id}
         </span>
         <span>
-          <button
+          {/*<button
             className="btn btn-secondary mr-2"
-            onClick={() => this.editItem(user)}
+            onClick={() => this.editItem(post)}
           >
             Edit
           </button>
           <button
             className="btn btn-danger"
-            onClick={() => this.handleDelete(user)}
+            onClick={() => this.handleDelete(post)}
           >
             Delete
-          </button>
+          </button>*/}
         </span>
       </li>
     ));
@@ -179,6 +207,7 @@ class App extends Component {
 
   render() {
     return (
+      /*
       <main className="container">
         <h1 className="text-black text-uppercase text-center my-4">Ticking</h1>
         <div className="row">
@@ -190,56 +219,113 @@ class App extends Component {
                   onClick={this.createItem}
                 >
                   Login
-                </button>
-                <button
-                  className="btn btn-primary"
-                  onClick={this.createPost}
-                >
-                  Create post
-                </button>
+                </button>*/
+
+      <Provider store={store}>
+        {/* Header med login/logout og sidetittel */}
+        <Header
+          loginButton={
+            <button className="btn btn-primary" onClick={this.createItem}>
+              Login
+            </button>
+          }
+        />
+        <main className="container">
+          <h1 className="text-black text-uppercase text-center my-4">
+            Ticking
+          </h1>
+          <div className="row">
+            <div className="col-md-6 col-sm-10 mx-auto p-0">
+              <div className="card p-3">
+                {/* Gammel login-knapp, mates nå inn som prop til Header-komponenten */}
+                {/* <div className="mb-4">
+                  <button className="btn btn-primary" onClick={this.createItem}>
+                    Login
+                  </button>
+                </div>
+                */}
+                <Posts createPost={this.createPost} />
+
+                <h4> Show posts without contact info here</h4>
+
+                {/* TEST: does not work, Show contact info depending on authentication state */}
+                {/*  {store.dispatch(getState(isAuthenticated))? (
+                  <h4> Show posts without contact info here</h4>
+                ) : (
+                  <h4> posts with contact info</h4>
+                )} */}
+
+                {this.renderTabList()}
+                <ul className="list-group list-group-flush border-top-0">
+                  {this.renderItems()}
+                </ul>
               </div>
-              <h4> List of users in backend database:</h4> 
-              {this.renderTabList()}
-              <ul className="list-group list-group-flush border-top-0">
-                {this.renderItems()}
-              </ul>
             </div>
           </div>
-        </div>
-        {/* Først, sjekk om me skal vise modalen */}
-        {this.state.modal ? (
-            // Deretter sjekk om den skal vise CreateUserWindow eller LoginWindow inne i modalen,  true= CreateUserWindow, false = LoginWindow
+
+          {this.state.modal ? (
+            // Deretter sjekk om den skal vise Register eller LoginWindow inne i modalen,  true= Register, false = LoginWindow
             this.state.modalDisplayCreateUser ? (
               <Modal
-                //activeItem={this.state.activeItem} 
+                //activeItem={this.state.activeItem}
+
                 toggle={this.toggle}
                 //onSave={this.handleSubmit}
-                modalTitle = {<h3>Create new user</h3>}
-                modalContent = {<CreateUserWindow activeItem = {this.state.activeItem}  onSave={this.handleSubmit} />} //onChange = {}
+                modalTitle={<h3>Create new user</h3>}
+                modalContent={
+                  <RegisterUser
+                    toggleRegisterUserWindow={this.toggle}
+                    //activeItem={this.state.activeItem}
+                    //onSave={this.handleSubmit}
+                  />
+                } //onChange = {}
               />
-            ) : <Modal
+            ) : (
+              <Modal
+                //activeItem={this.state.activeItem}
+                toggle={this.toggle}
+                //onSave={this.handleSubmit}
+                // setter Content = LoginWindow, og sender inn funksjonen som lar deg bytte fra LoginWindow til Register som child prop
+                modalTitle={<h3>Sign In</h3>}
+                modalContent={
+                  <Login
+                    toggleRegisterUserWindow={this.toggleRegisterUserWindow}
+                    toggle={this.toggle}
+                  />
+                }
+              />
+              /*) : <Modal
               //activeItem={this.state.activeItem}
               toggle={this.toggle}
               onSave={this.handleSubmit}
               // setter Content = LoginWindow, og sender inn funksjonen som lar deg bytte fra LoginWindow til CreateUserWindow som child prop 
               modalTitle = {<h3>Sign In</h3>}
               modalContent = {<LoginWindow toggleCreateUserWindow = {this.toggleCreateUserWindow}/>}
+            />*/
+            )
+          ) : null}
+          {this.state.modalCreatePost ? (
+            // Deretter sjekk om den skal vise CreateUserWindow eller LoginWindow inne i modalen,  true= CreateUserWindow, false = LoginWindow
+            <Modal
+              activeUser={this.state.activeUser}
+              toggle={this.toggleCreatePostWindow}
+              //onSave={this.handleSubmit}
+              modalTitle={<h3>Create post</h3>}
+              modalContent={
+                <CreatePostWindow
+                  activePost={this.state.activePost}
+                  onSave={this.handleSubmitPost}
+                />
+              } //onChange = {}
             />
-        ) : null
-      }
-      {this.state.modalCreatePost ? (
-        // Deretter sjekk om den skal vise CreateUserWindow eller LoginWindow inne i modalen,  true= CreateUserWindow, false = LoginWindow
-        <Modal
-          activeUser={this.state.activeUser} 
-          toggle={this.toggleCreatePostWindow}
-          //onSave={this.handleSubmit}
-          modalTitle = {<h3>Create new user</h3>}
-          modalContent = {<CreatePostWindow activePost = {this.state.activePost}  onSave={this.handleSubmitPost} />} //onChange = {}
-        />
-        ) : null
-      }
-      <a>{this.activePost}</a>
-      </main>
+          ) : null}
+          <a>{this.activePost}</a>
+        </main>
+        {/*</Provider> )
+          ) : null}
+        </main>
+          */}
+      </Provider>
     );
   }
 }
