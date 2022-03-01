@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from ticking.models import User
+from users.models import User
 
 
 """class testViews(TestCase):

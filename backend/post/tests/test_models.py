@@ -1,5 +1,5 @@
 from django.test import TestCase
-from ticking.models import User
+from users.models import User
 
 class TestModels(TestCase):
 
