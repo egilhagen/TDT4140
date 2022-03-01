@@ -121,8 +121,6 @@ class App extends Component {
 */
 
   handleSubmitPost = (post) => {
-    alert("Hei");
-
     this.toggleCreatePostWindow();
     //if user exists, update user(PUT) ?
     if (post.id) {
@@ -144,7 +142,6 @@ class App extends Component {
   };
 
   createPost = () => {
-    alert("CreatePost");
     const post = {
       title: "",
       price: "",
