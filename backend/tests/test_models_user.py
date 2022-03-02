@@ -1,7 +1,7 @@
 from django.test import TestCase
 from users.models import User
 
-class TestModels(TestCase):
+class TestModels_User(TestCase):
 
     def setUp(self):
         self.user1 = User.objects.create(
