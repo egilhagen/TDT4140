@@ -1,12 +1,17 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+
+// Components
 import Modal from "../layout/Modal";
 import CreatePostWindow from "../CreatePostWindow";
 
+// API requests
 import axios from "axios";
 
-// post reactstrap
+// Redux
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+// Post reactstrap-cards
 import {
   Card,
   Button,
@@ -17,7 +22,6 @@ import {
   CardSubtitle,
   CardBody,
 } from "reactstrap";
-import auth from "../../reducers/auth";
 
 export class Posts extends Component {
   constructor(props) {
@@ -25,19 +29,7 @@ export class Posts extends Component {
 
     this.state = {
       postList: [],
-      //modalCreatePost: false,
-
-      //let displayCreateUser = Symbol(displayCreateUser),
-      //modal: false,
-      //modalDisplayCreateUser: false, // bestemmer om CreateNewUser skjemaet skal vises inne i modalen isteden for login
       modalCreatePost: false,
-      /*MERGE
-      activeItem: {
-        "name": "",
-        "email": "",
-        "username": "",
-        "has_logged_in": false
-      },*/
       activePost: {
         title: "",
         price: "",
@@ -69,7 +61,6 @@ export class Posts extends Component {
   };
 
   handleSubmitPost = (post) => {
-    alert("HEi");
     this.toggleCreatePostWindow();
     //if user exists, update user(PUT) ?
     if (post.id) {
@@ -125,34 +116,47 @@ export class Posts extends Component {
           }`} */
         //title={post.title}
         >
-          <div>Buying or selling: </div>
-          {post.saleOrBuy}
-
           <Card>
-            <CardImg
-              top
-              width="100%"
-              src="https://en.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_7112/salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-fotolia-he2/12344768-1-fre-FR/Salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-Fotolia-he2.jpg"
-              alt="Card image cap"
-            />
-            <CardBody>
-              <CardTitle>{post.title}</CardTitle>
+            <CardBody
+              inverse
+              style={{ backgroundColor: "#D6DBDF ", borderColor: "#333" }}
+            >
+              {/* TODO: CardTitle skal egentlig automatisk bli stor, h3 skal ikkje vere nødvendig... */}
+              <CardTitle>
+                <h3>{post.title}</h3>
+              </CardTitle>
+              <CardImg
+                top
+                width="100%"
+                //TODO: Legg in ein switch på post.category som bestemmer bildet
+                src="https://en.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_7112/salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-fotolia-he2/12344768-1-fre-FR/Salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-Fotolia-he2.jpg"
+                alt="Card image cap"
+              />
+
               <CardSubtitle>
-                {post.category} in {post.location}
+                <br />
+                <h5>Buying or selling: {post.saleOrBuy} </h5>
+              </CardSubtitle>
+              <CardSubtitle>
+                {post.category} ticket in {post.location}
+                <br />
+                {post.date}
+                <br />
+                Price: {post.price}
               </CardSubtitle>
               <CardText>
+                <br />
                 {post.description}
-                <br></br>
-                Price: {post.price}
+                <br />
               </CardText>
 
               {isAuthenticated ? (
                 <div>
-                  <label>Contactinfo: {post.contactInfo}</label>
+                  <label>Contact: {post.contactInfo}</label>
                 </div>
               ) : (
                 <div>
-                  <label>Log in to show contact information</label>
+                  <label>Contact: Log in to show contact information</label>
                 </div>
               )}
             </CardBody>
@@ -193,25 +197,24 @@ export class Posts extends Component {
       </div>
     );
 
-    const guestMessage = <a>Log in to create post</a>;
+    const guestMessage = <h4>Log in to create a new post</h4>;
 
     return (
       <div>
+        {/* Vis/skjul createPostWindow */}
         {this.state.modalCreatePost ? (
-          // Deretter sjekk om den skal vise CreateUserWindow eller LoginWindow inne i modalen,  true= CreateUserWindow, false = LoginWindow
           <Modal
-            //activeUser={this.state.activeUser}
             toggle={this.toggleCreatePostWindow}
-            //onSave={this.handleSubmit}
             modalTitle={<h3>Create post</h3>}
             modalContent={
               <CreatePostWindow
                 activePost={this.state.activePost}
                 onSave={this.handleSubmitPost}
               />
-            } //onChange = {}
+            }
           />
         ) : null}
+        {/* Vis/skjul createPostButton*/}
         {isAuthenticated ? createPostButton : guestMessage}
         {this.renderItems()}
       </div>

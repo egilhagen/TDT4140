@@ -64,7 +64,7 @@ export class Header extends Component {
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a className="navbar-brand" href="#">
-              Ticking
+              TicKing
             </a>
           </div>
           {/* Show login or logout button depending on authentication state */}
