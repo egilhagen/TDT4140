@@ -152,7 +152,21 @@ export class Posts extends Component {
 
               {isAuthenticated ? (
                 <div>
-                  <label>Contact: {post.contactInfo}</label>
+                  <label>
+                    {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
+                    {"Contact: "}
+                    {/* Kan sette subject og body på emailen: ?subject=TicKing ticket: &body=Hello!" */}
+                    <a
+                      href={
+                        "mailto:" +
+                        post.contactInfo +
+                        "?subject=TicKing ticket: " +
+                        post.title
+                      }
+                    >
+                      {post.contactInfo}
+                    </a>
+                  </label>
                 </div>
               ) : (
                 <div>
