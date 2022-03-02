@@ -22,6 +22,18 @@ import {
   Redirect,
 } from "react-router-dom";
 
+// post reactstrap
+import {
+  Card,
+  Button,
+  CardImg,
+  CardTitle,
+  CardText,
+  CardColumns,
+  CardSubtitle,
+  CardBody,
+} from "reactstrap";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +44,7 @@ class App extends Component {
       //let displayCreateUser = Symbol(displayCreateUser),
       modal: false,
       modalDisplayCreateUser: false, // bestemmer om CreateNewUser skjemaet skal vises inne i modalen isteden for login
-      modalCreatePost: false,
+      //modalCreatePost: false,
       /*MERGE
       activeItem: {
         "name": "",
@@ -40,6 +52,7 @@ class App extends Component {
         "username": "",
         "has_logged_in": false
       },*/
+      /*
       activePost: {
         title: "",
         price: "",
@@ -48,11 +61,11 @@ class App extends Component {
         category: "Concert",
         saleOrBuy: "Sell",
         description: "",
-      },
+      },*/
     };
   }
 
-  // Lifecycle method, invoked immediately after component is mounted.
+  /*   // Lifecycle method, invoked immediately after component is mounted.
   componentDidMount() {
     store.dispatch(loadUser());
     this.refreshList();
@@ -64,7 +77,7 @@ class App extends Component {
 
       .then((res) => this.setState({ postList: res.data }))
       .catch((err) => console.log(err));
-  };
+  }; */
 
   // TODO: flytt desse inn i modal?
   // Viser/skjuler modal
@@ -86,12 +99,12 @@ class App extends Component {
     //event.preventDefault();
   };
 
-  toggleCreatePostWindow = (event) => {
+  /*toggleCreatePostWindow = (event) => {
     //alert("toggleCreateUserWindow");
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
     //event.preventDefault();
     this.setState({ modal: false });
-  };
+  };*/
 
   // Hopp fra login til Register inne i modal (når "create account" knappen trykkes)
   /* MERGE
@@ -120,7 +133,7 @@ class App extends Component {
   };
 */
 
-  handleSubmitPost = (post) => {
+  /*   handleSubmitPost = (post) => {
     this.toggleCreatePostWindow();
     //if user exists, update user(PUT) ?
     if (post.id) {
@@ -131,7 +144,7 @@ class App extends Component {
     }
     // else create new user (POST)
     axios.post("/api/posts/", post).then((res) => this.refreshList());
-  };
+  }; */
 
   //TODO: endre navn, creater ingenting
   createItem = () => {
@@ -141,7 +154,7 @@ class App extends Component {
     this.setState({ modal: !this.state.modal });
   };
 
-  createPost = () => {
+  /*   createPost = () => {
     const post = {
       title: "",
       price: "",
@@ -156,17 +169,19 @@ class App extends Component {
       activePost: post,
       modalCreatePost: !this.state.modalCreatePost,
     });
-  };
+  }; */
 
+  // TODO: edit user --> link til rediger profilside
   editItem = (user) => {
     this.setState({ activeItem: user, modal: !this.state.modal });
   };
 
+  //TODO: ikkje i bruk, men kan kanskje brukes til å velge mellom å vise annonser for kjøp og salg?
   renderTabList = () => {
     return <div className="nav nav-tabs">{this.state.viewCompleted}</div>;
   };
 
-  renderItems = () => {
+  /* renderItems = () => {
     const { viewCompleted } = this.state;
     const newItems = this.state.postList;
 
@@ -176,16 +191,47 @@ class App extends Component {
         className="list-group-item d-flex justify-content-between align-items-center"
       >
         <span
+          onClick={() => alert("hallo")}
           className={`todo-title mr-2 ${
             this.state.viewCompleted ? "completed-todo" : ""
           }`}
           title={post.title}
         >
-          {post.title}
           {post.id}
+
+          {post.saleOrBuy}
+
+          <Card>
+            <CardImg
+              top
+              width="100%"
+              src="https://en.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_7112/salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-fotolia-he2/12344768-1-fre-FR/Salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-Fotolia-he2.jpg"
+              alt="Card image cap"
+            />
+            <CardBody>
+              <CardTitle>{post.title}</CardTitle>
+              <CardSubtitle>
+                {post.category} in {post.location}
+              </CardSubtitle>
+              <CardText>
+                {post.description}
+                <br></br>
+                Price: {post.price}
+              </CardText>
+              <Button>Button</Button>
+            </CardBody>
+          </Card>
+          <Card>
+            <CardImg
+              top
+              width="100%"
+              src="https://en.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_7112/salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-fotolia-he2/12344768-1-fre-FR/Salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-Fotolia-he2.jpg"
+              alt="Card image cap"
+            />
+          </Card>
         </span>
         <span>
-          {/*<button
+          {<button
             className="btn btn-secondary mr-2"
             onClick={() => this.editItem(post)}
           >
@@ -196,11 +242,12 @@ class App extends Component {
             onClick={() => this.handleDelete(post)}
           >
             Delete
-          </button>*/}
+          </button>}
         </span>
       </li>
     ));
-  };
+  }; 
+  */
 
   render() {
     return (
@@ -241,9 +288,8 @@ class App extends Component {
                   </button>
                 </div>
                 */}
-                <Posts createPost={this.createPost} />
 
-                <h4> Show posts without contact info here</h4>
+                {/* <h4> Show posts without contact info here</h4> */}
 
                 {/* TEST: does not work, Show contact info depending on authentication state */}
                 {/*  {store.dispatch(getState(isAuthenticated))? (
@@ -254,7 +300,10 @@ class App extends Component {
 
                 {this.renderTabList()}
                 <ul className="list-group list-group-flush border-top-0">
-                  {this.renderItems()}
+                  {/*this.renderItems()*/}
+                  <Posts />
+
+                  {/* <Posts></Posts> */}
                 </ul>
               </div>
             </div>
@@ -301,21 +350,7 @@ class App extends Component {
             />*/
             )
           ) : null}
-          {this.state.modalCreatePost ? (
-            // Deretter sjekk om den skal vise CreateUserWindow eller LoginWindow inne i modalen,  true= CreateUserWindow, false = LoginWindow
-            <Modal
-              activeUser={this.state.activeUser}
-              toggle={this.toggleCreatePostWindow}
-              //onSave={this.handleSubmit}
-              modalTitle={<h3>Create post</h3>}
-              modalContent={
-                <CreatePostWindow
-                  activePost={this.state.activePost}
-                  onSave={this.handleSubmitPost}
-                />
-              } //onChange = {}
-            />
-          ) : null}
+
           <a>{this.activePost}</a>
         </main>
         {/*</Provider> )
