@@ -73,7 +73,7 @@ http://localhost:8000/api/users/
 
 
 
-### For å teste backend:
+### For å teste backend
 1. Start i ticking mappa
 2. Start venv: **pipenv shell**
 3. **cd backend**
