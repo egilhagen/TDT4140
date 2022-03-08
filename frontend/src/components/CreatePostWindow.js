@@ -137,11 +137,7 @@ export default class CreatePostWindow extends Component {
         </Form>
         {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
         <ModalFooter>
-          <Button
-            color="success"
-            onClick={() => onSave(this.state.activePost)}
-            // TODO: bruker bør bli logget inn etter Save.
-          >
+          <Button color="success" onClick={() => onSave(this.state.activePost)}>
             Save
           </Button>
         </ModalFooter>

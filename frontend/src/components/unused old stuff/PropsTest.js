@@ -1,13 +1,11 @@
 //import React from "react";
 import React, { Component } from "react";
-//import axios from "axios";
 
+/* Simple test of how components work, great for learning */
 
+//Test: function-component
 function PropsTest(props) {
-  return (
-    <h2>{props.text}</h2>
-  );
-
+  return <h2>{props.text}</h2>;
 }
 
 //ES6 arrow function
@@ -15,13 +13,8 @@ function PropsTest(props) {
 
 export default PropsTest;
 
-
-
-
-
-
 /*
-
+// Test class-component
 export default class Reservation extends Component {
   constructor(props) {
     super(props);

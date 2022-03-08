@@ -1,24 +1,19 @@
 import React, { Component, Fragment } from "react";
-//import CreateUserWindow from "./CreateUserWindow";
-// Navigate va Redirect i gammel versjon
+// OBS: Navigate va Redirect i gammel versjon
 //import { Navigate, HashRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
 
-// test redirect if auth
-//import App from "../App";
-//import { HashRouter, Navigate, Routes } from "react-router-dom";
-
-// uten default importer med {Login} !!!!
+// uten default export husk å importer med {Login} !!!!
 export class Login extends Component {
   state = {
     username: "",
     password: "",
   };
 
-  // Passed from Redux store with connect at the bottom
+  // Passed from Redux store with connect at the very bottom
   static propTypes = {
     login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
@@ -35,26 +30,6 @@ export class Login extends Component {
 
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
-  /*
-    swapView  = () => {
-        document.getElementById("test").innerHTML = "hellow world"; 
-        // prevent page from redirecting 
-        preventDefault();  
-        
-        //this.setState({ activeItem });
-      };
-*/
-
-  /*
-// Old test for changing div content with .innerHTML, can be deleted.
-    DisplayUserCreationForm = event => {
-        //TODO: dette kjem ikkje til å funke sånn me vil, løsning: https://stackoverflow.com/questions/33840150/onclick-doesnt-render-new-react-component
-        document.getElementById("outer-container-div").innerHTML = "Create user form here";  //<CreateUserWindow/>
-        // forhindrer standard html oppførsel med redirect etter form submit
-        event.preventDefault();
-    }
-*/
-
   render() {
     // pakker ut child prop som kjem fra app.js
     const { toggleRegisterUserWindow, toggle } = this.props;
@@ -62,32 +37,9 @@ export class Login extends Component {
     // pakker ut username og password fra Redux state
     const { username, password } = this.state;
 
-    // Denne redirecter til ..... dersom allerede logget inn
+    // ikke vis skjema dersom bruker allerede er logget inn og somehow finner login-knappen
     if (this.props.isAuthenticated) {
-      return (
-        //alert("isAuthenticated");
-        //return null;
-        // TODO: skjul modal eller naviger til sida med annonser+kontaktinfo
-        //<Modal isOpen={false} />
-        //{() => closeModal()}
-        //(document.getElementById("testModal").isOpen = false)
-        <div>
-          <h3>
-            TODO: Få til å lukke dette popup/modal-vinduet automatisk når
-            isAuthenticated = true
-          </h3>
-        </div>
-
-        // TODO: dersom me skal redirecte krever <Navigate/>  definisjon av kas komponent som skal visast i app.js
-        // dette funka ikkje
-        /* <HashRouter>
-          <Fragment>
-            <Routes>
-              <Navigate exact path="/test" component={App} />
-            </Routes>
-          </Fragment>
-        </HashRouter> */
-      );
+      return null;
     }
 
     return (
@@ -163,9 +115,10 @@ Login.propTypes = {
 };
 */
 
+// Map Redux-state to component props
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-// The connect() function connects a React component to a Redux store. makes isAuthenticated state, and the login-action func available in this component (Login)
+// The connect() function connects a React component to a Redux store. makes isAuthenticated state, and the login function from actions/auth.js  available in this component (Login)
 export default connect(mapStateToProps, { login })(Login);

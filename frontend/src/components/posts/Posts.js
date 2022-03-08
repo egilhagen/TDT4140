@@ -74,10 +74,7 @@ export class Posts extends Component {
   };
 
   toggleCreatePostWindow = (event) => {
-    //alert("toggleCreateUserWindow");
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
-    //event.preventDefault();
-    //this.setState({ modal: false });
   };
 
   createPost = () => {
@@ -101,7 +98,7 @@ export class Posts extends Component {
   // render posts
   renderItems = () => {
     const { isAuthenticated } = this.props.auth;
-    //const { viewCompleted } = this.state;
+
     const newItems = this.state.postList;
 
     return newItems.map((post) => (
@@ -109,13 +106,7 @@ export class Posts extends Component {
         key={post.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
-        <span
-        /* onClick={() => alert("hallo")}
-          className={`todo-title mr-2 ${
-            this.state.viewCompleted ? "completed-todo" : ""
-          }`} */
-        //title={post.title}
-        >
+        <span>
           <Card>
             <CardBody
               inverse
@@ -177,6 +168,7 @@ export class Posts extends Component {
           </Card>
         </span>
         <span>
+          {/* TODO: Edit and Delete buttons here */}
           {/*<button
             className="btn btn-secondary mr-2"
             onClick={() => this.editItem(post)}

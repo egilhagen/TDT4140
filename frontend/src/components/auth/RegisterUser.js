@@ -27,33 +27,15 @@ export class RegisterUser extends Component {
     password2: "",
   };
 
-  // TEEST flytta constructor og undereelent fra Modal
-  /*   constructor(props) {
-    super(props);
-    this.state = {
-      activeItem: this.props.activeItem,
-    };
-  } */
-
   static propTypes = {
     register: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
   };
 
-  /* 
-  // TEST: flytta fra Modal til her
-  handleChange = (e) => {
-    let { name, value } = e.target;
-
-    const activeItem = { ...this.state.activeItem, [name]: value };
-
-    this.setState({ activeItem });
-  }; */
-
   onSubmit = (e) => {
     e.preventDefault();
     const { username, email, password, password2 } = this.state;
-    const { toggleRegisterUserWindow} = this.props;
+    const { toggleRegisterUserWindow } = this.props;
     if (password !== password2) {
       this.props.createMessage({ passwordNotMatch: "Passwords do not match" });
     } else {
@@ -71,7 +53,7 @@ export class RegisterUser extends Component {
   onChange = (e) => this.setState({ [e.target.name]: e.target.value });
 
   render() {
-    //TODO: gjer noke dersom authenticated? naah, register skjemaet e kun tilgjengelig via login-skjemaet at the moment.
+    //TODO: gjer noke dersom authenticated? naah, register skjemaet e kun tilgjengelig via login-skjemaet at the moment. muligens på brukerprofil-sida?
     /*
     if (this.props.isAuthenticated) {
       return <Redirect to="/" />;
@@ -80,13 +62,9 @@ export class RegisterUser extends Component {
 
     const { username, email, password, password2 } = this.state;
 
-    /* old
-    //const { activeItem } = this.props;
-    const { onSave } = this.props;
-    */
-
     return (
       <div>
+        {/* onSubmit kjøres når en knapp med type="submit" trykkes inne i Form */}
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
             <Label for="user-username">Username</Label>
@@ -135,12 +113,7 @@ export class RegisterUser extends Component {
 
           {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
           <ModalFooter>
-            <Button
-              type="submit"
-              className="btn btn-primary"
-              color="success"
-              //onClick={() => this.onSubmit()}
-            >
+            <Button type="submit" className="btn btn-primary" color="success">
               Save
             </Button>
           </ModalFooter>

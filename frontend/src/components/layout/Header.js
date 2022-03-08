@@ -62,6 +62,7 @@ export class Header extends Component {
           >
             <span className="navbar-toggler-icon" />
           </button>
+          {/* TODO: Denne under gjer sikkert at "TickKing" i header blir kollapsa på små skjermer, test og fjern! */}
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a className="navbar-brand" href="#">
               TicKing
