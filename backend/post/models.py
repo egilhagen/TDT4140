@@ -21,6 +21,7 @@ class Post(models.Model):
         verbose_name=("User"),
     )
     saleOrBuy = models.CharField(max_length=30, choices=SaleOrBuy.choices(), default='Sell')
+    contactInfo = models.CharField(max_length=120)
 
     def _str_(self):
         return self.title

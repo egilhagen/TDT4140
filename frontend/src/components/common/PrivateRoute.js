@@ -1,6 +1,6 @@
 // frontend/src/components/common/PrivateRoute.js
 
-// redirect users who are not logged in to the login page when they visit the home page.
+// UNUSED CAN BE USED TO MAKE PROFILE-PAGE. redirect users who are not logged in to the login page when they visit the home page.
 
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
