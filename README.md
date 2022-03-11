@@ -80,6 +80,19 @@ Chrome-addon for å se Redux-state, actions og feilmeldinger
 VS Code Extension for å autoformatere jsx, html, css, og mer kode
 - **Prettier - Code formatter** https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode 
 
+For å få autoformatering til å funke må følgende prettier config-kode limes in i VS code "settings.json":
+
+    "editor.formatOnSave": true,
+    // enable per-language (here: Prettier as formatter)
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    } 
+
+
+
 
 ### For å teste backend
 1. Start i ticking mappa
