@@ -80,18 +80,12 @@ class App extends Component {
         />
         <main className="container">
           <h1 className="text-black  text-center my-4">TicKing</h1>
-          <div className="row">
-            <div className="col-md-6 col-sm-10 mx-auto p-0">
-              <div className="card p-3">
                 {/* TODO: Bruk renderTabList til å vise SALE eller BUY tickets */}
                 {/* {this.renderTabList()} */}
                 <ul className="list-group list-group-flush border-top-0">
                   {/* Post Component renders all posts in database */}
                   <Posts />
                 </ul>
-              </div>
-            </div>
-          </div>
           {/* Vis/skjul modal/popup */}
           {this.state.modal ? (
             // Deretter sjekk om den skal vise Register eller LoginWindow inne i modalen,  true= Register, false = LoginWindow

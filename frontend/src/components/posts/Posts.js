@@ -100,12 +100,30 @@ export class Posts extends Component {
     const { isAuthenticated } = this.props.auth;
 
     const newItems = this.state.postList;
-
+    var postNr = 0;
     return newItems.map((post) => (
+      <div>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            Column
+          </div>
+          <div class="col">
+            Column
+          </div>
+          <div class="col">
+            Column
+          </div>
+        </div>
+      </div>
+      
       <li
         key={post.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
+        <div className="row">
+        <div className="col-md-6 col-sm-10 mx-auto p-0">
+          <div className="card p-3"></div>
         <span>
           <Card>
             <CardBody
@@ -120,8 +138,20 @@ export class Posts extends Component {
                 top
                 width="100%"
                 //TODO: Legg in ein switch på post.category som bestemmer bildet
-                src="https://en.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_7112/salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-fotolia-he2/12344768-1-fre-FR/Salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-Fotolia-he2.jpg"
-                alt="Card image cap"
+                src={
+                  {
+                    'Cinema': "https://en.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_7112/salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-fotolia-he2/12344768-1-fre-FR/Salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-Fotolia-he2.jpg",
+                    'Theater': "https://media.architecturaldigest.com/photos/55e76564cd709ad62e8e7796/master/w_1600%2Cc_limit/dam-images-architecture-2015-01-web-toc-theaters-historic-american-theaters-01-thalian-hall.jpg",
+                    'Consert': "https://www.halton.com/wp-content/uploads/2020/05/Concert_hall_rock_concert-1366x668.jpg"
+                  }[post.category] || "https://travel.mqcdn.com/mapquest/travel/wp-content/uploads/2020/06/GettyImages-132338731-scaled.jpg"
+                }
+                alt={
+                  {
+                    'Cinema': "Cinema image",
+                    'Theater': "Theater image",
+                    'Consert': "Concert image"
+                  }[post.category] || "default alt text"
+                }
               />
 
               <CardSubtitle>
@@ -182,7 +212,10 @@ export class Posts extends Component {
             Delete
           </button>*/}
         </span>
+        </div>
+      </div>
       </li>
+      </div>
     ));
   };
 
