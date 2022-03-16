@@ -34,9 +34,9 @@ export class Posts extends Component {
         title: "",
         price: "",
         date: "",
-        location: "default",
-        category: "default",
-        saleOrBuy: "default",
+        location: "",
+        category: "",
+        saleOrBuy: "",
         description: "",
         user: "",
         contactInfo: "",
@@ -78,9 +78,27 @@ export class Posts extends Component {
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
   };
 
-  /* TODO: mat inn argument fra eksisterende post her når du redigerer */
-  createPost = (existingPost) => {
+  createPost = () => {
     const post = {
+      title: "",
+      price: "",
+      date: "",
+      location: "",
+      category: "",
+      saleOrBuy: "",
+      description: "",
+      user: this.props.auth.user.id,
+      contactInfo: this.props.auth.user.email,
+    };
+
+    this.setState({
+      activePost: post,
+    });
+  };
+
+  editPost = (existingPost) => {
+    const post = {
+      id: existingPost.id /* ein existing post har fått ein id, dette brukest for å gjere ein PUT-request når ein redigerer */,
       title: existingPost.title,
       price: existingPost.price,
       date: existingPost.date,
@@ -162,10 +180,8 @@ export class Posts extends Component {
                     <button
                       className="btn btn-primary"
                       onClick={() => {
-                        /* Todo: clear activepost after save/abort */
                         this.toggleCreatePostWindow();
-
-                        this.createPost(post);
+                        this.editPost(post);
                       }}
                     >
                       Edit post
