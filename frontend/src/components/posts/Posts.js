@@ -106,13 +106,25 @@ export class Posts extends Component {
       category: existingPost.category,
       saleOrBuy: existingPost.saleOrBuy,
       description: existingPost.description,
-      user: this.props.auth.user.id,
+      user: this.props.auth.user
+        .id /* TODO: kan dette bli et problem? kan sjå på da som ein feature, e-post og id blir oppdatert dersom de har blitt endret ;) */,
       contactInfo: this.props.auth.user.email,
     };
 
     this.setState({
       activePost: post,
     });
+  };
+
+  /* OBS: Denne kan kun brukes der isAuthenticated == true, aka vi vet at bruker er innlogget */
+  canEditPost = (postOwnerId) => {
+    /*  alert(postId);
+    alert(this.props.auth.user.id); */
+    if (this.props.auth.user.id == postOwnerId) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   // render posts
@@ -177,15 +189,18 @@ export class Posts extends Component {
                     >
                       {post.contactInfo}
                     </a>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => {
-                        this.toggleCreatePostWindow();
-                        this.editPost(post);
-                      }}
-                    >
-                      Edit post
-                    </button>
+                    {/* IF user isAuthenticated and postOwnerId == this.props.auth.user.id ---> show edit button ELSE --> null  */}
+                    {this.canEditPost(post.user) ? (
+                      <button
+                        className="btn btn-secondary mr-2"
+                        onClick={() => {
+                          this.toggleCreatePostWindow();
+                          this.editPost(post);
+                        }}
+                      >
+                        Edit post
+                      </button>
+                    ) : null}
                   </label>
                 </div>
               ) : (
@@ -197,13 +212,8 @@ export class Posts extends Component {
           </Card>
         </span>
         <span>
-          {/* TODO: Edit and Delete buttons here */}
-          {/*<button
-            className="btn btn-secondary mr-2"
-            onClick={() => this.editItem(post)}
-          >
-            Edit
-          </button>
+          {/* TODO: Delete button here, trash icon */}
+          {/*
           <button
             className="btn btn-danger"
             onClick={() => this.handleDelete(post)}
