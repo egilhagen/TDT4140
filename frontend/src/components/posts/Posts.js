@@ -34,9 +34,9 @@ export class Posts extends Component {
         title: "",
         price: "",
         date: "",
-        location: "",
-        category: "",
-        saleOrBuy: "",
+        location: "default",
+        category: "default",
+        saleOrBuy: "default",
         description: "",
         user: "",
         contactInfo: "",
@@ -61,6 +61,7 @@ export class Posts extends Component {
   };
 
   handleSubmitPost = (post) => {
+    /* Close window on save */
     this.toggleCreatePostWindow();
     //if user exists, update user(PUT) ?
     if (post.id) {
@@ -77,15 +78,16 @@ export class Posts extends Component {
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
   };
 
-  createPost = () => {
+  /* TODO: mat inn argument fra eksisterende post her når du redigerer */
+  createPost = (existingPost) => {
     const post = {
-      title: "",
-      price: "",
-      date: "",
-      location: "",
-      category: "",
-      saleOrBuy: "",
-      description: "",
+      title: existingPost.title,
+      price: existingPost.price,
+      date: existingPost.date,
+      location: existingPost.location,
+      category: existingPost.category,
+      saleOrBuy: existingPost.saleOrBuy,
+      description: existingPost.description,
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
     };
@@ -157,6 +159,17 @@ export class Posts extends Component {
                     >
                       {post.contactInfo}
                     </a>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => {
+                        /* Todo: clear activepost after save/abort */
+                        this.toggleCreatePostWindow();
+
+                        this.createPost(post);
+                      }}
+                    >
+                      Edit post
+                    </button>
                   </label>
                 </div>
               ) : (

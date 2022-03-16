@@ -28,15 +28,22 @@ export default class CreatePostWindow extends Component {
     this.setState({ activePost });
   };
 
+  /* TODO: blir denne brukt i det heile tatt eller er det gammelt rusk? @Elisabeth */
   handleChangeDropdown = (e) => {
     let { name, value } = e.target;
+    alert("handlechangedropdown");
 
-    if (!value.equals("default")) {
+    /* if (!value.equals("default")) { */
+
+    if (!this.state.activePost.name.equals("default")) {
+      alert("not default");
       const activePost = { ...this.state.activePost, [name]: value };
 
       this.setState({ activePost });
     } else {
-      document.getElementById("").innerHTML = "hellow world";
+      alert("else");
+      const activePost = { ...this.state.activePost, [name]: "BR" };
+      /* document.getElementById("").innerHTML = "hellow world"; */
     }
   };
 
@@ -83,10 +90,21 @@ export default class CreatePostWindow extends Component {
               id="post-location"
               name="location"
               onChange={this.handleChange}
+              onLoad={this.handleChange}
+              /* {this.handleChangeDropdown} */
             >
+              {/* Funke, men lager ein egen kategori, vil ha ein if på denne og default */}
+
+              {/*  <option value={this.state.activePost.location}>
+                {this.state.activePost.location}
+              </option> */}
+
+              {/* switch på location --> vist default vis samme liste som no, 
+              hvis ikkje --> eit alternativ for kvar mulighet som viser dei sortert med den øverst */}
               <option value="default" hidden>
                 Location
               </option>
+
               <option value="OS">Oslo</option>
               <option value="BR">Bergen</option>
               <option value="TR">Trondheim</option>
