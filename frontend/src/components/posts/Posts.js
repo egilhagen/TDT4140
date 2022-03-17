@@ -30,6 +30,7 @@ export class Posts extends Component {
     this.state = {
       postList: [],
       modalCreatePost: false,
+      modalTitle: "",
       activePost: {
         title: "",
         price: "",
@@ -63,14 +64,14 @@ export class Posts extends Component {
   handleSubmitPost = (post) => {
     /* Close window on save */
     this.toggleCreatePostWindow();
-    //if user exists, update user(PUT) ?
+    //IF post exists --> update existing post (PUT-request)
     if (post.id) {
       axios
         .put(`/api/posts/${post.id}/`, post)
         .then((res) => this.refreshList());
       return;
     }
-    // else create new user (POST)
+    // ELSE create new post (POST-request)
     axios.post("/api/posts/", post).then((res) => this.refreshList());
   };
 
@@ -127,6 +128,13 @@ export class Posts extends Component {
     }
   };
 
+  /* Used to change modal title between "create post" and "edit post" depending on what button is pushed */
+  setModalTitle = (title) => {
+    this.setState({
+      modalTitle: title,
+    });
+  };
+
   // render posts
   renderItems = () => {
     const { isAuthenticated } = this.props.auth;
@@ -166,6 +174,7 @@ export class Posts extends Component {
                           onClick={() => {
                             this.toggleCreatePostWindow();
                             this.editPost(post);
+                            this.setModalTitle("Edit post");
                           }}
 
                           /* TODO: gjør edit-blyanten større onHover: */
@@ -266,6 +275,7 @@ export class Posts extends Component {
           onClick={() => {
             this.toggleCreatePostWindow();
             this.createPost();
+            this.setModalTitle("Create post");
           }}
         >
           Create post
@@ -281,7 +291,7 @@ export class Posts extends Component {
         {this.state.modalCreatePost ? (
           <Modal
             toggle={this.toggleCreatePostWindow}
-            modalTitle={<h3>Create post</h3>}
+            modalTitle={<h3>{this.state.modalTitle}</h3>}
             modalContent={
               <CreatePostWindow
                 activePost={this.state.activePost}
