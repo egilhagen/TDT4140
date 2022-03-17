@@ -82,9 +82,11 @@ class App extends Component {
         {/* TODO: Bruk renderTabList til å vise SALE eller BUY tickets */}
         {/* {this.renderTabList()} */}
         {/* <ul className="list-group list-group-flush border-top-0"> */}
+
         {/* Post Component renders all posts in database */}
         <Posts />
         {/* </ul> */}
+
         {/* Vis/skjul modal/popup */}
         {this.state.modal ? (
           // Deretter sjekk om den skal vise Register eller LoginWindow inne i modalen,  true= Register, false = LoginWindow
