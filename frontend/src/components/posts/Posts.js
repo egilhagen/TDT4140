@@ -45,7 +45,7 @@ export class Posts extends Component {
       },
       activeTransaction: {
         post: "",
-        buyer: "",
+        user: "",
         ratingFromSeller: "",
         ratingFromBuyer: "",
       },
@@ -90,7 +90,7 @@ export class Posts extends Component {
 
   handleSubmitTransaction = (transaction) => {
     this.toggleCreateTransactionWindow();
-    axios.post("/api/transaction/", transaction);
+    axios.post("/api/transactions/", transaction).then((res) => this.refreshList());
 }
 
   // handleSellPost = (post, user) => {
@@ -123,12 +123,12 @@ export class Posts extends Component {
       activePost: post,
     });
   };
-  createTransaction = () => {
+  createTransaction = (post) => {
     const transaction = {
-      post: this.props.activePost.id,
-      buyer: this.props.auth.user.id,
-      ratingFromSeller: "",
-      ratingFromBuyer: "",
+      post: post.id,
+      user: this.props.auth.user.id,
+      ratingFromSeller: null,
+      ratingFromBuyer: null,
     };
 
     this.setState({
@@ -201,7 +201,7 @@ export class Posts extends Component {
                     </a>
                   </label>
                   <button
-                    onClick={() => {this.toggleCreateTransactionWindow()}}
+                    onClick={() => {this.toggleCreateTransactionWindow(); this.createTransaction(post);}}
                     className="nav-link btn btn-info btn-sm text-light"
                     >
                     Sell
@@ -213,7 +213,8 @@ export class Posts extends Component {
                       modalContent={
                         <CreateTransactionWindow
                           activeTransaction={this.state.activeTransaction}
-                          activePost={post}
+                          
+                          // activePost={post}
                           onSave={this.handleSubmitTransaction}
                         />
                       }

@@ -41,8 +41,10 @@ class Transaction(models.Model):
         related_name='transaction',
         verbose_name=("Buyer"),
     )
-    ratingFromSeller = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    ratingFromBuyer = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    # ratingFromSeller = models.CharField(max_length=1, null=True)
+    # ratingFromBuyer = models.CharField(max_length=1, null=True)
+    ratingFromSeller = models.IntegerField(blank=True, null=True)
+    ratingFromBuyer = models.IntegerField(blank=True, null=True)
 
     def _str_(self):
         return self.title

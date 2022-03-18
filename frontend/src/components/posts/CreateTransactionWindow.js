@@ -19,7 +19,7 @@ export default class CreateTransactionWindow extends Component {
         this.state = {
             userList: [],
             activeTransaction: this.props.activeTransaction,
-            activePost: this.props.activePost,
+            post: this.props.activePost
         };
     }
 
@@ -48,43 +48,49 @@ export default class CreateTransactionWindow extends Component {
     }
     
     render() {
-        const { userItems } = this.state.userList;
+        // this.refreshList();
+        const userItems = this.state.userList;
+        //const {post} = this.props;
         const { onSave } = this.props;
         return (
             <div>
+            {this.state.activePost}
             <Form>
                 <Label id="error"></Label>
                 <FormGroup>
-                <select
-                id="post-buyer"
-                name="buyer"
-                onChange={this.handleChange}
-                >
-                <option value="default" hidden>
-                    Buyer
-                </option>
-                {/* <option value=[USER]>[USER'S NAME]</option> Needs a list of all users */}
-                </select>
-            </FormGroup>
+                    {/* TODO: remove self from list of users */}
+                    <select id="user" name="user" onChange={this.handleChange}>
+                    <option value="default" hidden>Buyer</option>
+                        {userItems?.map(userItem => {
+                        return (
+                            <option value={userItem.id}> {userItem.username} </option>
+                        )
+                        })}
+                    </select>
+                </FormGroup>
                 <FormGroup>
-                <Label for="post-ratingfromseller">Rating</Label>
-                <Input
+                <Label for="post-ratingfromseller">Rating </Label> {/* TODO: More elegant way to get a space between label and input*/}
+                <input
+                    type="number"
+                    id="post-ratingfromseller"
+                    name="ratingFromSeller"
+                    min="1"
+                    max="5"
+                    step="1"
+                    value={this.state.activeTransaction.ratingFromSeller}
+                    placeholder="Enter rating (1-5)"
+                    onChange={this.handleChange}
+                />
+{/*                 <Input
                     type="text"
                     id="post-ratingfromseller"
                     name="ratingFromSeller"
                     value={this.state.activeTransaction.ratingFromSeller}
                     onChange={this.handleChange}
                     placeholder="Enter your rating of the buyer (1-5)"
-                />
+                /> */}
                 </FormGroup>
-                {/* {alert(this.state.activePost)}
-                    <select onChange={this.handleChange}>
-                        {userItems.map(userItem => {
-                        return (
-                            <option value={userItem.id}> {userItem.username} </option>
-                        )
-                        })}
-                    </select> */}
+                {/* {alert(this.state.activePost)} */}
                 
             </Form>
             {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
