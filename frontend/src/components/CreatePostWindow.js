@@ -28,6 +28,7 @@ export default class CreatePostWindow extends Component {
     this.setState({ activePost });
   };
 
+  /* TODO: blir denne brukt i det heile tatt eller er det gammelt rusk? @Elisabeth */
   handleChangeDropdown = (e) => {
     let { name, value } = e.target;
 
@@ -84,9 +85,25 @@ export default class CreatePostWindow extends Component {
               name="location"
               onChange={this.handleChange}
             >
-              <option value="default" hidden>
-                Location
-              </option>
+              {/* Switch på location for å vise default dersom ny post og activePost.location dersom en eksisterende post redigeres. 
+              Deretter en nested switch for å gjøre forkortelsene OS,BR,TR,BO lesbare for bruker. 
+              -Hidden gjør at <option> ikke vises i dropdown´en 
+              -Dersom activePost.location er tom, aka == "" (som når du lager en ny post), vises default "Location")*/}
+              {{
+                "": (
+                  <option value="default" hidden>
+                    Location
+                  </option>
+                ),
+              }[this.state.activePost.location] || (
+                <option value={this.state.activePost.location} hidden>
+                  {{ OS: "Oslo", BR: "Bergen", TR: "Trondheim", BO: "Bodø" }[
+                    this.state.activePost.location
+                  ] || "Invalid location"}
+                </option>
+              )}
+
+              {/* TODO: OS og Oslo burde være det samme, ikkje hardkode "OSLO", då slepp ein nested switch over. */}
               <option value="OS">Oslo</option>
               <option value="BR">Bergen</option>
               <option value="TR">Trondheim</option>
@@ -100,9 +117,18 @@ export default class CreatePostWindow extends Component {
               name="category"
               onChange={this.handleChange}
             >
-              <option value="default" hidden>
-                Category
-              </option>
+              {/* Switch for create og edit post, dersom vi har en activePost(aka edit): vis activePost sin data */}
+              {{
+                "": (
+                  <option value="default" hidden>
+                    Category
+                  </option>
+                ),
+              }[this.state.activePost.category] || (
+                <option value={this.state.activePost.category} hidden>
+                  {this.state.activePost.category}
+                </option>
+              )}
               <option value="Consert">Consert</option>
               <option value="Cinema">Cinema</option>
               <option value="Theater">Theater</option>
@@ -116,9 +142,21 @@ export default class CreatePostWindow extends Component {
               name="saleOrBuy"
               onChange={this.handleChange}
             >
-              <option value="default" hidden>
-                Sell or buy
-              </option>
+              {/* Switch for create og edit post, dersom vi har en activePost(aka edit): vis activePost sin data */}
+              {{
+                "": (
+                  <option value="default" hidden>
+                    Sell or buy
+                  </option>
+                ),
+              }[this.state.activePost.saleOrBuy] || (
+                <option value={this.state.activePost.saleOrBuy} hidden>
+                  {{ Sale: "Sell", Buy: "Buy" }[
+                    this.state.activePost.saleOrBuy
+                  ] || "Invalid type buy/sell"}
+                </option>
+              )}
+
               <option value="Sale">Sell</option>
               <option value="Buy">Buy</option>
             </select>
@@ -141,6 +179,7 @@ export default class CreatePostWindow extends Component {
             Save
           </Button>
         </ModalFooter>
+        {/* TODO: ka gjer denne? */}
         <a>{this.activePost}</a>
       </div>
     );
