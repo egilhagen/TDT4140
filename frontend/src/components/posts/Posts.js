@@ -126,13 +126,13 @@ export class Posts extends Component {
                   src={
                     {
                       Cinema:
-                        "https://en.parisinfo.com/var/otcp/sites/images/node_43/node_51/node_7112/salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-fotolia-he2/12344768-1-fre-FR/Salle-de-cin%C3%A9ma-%7C-630x405-%7C-%C2%A9-Fotolia-he2.jpg",
+                        process.env.PUBLIC_URL + "/Icons/kino.jpg",
                       Theater:
-                        "https://media.architecturaldigest.com/photos/55e76564cd709ad62e8e7796/master/w_1600%2Cc_limit/dam-images-architecture-2015-01-web-toc-theaters-historic-american-theaters-01-thalian-hall.jpg",
+                        process.env.PUBLIC_URL + "/Icons/teater.png",
                       Consert:
-                        "https://www.halton.com/wp-content/uploads/2020/05/Concert_hall_rock_concert-1366x668.jpg",
+                        process.env.PUBLIC_URL + "/Icons/konsert.jpg",
                     }[post.category] ||
-                    "https://travel.mqcdn.com/mapquest/travel/wp-content/uploads/2020/06/GettyImages-132338731-scaled.jpg"
+                    process.env.PUBLIC_URL + "/Icons/annet.jpg"
                   }
                   alt={
                     {
