@@ -51,7 +51,8 @@ export class Header extends Component {
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
         <div className="container">
-          <button
+          {/* TODO: kan vere nyttig når me får profilside, dropdownmeny */}
+          {/*           <button
             className="navbar-toggler"
             type="button"
             data-toggle="collapse"
@@ -61,9 +62,9 @@ export class Header extends Component {
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon" />
-          </button>
-          {/* TODO: Denne under gjer sikkert at "TickKing" i header blir kollapsa på små skjermer, test og fjern! */}
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
+          </button> */}
+          {/* className="collapse navbar-collapse" */}
+          <div id="navbarTogglerDemo01">
             <a className="navbar-brand" href="#">
               TicKing
             </a>

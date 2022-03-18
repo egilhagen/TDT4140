@@ -78,46 +78,40 @@ class App extends Component {
             </button>
           }
         />
-        <main className="container">
-          <h1 className="text-black  text-center my-4">TicKing</h1>
-          <div className="row">
-            <div className="col-md-6 col-sm-10 mx-auto p-0">
-              <div className="card p-3">
-                {/* TODO: Bruk renderTabList til å vise SALE eller BUY tickets */}
-                {/* {this.renderTabList()} */}
-                <ul className="list-group list-group-flush border-top-0">
-                  {/* Post Component renders all posts in database */}
-                  <Posts />
-                </ul>
-              </div>
-            </div>
-          </div>
-          {/* Vis/skjul modal/popup */}
-          {this.state.modal ? (
-            // Deretter sjekk om den skal vise Register eller LoginWindow inne i modalen,  true= Register, false = LoginWindow
-            this.state.modalDisplayCreateUser ? (
-              <Modal
-                toggle={this.toggle}
-                modalTitle={<h3>Create new user</h3>}
-                modalContent={
-                  <RegisterUser toggleRegisterUserWindow={this.toggle} />
-                }
-              />
-            ) : (
-              <Modal
-                toggle={this.toggle}
-                modalTitle={<h3>Sign In</h3>}
-                // setter Content = LoginWindow, og sender inn funksjonen som lar deg bytte fra LoginWindow til Register som child prop
-                modalContent={
-                  <Login
-                    toggleRegisterUserWindow={this.toggleRegisterUserWindow}
-                    toggle={this.toggle}
-                  />
-                }
-              />
-            )
-          ) : null}
-        </main>
+
+        {/* TODO: Bruk renderTabList til å vise SALE eller BUY tickets */}
+        {/* {this.renderTabList()} */}
+        {/* <ul className="list-group list-group-flush border-top-0"> */}
+
+        {/* Post Component renders all posts in database */}
+        <Posts />
+        {/* </ul> */}
+
+        {/* Vis/skjul modal/popup */}
+        {this.state.modal ? (
+          // Deretter sjekk om den skal vise Register eller LoginWindow inne i modalen,  true= Register, false = LoginWindow
+          this.state.modalDisplayCreateUser ? (
+            <Modal
+              toggle={this.toggle}
+              modalTitle={<h3>Create new user</h3>}
+              modalContent={
+                <RegisterUser toggleRegisterUserWindow={this.toggle} />
+              }
+            />
+          ) : (
+            <Modal
+              toggle={this.toggle}
+              modalTitle={<h3>Sign In</h3>}
+              // setter Content = LoginWindow, og sender inn funksjonen som lar deg bytte fra LoginWindow til Register som child prop
+              modalContent={
+                <Login
+                  toggleRegisterUserWindow={this.toggleRegisterUserWindow}
+                  toggle={this.toggle}
+                />
+              }
+            />
+          )
+        ) : null}
       </Provider>
     );
   }
