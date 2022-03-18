@@ -197,6 +197,7 @@ export class Posts extends Component {
                   {/* TODO: CardTitle skal egentlig automatisk bli stor, h3 skal ikkje vere nødvendig... */}
                   <h3>{post.title}</h3>
                   {/* TODO: kan ha logikk for å vise enten SOLD eller BOUGHT avhengig av post.saleOrBuy */}
+                  {/* TODO: Burde egentlig ha eit felt for hidden og eit for deleted. For å vise DELETED isteden for SOLD/BOUGHT  */}
                   {/* IF hidden --> already sold/bought ELSE see comment below */}
                   {post.hidden ? (
                     <div>
@@ -232,7 +233,8 @@ export class Posts extends Component {
                           {/* Edit button */}
                           <button
                             className="btn"
-                            title="Click here to edit your post" /* denne vises når du svever over knappen */
+                            /* denne vises når du svever over knappen */
+                            title="Click here to edit your post"
                             onClick={() => {
                               this.toggleCreatePostWindow();
                               this.editPost(post);
