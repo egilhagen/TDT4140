@@ -114,7 +114,7 @@ export class Posts extends Component {
             <Card>
               <CardBody
                 inverse
-                style={{ backgroundColor: "#D6DBDF ", borderColor: "#333" }}
+                style={{ backgroundColor: "#D6DBDF", borderColor: "#333" }}
               >
                 {/* TODO: CardTitle skal egentlig automatisk bli stor, h3 skal ikkje vere nødvendig... */}
                 <CardTitle>
@@ -246,8 +246,13 @@ export class Posts extends Component {
         <div style={{ marginLeft: "80%", marginTop: "2%" }}>
           {isAuthenticated ? createPostButton : guestMessage}
         </div>
-        <h1 className="text-black  text-center my-4">TicKing</h1>
-
+        <div style = {{display: "flex", alignItems: "center", justifyContent: "center"}}>
+        <img 
+          src = {process.env.PUBLIC_URL + "/Icons/Asset-1.svg"}
+          style = {{ height: 150}}
+          alt = "TickingLogo"
+          />
+        </div>
         <div className="container">
           {/* md=medium, sm=small, no prefix= xtra small */}
           <div className="row row-cols-md-3 row-cols-1">
