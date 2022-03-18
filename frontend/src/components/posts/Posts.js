@@ -22,6 +22,7 @@ import {
   CardSubtitle,
   CardBody,
 } from "reactstrap";
+import CreateTransactionWindow from "./CreateTransactionWindow";
 
 export class Posts extends Component {
   constructor(props) {
@@ -30,6 +31,7 @@ export class Posts extends Component {
     this.state = {
       postList: [],
       modalCreatePost: false,
+      modalCreateTransaction: false,
       activePost: {
         title: "",
         price: "",
@@ -40,6 +42,12 @@ export class Posts extends Component {
         description: "",
         user: "",
         contactInfo: "",
+      },
+      activeTransaction: {
+        post: "",
+        buyer: "",
+        ratingFromSeller: "",
+        ratingFromBuyer: "",
       },
     };
   }
@@ -60,6 +68,13 @@ export class Posts extends Component {
       .catch((err) => console.log(err));
   };
 
+  // refreshList = () => {
+  //   axios
+  //     .get("/api/users")
+  //     .then((res) => this.setState({ userList: res.data }))
+  //     .catch((err) => console.log(err));
+  // };
+
   handleSubmitPost = (post) => {
     this.toggleCreatePostWindow();
     //if user exists, update user(PUT) ?
@@ -73,10 +88,24 @@ export class Posts extends Component {
     axios.post("/api/posts/", post).then((res) => this.refreshList());
   };
 
+  handleSubmitTransaction = (transaction) => {
+    this.toggleCreateTransactionWindow();
+    axios.post("/api/transaction/", transaction);
+}
+
+  // handleSellPost = (post, user) => {
+    
+
+  // }
+
   toggleCreatePostWindow = (event) => {
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
   };
-
+  
+  toggleCreateTransactionWindow = (event) => {
+    this.setState({ modalCreateTransaction: !this.state.modalCreateTransaction });
+  };
+  
   createPost = () => {
     const post = {
       title: "",
@@ -94,6 +123,19 @@ export class Posts extends Component {
       activePost: post,
     });
   };
+  createTransaction = () => {
+    const transaction = {
+      post: this.props.activePost.id,
+      buyer: this.props.auth.user.id,
+      ratingFromSeller: "",
+      ratingFromBuyer: "",
+    };
+
+    this.setState({
+      activeTransaction: transaction,
+    });
+  };
+
 
   // render posts
   renderItems = () => {
@@ -158,6 +200,25 @@ export class Posts extends Component {
                       {post.contactInfo}
                     </a>
                   </label>
+                  <button
+                    onClick={() => {this.toggleCreateTransactionWindow()}}
+                    className="nav-link btn btn-info btn-sm text-light"
+                    >
+                    Sell
+                  </button>
+                  {this.state.modalCreateTransaction ? (
+                    <Modal
+                      toggle={this.toggleCreateTransactionWindow}
+                      modalTitle={<h3>Review Transaction</h3>}
+                      modalContent={
+                        <CreateTransactionWindow
+                          activeTransaction={this.state.activeTransaction}
+                          activePost={post}
+                          onSave={this.handleSubmitTransaction}
+                        />
+                      }
+                  />
+                  ) : null}
                 </div>
               ) : (
                 <div>

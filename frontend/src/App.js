@@ -42,6 +42,7 @@ class App extends Component {
     // sett modalDisplayCreateUser til false kver gang, sånn at du ikkje blir stuck på CreateUserWindow dersom du går inn der.
     this.setState({ modalDisplayCreateUser: false });
     this.setState({ modalCreatePost: false });
+    this.setState({ modalCreateTransaction: false });
   };
 
   // Hopp fra login til CreateUserWindow inne i modal-popupen
