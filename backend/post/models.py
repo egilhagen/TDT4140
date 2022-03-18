@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from django.contrib.auth.models import User
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 from post.enums import LocationChoices, TypeChoices, SaleOrBuy
 
 
@@ -22,6 +23,26 @@ class Post(models.Model):
     )
     saleOrBuy = models.CharField(max_length=30, choices=SaleOrBuy.choices(), default='Sell')
     contactInfo = models.CharField(max_length=120)
+
+class Transaction(models.Model):
+    post = models.ForeignKey(
+        to=Post,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="transaction",
+        verbose_name=("Post"),
+    )
+    user = models.ForeignKey(
+        to=User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='transaction',
+        verbose_name=("Buyer"),
+    )
+    ratingFromSeller = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    ratingFromBuyer = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
 
     def _str_(self):
         return self.title
