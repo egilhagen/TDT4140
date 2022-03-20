@@ -9,7 +9,19 @@ import { connect } from "react-redux";
 function PrivateRoute({ passedInComponent, auth }) {
   /* Dersom Redux held på å laste inn bruker, ELLER Redux-staten er tom, vis: Loading... */
   if (auth.isLoading || auth.isAuthenticated == null) {
-    return <h2>Loading...</h2>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* TODO: Reactstrap Spinner, loading animation. veldig kult, men trur det var bedre med kun Loading... */}
+        <div className="spinner-border text-primary" role="status"></div>
+        <h3>Loading...</h3>
+      </div>
+    );
   } else if (!auth.isAuthenticated) {
     /* Dersom bruker ikkje er logget inn, redirect til startsida */
     /* TODO: kunne vert nice å få login til å poppe opp, redirect til /login */

@@ -18,14 +18,14 @@ export class Header extends Component {
     const authLinks = (
       <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
         <span className="navbar-text mr-3">
-          {/* <strong>{user ? `Welcome ${user.username}` : ""}</strong> */}
-          {/* <Link to={`/profile/${user.username}`}>{user.username}</Link> */}
-
-          <Link to={`/profile`}>
-            <strong>
-              {user ? `Welcome ${user.username}` : "Loading user"}
-            </strong>
-          </Link>
+          {/* Check if Redux-store has populated the user, if not show loading untill it has. */}
+          {user ? (
+            <Link to={`/profiles/${user.username}`}>
+              <strong>{`Welcome ${user.username}`}</strong>
+            </Link>
+          ) : (
+            "Loading profile page link..."
+          )}
         </span>
         <li className="nav-item">
           <button

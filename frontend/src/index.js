@@ -7,22 +7,35 @@ import reportWebVitals from "./reportWebVitals";
 
 // Our components
 import ProfilePage from "./routes/ProfilePage";
+import Profile from "./routes/Profile";
 import PrivateRoute from "./routes/PrivateRoute";
 
-// React router, for å ha forskjellige url´s som /profile/username
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// React router, for å ha forskjellige url´s som /profiles/username
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        {/* App is parent route */}
         <Route path="/" element={<App />}>
           {/* Profile page is a child route of home page, PrivateRoute is our component making sure redirect only works when logged in  */}
 
           <Route
-            path="/profile"
+            path="/profiles"
             element={<PrivateRoute passedInComponent={<ProfilePage />} />}
-          />
+          >
+            {/* Index route, if no usernames match, go here? */}
+            {/*   <Route
+              index
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>No user found with that username</p>
+                </main>
+              }
+            /> */}
+            <Route path=":username" element={<Profile />} />
+          </Route>
 
           {/* Default route */}
           <Route
@@ -30,6 +43,7 @@ ReactDOM.render(
             element={
               <main style={{ padding: "1rem" }}>
                 <p>There's nothing here! You entered an invalid URL</p>
+                <Link to="/">Go back home</Link>
               </main>
             }
           />
