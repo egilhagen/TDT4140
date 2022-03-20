@@ -12,13 +12,8 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { loadUser } from "./actions/auth";
 
-// Router - not currently in use. Use for new pages, user-profile etc
-import {
-  HashRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+// Router - Outlet is where components passed to a Route are rendered.
+import { Outlet } from "react-router-dom";
 
 class App extends Component {
   constructor(props) {
@@ -78,6 +73,13 @@ class App extends Component {
             </button>
           }
         />
+        {/* Router Outlet, child routes of app.js get rendered here! i.e the profile-page */}
+        <Outlet />
+
+        {/* TODO: lag switch på å vise Outlet eller Posts   
+          {<Outlet />? (
+            <Outlet />
+          ) : ( <Posts />)} */}
 
         {/* TODO: Bruk renderTabList til å vise SALE eller BUY tickets */}
         {/* {this.renderTabList()} */}
