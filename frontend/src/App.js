@@ -76,10 +76,9 @@ class App extends Component {
         {/* Router Outlet, child routes of app.js get rendered here! i.e the profile-page */}
         <Outlet />
 
-        {/* TODO: lag switch på å vise Outlet eller Posts   
-          {<Outlet />? (
-            <Outlet />
-          ) : ( <Posts />)} */}
+        {/* TODO: lag switch på å vise Outlet eller Posts ? linja under funka ikkje  */}
+        {/* {!!(<Outlet />) ? <Outlet /> : <Posts />} */}
+        {/*  {this.props.match.params === "solan" ? <Outlet /> : <Posts />} */}
 
         {/* TODO: Bruk renderTabList til å vise SALE eller BUY tickets */}
         {/* {this.renderTabList()} */}
@@ -87,6 +86,7 @@ class App extends Component {
 
         {/* Post Component renders all posts in database */}
         <Posts />
+
         {/* </ul> */}
 
         {/* Vis/skjul modal/popup */}

@@ -52,20 +52,22 @@ export class ProfilePage extends Component {
       >
         <div className="container">
           <Link to="/">Go back home</Link>
-
-          <Outlet></Outlet>
+          {/* TODO: send inn {prop = this.state.userList} */}
+          <Outlet />
           {/* {user.username} */}
 
           <h2>List of users </h2>
           {/* TODO: kanskje bake dette inn i ei dropdown-liste isteden for ListGroup? */}
           <ListGroup>
             {users.map((user) => (
-              <ListGroupItem tag="a" action>
+              <ListGroupItem
+                tag="a"
+                action /* La til "profile: " fordi ein key må vere unik for HEILE nettsida */
+                key={"profile: " + user.username}
+              >
                 <Link
                   style={{ display: "block", margin: "1rem 0" }}
                   to={`/profiles/${user.username}`}
-                  /* La til "profile: " fordi ein key må vere unik for HEILE nettsida */
-                  key={"profile: " + user.username}
                 >
                   {/* Highlight the logged-in user´s profile-link */}
                   {this.props.auth.user.username == user.username

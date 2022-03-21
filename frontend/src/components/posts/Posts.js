@@ -11,6 +11,9 @@ import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+// React router
+import { Link } from "react-router-dom";
+
 // Post reactstrap-cards
 import {
   Card,
@@ -153,6 +156,15 @@ export class Posts extends Component {
       return false;
     }
   };
+
+  /* Yalla måte å hente ut brukernavn fra id i post loop´en siden me kun har tilgang på id. brukes til å lage lenke til eiers profilside */
+  /*   getUsernameFromID = (postOwnerId) => {
+    return axios
+      .get(`/api/users/${postOwnerId}`)
+
+      .then((res) => res.data.username)
+      .catch((err) => console.log(err));
+  }; */
 
   /* Used to change modal title between "create post" and "edit post" depending on what button is pushed */
   setModalTitle = (title) => {
@@ -328,6 +340,14 @@ export class Posts extends Component {
                       >
                         {post.contactInfo}
                       </a>
+                      {/* TODO: legg inn lenke til eiers profilside her */}
+                      {/*  {alert(this.getUsernameFromID(post.user))} */}
+                      {/*     <Link
+                        style={{ display: "block", margin: "1rem 0" }}
+                        to={`/profiles/${this.getUsernameFromID(post.user)}`}
+                      >
+                        Profile
+                      </Link> */}
                     </label>
                   </div>
                 ) : (

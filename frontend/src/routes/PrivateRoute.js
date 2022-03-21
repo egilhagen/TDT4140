@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 
 function PrivateRoute({ passedInComponent, auth }) {
   /* Dersom Redux held på å laste inn bruker, ELLER Redux-staten er tom, vis: Loading... */
+
   if (auth.isLoading || auth.isAuthenticated == null) {
     return (
       <div
