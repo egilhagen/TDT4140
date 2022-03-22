@@ -18,6 +18,7 @@ export class Filter extends Component {
     filterCategory: "",
     filterStartDate: "",
     filterEndDate: "",
+    filterSellorBuy: "",
     filteredPostList: [Post],
     rawPostList: [Post]
         }  
@@ -49,17 +50,9 @@ export class Filter extends Component {
     refreshList = () => {
         axios
         .get("/api/posts")
-        .then((res) => this.setState({ postList: res.data }))
+        .then((res) => this.setState({ rawPostList: res.data }))
         .catch((err) => console.log(err));
           };
-        
-          handleChange = (e) => {
-            let { name, value } = e.target;
-        
-            const activePost = { ...this.state.activePost, [name]: value };
-        
-            this.setState({ activePost });
-          }; 
 
     render() { 
           return (
@@ -73,7 +66,7 @@ export class Filter extends Component {
                     id="post-date"
                     name="date"
                     value={this.state.activePost.date}
-                    onChange={this.handleChange}
+                    onChange={(value) => {this.filterStartDate=value}}
                   />
                 </FormGroup>
                 <FormGroup>
@@ -83,14 +76,14 @@ export class Filter extends Component {
                     id="post-date"
                     name="date"
                     value={this.state.activePost.date}
-                    onChange={this.handleChange}
+                    onChange={(value) => {this.filterEndDate=value}}
                   />
                 </FormGroup>
                 <FormGroup>
                   <select
                     id="post-location"
                     name="location"
-                    onChange={this.handleChange}
+                    onChange={(value) => {this.filterLocation=value}}
                   >
                     <option value="default" hidden>
                       Location
@@ -106,7 +99,7 @@ export class Filter extends Component {
                     type="text"
                     id="post-category"
                     name="category"
-                    onChange={this.handleChange}
+                    onChange={(value) => {this.filterCategory=value}}
                   >
                     <option value="default" hidden>
                       Category
@@ -122,7 +115,7 @@ export class Filter extends Component {
                     type="text"
                     id="post-saleOrBuy"
                     name="saleOrBuy"
-                    onChange={this.handleChange}
+                    onChange={(value) => {this.filterSellorBuy=value}}
                   >
                     <option value="default" hidden>
                       Sell or buy
@@ -136,7 +129,7 @@ export class Filter extends Component {
             <ModalFooter>
                 <Button
                 color="success"
-                onClick={() => onSave(this.state.activePost)}
+                onClick={() => this.updateFilteredPostList()}
                  // TODO: bruker bør bli logget inn etter Save.
                 >
                 Apply
