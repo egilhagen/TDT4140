@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import {
     Button,
     Modal,
@@ -13,7 +14,7 @@ import {
   } from "reactstrap";
 
 
-export default class CreateTransactionWindow extends Component {
+export class CreateTransactionWindow extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -52,6 +53,7 @@ export default class CreateTransactionWindow extends Component {
         const userItems = this.state.userList;
         //const {post} = this.props;
         const { onSave } = this.props;
+        const { user } = this.props.auth;
         return (
             <div>
             {this.state.activePost}
@@ -61,11 +63,11 @@ export default class CreateTransactionWindow extends Component {
                     {/* TODO: remove self from list of users */}
                     <select id="user" name="user" onChange={this.handleChange}>
                     <option value="default" hidden>Buyer</option>
-                        {userItems?.map(userItem => {
-                        return (
-                            <option value={userItem.id}> {userItem.username} </option>
-                        )
-                        })}
+                        {userItems.filter(userItem => userItem.id != this.props.auth.user.id).map(filteredUserItem => {
+                            return (
+                                <option value={filteredUserItem.id}> {filteredUserItem.username} </option>
+                            )
+                            })}
                     </select>
                 </FormGroup>
                 <FormGroup>
@@ -103,4 +105,13 @@ export default class CreateTransactionWindow extends Component {
             </div>
         );
         }
+
+
 }
+
+const mapStateToProps = (state) => ({
+    auth: state.auth,
+  });
+  
+  export default connect(mapStateToProps)(CreateTransactionWindow);
+

@@ -160,7 +160,7 @@ export class Posts extends Component {
   };
 
   /* OBS: Denne kan kun brukes der isAuthenticated == true, aka vi vet at bruker er innlogget */
-  canEditPost = (postOwnerId) => {
+  isActiveUserPost = (postOwnerId) => {
     /*  alert(postId);
     alert(this.props.auth.user.id); */
     if (this.props.auth.user.id == postOwnerId) {
@@ -209,7 +209,7 @@ export class Posts extends Component {
                   {isAuthenticated ? (
                     <div>
                       {/* IF user isAuthenticated and postOwnerId == this.props.auth.user.id ---> show edit button ELSE --> null  */}
-                      {this.canEditPost(post.user) ? (
+                      {this.isActiveUserPost(post.user) ? (
                         <button
                           className="btn"
                           title="Click here to edit your post" /* denne vises når du svever over knappen */
@@ -284,12 +284,15 @@ export class Posts extends Component {
                       {post.contactInfo}
                     </a>
                   </label>
+                  {this.isActiveUserPost(post.user) ? (
                   <button
                     onClick={() => {this.toggleCreateTransactionWindow(); this.createTransaction(post);}}
                     className="nav-link btn btn-info btn-sm text-light"
                     >
                     Sell
+                  
                   </button>
+                  ) : null}
                   {this.state.modalCreateTransaction ? (
                     <Modal
                       toggle={this.toggleCreateTransactionWindow}
