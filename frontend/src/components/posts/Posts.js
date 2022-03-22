@@ -31,6 +31,7 @@ export class Posts extends Component {
     this.state = {
       postList: [],
       modalCreatePost: false,
+      filteredPostList: this.props.filteredPostList,
       activePost: {
         title: "",
         price: "",
@@ -55,7 +56,7 @@ export class Posts extends Component {
   }
 
   refreshList = () => {
-    this.postList = this.props.children.filteredPostList
+    this.postList = this.props.filteredPostList
   }
 
   handleSubmitPost = (post) => {
@@ -99,8 +100,8 @@ export class Posts extends Component {
   // render posts
   renderItems = () => {
     const { isAuthenticated } = this.props.auth;
-    const {filteredPostList} = this.props;
-    return this.children.props.filteredPostList.map((post) => (
+    
+    return this.props.filteredPostList.map((post) => (
       <li
         key={post.id}
         className="list-group-item d-flex justify-content-between align-items-center"

@@ -67,7 +67,7 @@ export default class Filter extends Component {
     render() { 
           return (
             <div>
-              <Posts updateFilteredPostList={this.state.filteredPostList}/>
+              <Posts filteredPostList={this.state.filteredPostList}/>
               <Form>
                 <Label id="error"></Label>
                 <FormGroup>
