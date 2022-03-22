@@ -1,8 +1,10 @@
 // Ruter URL parameters (:username)
 import { useParams } from "react-router-dom";
-
+import { useState, useEffect } from "react";
 // Redux
 import { connect } from "react-redux";
+import axios from "axios";
+// import { useEffect } from "react";
 
 /* Functional component because Router useParams hook only works in func.comp. Class.comp is possible, but more work ? */
 function Profile({ loggedInUser }) {
@@ -10,9 +12,38 @@ function Profile({ loggedInUser }) {
   TODO: finn ut av kordan ein kan koble til redux-state her, evt sjå om ein kan bruke useParams() med ein klassebasert komponent */
 
   let params = useParams();
+  const [users, setUsers] = useState(null);
+  // const getMatchingUser = function (userList) {
+  //   return userList;
+  // };
+  // const refreshList = () => {
+  //   axios
+  //     .get("/api/users")
+  //     .then((res) => {
+  //       const userList = res.data;
+  //       return userList;
+  //     })
+  //     .then(getMatchingUser)
+  //     .catch((err) => console.log(err));
+  // };
+
+  // useEffect(() => {
+  //   refreshList();
+  // });
+
+  useEffect(() => {
+    axios.get("/api/users").then((users) => {
+      setUsers(users);
+    });
+  }, []);
 
   return (
     <div>
+      {/* {alert({ users })}; user.filter(users => userItem.id !=
+      this.props.auth.user.id).map()}
+      {/* user.find((user) => {
+          return user.username == params.username;
+        }) */}
       {loggedInUser.username == params.username ? (
         <div>
           <h2>
@@ -48,7 +79,6 @@ function Profile({ loggedInUser }) {
       ) : (
         <h2>Profile: {params.username}</h2>
       )}
-
       <h4>Avatar </h4>
       <h4>Name: </h4>
       <h4>Last name: </h4>
