@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
+
+//React router navigation links
+import { Link } from "react-router-dom";
 
 export class Header extends Component {
   static propTypes = {
@@ -16,7 +18,14 @@ export class Header extends Component {
     const authLinks = (
       <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
         <span className="navbar-text mr-3">
-          <strong>{user ? `Welcome ${user.username}` : ""}</strong>
+          {/* Check if Redux-store has populated the user, if not show loading untill it has. */}
+          {user ? (
+            <Link to={`/profiles/${user.username}`}>
+              <strong>{`Welcome ${user.username}`}</strong>
+            </Link>
+          ) : (
+            "Loading profile page link..."
+          )}
         </span>
         <li className="nav-item">
           <button
@@ -65,9 +74,9 @@ export class Header extends Component {
           </button> */}
           {/* className="collapse navbar-collapse" */}
           <div id="navbarTogglerDemo01">
-            <a className="navbar-brand" href="#">
+            <Link className="navbar-brand" to="/">
               TicKing
-            </a>
+            </Link>
           </div>
           {/* Show login or logout button depending on authentication state */}
           {isAuthenticated ? authLinks : guestLinks}

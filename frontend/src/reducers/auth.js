@@ -15,6 +15,8 @@ const initialState = {
   isLoading: false,
   user: null,
 };
+/* Forsøk på fix av refresh-login-button-flash problemet. Redux-storage e vist ein greie for å lagre redux-state i cache, vurder om nødvendig */
+/* localStorage.getItem('token') ? true : false, */
 
 // In essence, a reducer is a function which takes
 // two arguments -- the current state and an action -- and returns based on both arguments a new state. (Redux)
