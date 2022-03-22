@@ -39,8 +39,10 @@ Dersom du får denne feilmeldingen under backend-førstegangsoppsettet, gjør f�
 1. Installer Node.js Version: 16.14.0 (includes npm 8.3.1)
 2. **cd frontend**
 3. **npm install**
-4. **npm start**
-5. Gå til: http://localhost:3000
+4. **npm i redux react-redux redux-thunk redux-devtools-extension**
+5. **npm i react-router-dom**
+6. **npm start**
+7. Gå til: http://localhost:3000
 
 
 
@@ -70,6 +72,25 @@ http://localhost:8000/api/users/
 1. **cd frontend**
 2. **npm start**
 3. Gå til: http://localhost:3000
+
+### Nyttige frontend verktøy
+Chrome-addon for å se Redux-state, actions og feilmeldinger
+- **Redux DevTools** https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd
+
+VS Code Extension for å autoformatere jsx, html, css, og mer kode
+- **Prettier - Code formatter** https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode 
+
+For å få autoformatering til å funke må følgende prettier config-kode limes inn i VS code "settings.json":
+
+    "editor.formatOnSave": true,
+    // enable per-language (here: Prettier as formatter)
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    } 
+
 
 
 
