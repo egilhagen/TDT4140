@@ -3,7 +3,7 @@ import React, { Component } from "react";
 // Components
 import Modal from "../layout/Modal";
 import CreatePostWindow from "../CreatePostWindow";
-import { Filter } from "../filters/Filters";
+import Filter from "../Filter/Filter";
 
 // API requests
 import axios from "axios";
@@ -24,24 +24,6 @@ import {
   CardBody,
 } from "reactstrap";
 
-export class Post extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      title: "",
-      price: "",
-      date: "",
-      location: "",
-      category: "",
-      saleOrBuy: "",
-      description: "",
-      user: "",
-      contactInfo: ""
-    }
-  }
-}
-
 export class Posts extends Component {
   constructor(props) {
     super(props);
@@ -49,9 +31,20 @@ export class Posts extends Component {
     this.state = {
       postList: [],
       modalCreatePost: false,
-      activePost: Post,
+      activePost: {
+        title: "",
+        price: "",
+        date: "",
+        location: "",
+        category: "",
+        saleOrBuy: "",
+        description: "",
+        user: "",
+        contactInfo: ""
+      },
     };
   }
+
   static propTypes = {
     auth: PropTypes.object.isRequired,
   };
@@ -59,6 +52,10 @@ export class Posts extends Component {
   // Lifecycle method, invoked immediately after component is mounted.
   componentDidMount() {
     this.refreshList();
+  }
+
+  refreshList = () => {
+    this.postList = this.props.children.filteredPostList
   }
 
   handleSubmitPost = (post) => {
@@ -101,9 +98,9 @@ export class Posts extends Component {
 
   // render posts
   renderItems = () => {
-   
-    newItems = Filter.state.filteredPostList
-    return newItems.map((post) => (
+    const { isAuthenticated } = this.props.auth;
+    const {filteredPostList} = this.props;
+    return this.children.props.filteredPostList.map((post) => (
       <li
         key={post.id}
         className="list-group-item d-flex justify-content-between align-items-center"

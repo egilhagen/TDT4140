@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Post from "../posts/Posts";
+import Posts from "../posts/Posts";
 
 import CreatePostWindow from "../CreatePostWindow";
 // API requests
@@ -9,7 +9,19 @@ import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-export class Filter extends Component {
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+} from "reactstrap";
+
+export default class Filter extends Component {
     constructor(props) {
         super(props);
     
@@ -19,8 +31,8 @@ export class Filter extends Component {
     filterStartDate: "",
     filterEndDate: "",
     filterSellorBuy: "",
-    filteredPostList: [Post],
-    rawPostList: [Post]
+    filteredPostList: [Posts],
+    rawPostList: [Posts]
         }  
     }
     static propTypes = {
@@ -31,20 +43,18 @@ export class Filter extends Component {
         this.refreshList();
     }
 
-    matchesCriteria = (post) => (
-        {}
-    );
+    matchesCriteria(post) {
+        return post.location == this.filterLocation &&
+        post.categoty == this.filterCategory &&
+        post.saleOrBuy == this.filterSellorBuy
+    }
+
 
     updateFilteredPostList = () => {
     const { isAuthenticated } = this.props.auth;
+    this.refreshList()
     //const { viewCompleted } = this.state;
-    const newPosts = this.state.rawPostList;
-    this.filteredPostList = newPosts.filter((post) => {
-        return (
-             post.state == this.filterCategory 
-             
-        );
-    })
+    this.filteredPostList = this.rawPostList.filter((post) => this.matchesCriteria(post))
     }
 
     refreshList = () => {
@@ -57,6 +67,7 @@ export class Filter extends Component {
     render() { 
           return (
             <div>
+              <Posts updateFilteredPostList={this.state.filteredPostList}/>
               <Form>
                 <Label id="error"></Label>
                 <FormGroup>
@@ -65,7 +76,6 @@ export class Filter extends Component {
                     type="date"
                     id="post-date"
                     name="date"
-                    value={this.state.activePost.date}
                     onChange={(value) => {this.filterStartDate=value}}
                   />
                 </FormGroup>
@@ -75,7 +85,6 @@ export class Filter extends Component {
                     type="date"
                     id="post-date"
                     name="date"
-                    value={this.state.activePost.date}
                     onChange={(value) => {this.filterEndDate=value}}
                   />
                 </FormGroup>
@@ -135,7 +144,6 @@ export class Filter extends Component {
                 Apply
                 </Button>
             </ModalFooter>
-            <a>{this.activePost}</a>
         </div>
           );
     }
