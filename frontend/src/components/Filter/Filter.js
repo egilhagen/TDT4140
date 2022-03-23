@@ -27,11 +27,13 @@ export default class Filter extends Component {
     super(props);
 
     this.state = {
-      filterLocation: "",
-      filterCategory: "",
-      filterStartDate: "",
-      filterEndDate: "",
-      filterSellorBuy: "",
+      activeFilter: {
+        filterLocation: "",
+        filterCategory: "",
+        filterStartDate: "",
+        filterEndDate: "",
+        filterSellorBuy: "",
+      },
       filteredPostList: [],
       rawPostList: [],
     };
@@ -43,8 +45,16 @@ export default class Filter extends Component {
 
   /**Metoden som etterhvert har kriteriene for filtreringa */
   matchesCriteria(post) {
+    if (this.state.filterCategory != "") {
+      alert(this.state.filterCategory);
+    }
     /* Med den gamle koden, vil du aldri få opp noen annoser, fordi det vil aldri matche */
-
+    /**(post.location == this.state.filterLocation ||
+        this.state.filterLocation == "") &&
+      (post.category == this.state.filterCategory ||
+        this.state.filterCategory == "") &&
+      (post.saleOrBuy == this.state.filterSellorBuy ||
+        this.state.filterSellorBuy == "") */
     return true;
   }
 
@@ -72,6 +82,13 @@ export default class Filter extends Component {
   /**Post legges inn her, og får med lista med ferdig filtrerte objecter, og metoden for å refreshe lista
    * slik at den kan brukes når man oppretter nye annonser
    */
+
+  handleChangeDropdown = (e) => {
+    let { name, value } = e.target;
+    const activeFilter = { ...this.state.activeFilter, [name]: value };
+
+    this.setState({ activeFilter });
+  };
 
   render() {
     return (
@@ -108,9 +125,9 @@ export default class Filter extends Component {
             <FormGroup>
               <select
                 id="post-location"
-                name="location"
+                name="filterLocation"
                 onChange={(value) => {
-                  this.filterLocation = value;
+                  this.setState({ filterLocation: value });
                 }}
               >
                 <option value="default" hidden>
@@ -126,9 +143,9 @@ export default class Filter extends Component {
               <select
                 type="text"
                 id="post-category"
-                name="category"
+                name="filterCategory"
                 onChange={(value) => {
-                  this.filterCategory = value;
+                  this.state.filterCategory = value;
                 }}
               >
                 <option value="default" hidden>
@@ -144,7 +161,7 @@ export default class Filter extends Component {
               <select
                 type="text"
                 id="post-saleOrBuy"
-                name="saleOrBuy"
+                name="filterSellorBuy"
                 onChange={(value) => {
                   this.filterSellorBuy = value;
                 }}
