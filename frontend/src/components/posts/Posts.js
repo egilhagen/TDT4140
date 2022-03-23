@@ -5,6 +5,9 @@ import Modal from "../layout/Modal";
 import CreatePostWindow from "../CreatePostWindow";
 import Filter from "../Filter/Filter";
 
+//styling
+import "./Post.css";
+
 // API requests
 import axios from "axios";
 
@@ -27,11 +30,10 @@ import {
 export class Posts extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       postList: [],
       modalCreatePost: false,
-      filteredPostList: this.props.filteredPostList,
+      filteredPostList: [],
       activePost: {
         title: "",
         price: "",
@@ -41,7 +43,7 @@ export class Posts extends Component {
         saleOrBuy: "",
         description: "",
         user: "",
-        contactInfo: ""
+        contactInfo: "",
       },
     };
   }
@@ -50,26 +52,22 @@ export class Posts extends Component {
     auth: PropTypes.object.isRequired,
   };
 
-  // Lifecycle method, invoked immediately after component is mounted.
+  /**Bruker nå refreshList fra Filter.js */
   componentDidMount() {
-    this.refreshList();
-  }
-
-  refreshList = () => {
-    this.postList = this.props.filteredPostList
+    this.props.refreshList();
   }
 
   handleSubmitPost = (post) => {
+    const { refreshList } = this.props;
     this.toggleCreatePostWindow();
     //if user exists, update user(PUT) ?
     if (post.id) {
-      axios
-        .put(`/api/posts/${post.id}/`, post)
-        .then((res) => this.refreshList());
+      axios.put(`/api/posts/${post.id}/`, post).then((res) => refreshList());
       return;
     }
     // else create new user (POST)
-    axios.post("/api/posts/", post).then((res) => this.refreshList());
+    axios.post("/api/posts/", post).then((res) => refreshList());
+    refreshList();
   };
 
   toggleCreatePostWindow = (event) => {
@@ -100,18 +98,20 @@ export class Posts extends Component {
   // render posts
   renderItems = () => {
     const { isAuthenticated } = this.props.auth;
-    
-    return this.props.filteredPostList.map((post) => (
+    const { filteredPostList } = this.props;
+
+    return filteredPostList.map((post) => (
       <li
         key={post.id}
         className="list-group-item d-flex justify-content-between align-items-center"
       >
         <span
-        /* onClick={() => alert("hallo")}
+          class="two"
+          /* onClick={() => alert("hallo")}
           className={`todo-title mr-2 ${
             this.state.viewCompleted ? "completed-todo" : ""
           }`} */
-        //title={post.title}
+          //title={post.title}
         >
           <Card>
             <CardBody
