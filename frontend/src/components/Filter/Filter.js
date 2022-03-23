@@ -84,10 +84,10 @@ export default class Filter extends Component {
           <Form>
             <Label id="error"></Label>
             <FormGroup>
-              <Label for="Start date">SDate</Label>
+              <Label for="Start date">From</Label>
               <Input
                 type="date"
-                id="post-date"
+                id="start-date"
                 name="date"
                 onChange={(value) => {
                   this.filterStartDate = value;
@@ -95,10 +95,10 @@ export default class Filter extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="End date">EDate</Label>
+              <Label for="End date">To</Label>
               <Input
                 type="date"
-                id="post-date"
+                id="end-date"
                 name="date"
                 onChange={(value) => {
                   this.filterEndDate = value;
@@ -107,7 +107,7 @@ export default class Filter extends Component {
             </FormGroup>
             <FormGroup>
               <select
-                id="post-location"
+                id="location"
                 name="location"
                 onChange={(value) => {
                   this.filterLocation = value;
@@ -125,7 +125,7 @@ export default class Filter extends Component {
             <FormGroup>
               <select
                 type="text"
-                id="post-category"
+                id="category"
                 name="category"
                 onChange={(value) => {
                   this.filterCategory = value;
@@ -143,7 +143,7 @@ export default class Filter extends Component {
             <FormGroup>
               <select
                 type="text"
-                id="post-saleOrBuy"
+                id="saleOrBuy"
                 name="saleOrBuy"
                 onChange={(value) => {
                   this.filterSellorBuy = value;
@@ -165,6 +165,23 @@ export default class Filter extends Component {
               // TODO: bruker bør bli logget inn etter Save.
             >
               Apply
+            </Button>
+            <Button
+              color="success"
+              onClick = {() => {this.setState({filterCategory : ""});
+                                this.setState({filterLocation : ""});
+                                this.setState({filterStartDate : ""});
+                                this.setState({filterEndDate : ""});
+                                this.setState({filterSellorBuy : ""});
+                                document.getElementById("start-date").value = "default";
+                                document.getElementById("end-date").value = "default";
+                                document.getElementById("location").value = "default";
+                                document.getElementById("category").value = "default";
+                                document.getElementById("saleOrBuy").value = "default";
+                              }
+                      }
+            >
+              Reset filters
             </Button>
           </ModalFooter>
         </div>
