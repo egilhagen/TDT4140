@@ -33,6 +33,7 @@ export default class Filter extends Component {
         filterStartDate: "",
         filterEndDate: "",
         filterSellorBuy: "",
+        filterSearch: "",
       },
       filteredPostList: [],
       rawPostList: [],
@@ -45,17 +46,29 @@ export default class Filter extends Component {
 
   /**Metoden som etterhvert har kriteriene for filtreringa */
   matchesCriteria(post) {
-    if (this.state.filterCategory != "") {
-      alert(this.state.filterCategory);
-    }
+    //if()
+    //alert(this.state.activeFilter.filterCategory);
+
     /* Med den gamle koden, vil du aldri få opp noen annoser, fordi det vil aldri matche */
-    /**(post.location == this.state.filterLocation ||
-        this.state.filterLocation == "") &&
-      (post.category == this.state.filterCategory ||
-        this.state.filterCategory == "") &&
-      (post.saleOrBuy == this.state.filterSellorBuy ||
-        this.state.filterSellorBuy == "") */
-    return true;
+    return (
+      (post.date > this.state.activeFilter.filterStartDate ||
+        this.state.activeFilter.filterStartDate == "") &&
+      (post.date < this.state.activeFilter.filterEndDate ||
+        this.state.activeFilter.filterEndDate == "") &&
+      (post.location == this.state.activeFilter.filterLocation ||
+        this.state.activeFilter.filterLocation == "") &&
+      (post.category == this.state.activeFilter.filterCategory ||
+        this.state.activeFilter.filterCategory == "") &&
+      (post.saleOrBuy == this.state.activeFilter.filterSellorBuy ||
+        this.state.activeFilter.filterSellorBuy == "") &&
+      (post.description
+        .toUpperCase()
+        .includes(this.state.activeFilter.filterSearch.toUpperCase()) ||
+        post.title
+          .toUpperCase()
+          .includes(this.state.activeFilter.filterSearch.toUpperCase()) ||
+        this.state.activeFilter.filterSearch == "")
+    );
   }
 
   /** Setter filteredPostList staten til en liste med den ønskede filteringen */
@@ -83,7 +96,7 @@ export default class Filter extends Component {
    * slik at den kan brukes når man oppretter nye annonser
    */
 
-  handleChangeDropdown = (e) => {
+  handleChange = (e) => {
     let { name, value } = e.target;
     const activeFilter = { ...this.state.activeFilter, [name]: value };
 
@@ -99,36 +112,41 @@ export default class Filter extends Component {
         />
         <div class="box" id="one">
           <Form>
+            <FormGroup>
+              <Label for="search">Search</Label>
+              <Input
+                type="text"
+                id="search-term"
+                name="filterSearch"
+                value={this.state.activeFilter.filterSearch}
+                onChange={this.handleChange}
+                placeholder="Enter a keyword"
+              />
+            </FormGroup>
             <Label id="error"></Label>
             <FormGroup>
-              <Label for="Start date">SDate</Label>
+              <Label for="Start date">From</Label>
               <Input
                 type="date"
-                id="post-date"
-                name="date"
-                onChange={(value) => {
-                  this.filterStartDate = value;
-                }}
+                id="start-date"
+                name="filterStartDate"
+                onChange={this.handleChange}
               />
             </FormGroup>
             <FormGroup>
-              <Label for="End date">EDate</Label>
+              <Label for="End date">To</Label>
               <Input
                 type="date"
-                id="post-date"
-                name="date"
-                onChange={(value) => {
-                  this.filterEndDate = value;
-                }}
+                id="end-date"
+                name="filterEndDate"
+                onChange={this.handleChange}
               />
             </FormGroup>
             <FormGroup>
               <select
-                id="post-location"
+                id="location"
                 name="filterLocation"
-                onChange={(value) => {
-                  this.setState({ filterLocation: value });
-                }}
+                onChange={this.handleChange}
               >
                 <option value="default" hidden>
                   Location
@@ -142,11 +160,9 @@ export default class Filter extends Component {
             <FormGroup>
               <select
                 type="text"
-                id="post-category"
+                id="category"
                 name="filterCategory"
-                onChange={(value) => {
-                  this.state.filterCategory = value;
-                }}
+                onChange={this.handleChange}
               >
                 <option value="default" hidden>
                   Category
@@ -160,11 +176,9 @@ export default class Filter extends Component {
             <FormGroup>
               <select
                 type="text"
-                id="post-saleOrBuy"
+                id="saleOrBuy"
                 name="filterSellorBuy"
-                onChange={(value) => {
-                  this.filterSellorBuy = value;
-                }}
+                onChange={this.handleChange}
               >
                 <option value="default" hidden>
                   Sell or buy
@@ -182,6 +196,29 @@ export default class Filter extends Component {
               // TODO: bruker bør bli logget inn etter Save.
             >
               Apply
+            </Button>
+            <Button
+              color="success"
+              onClick={() => {
+                const activeFilter = {
+                  ...this.state.activeFilter,
+                  filterCategory: "",
+                  filterLocation: "",
+                  filterStartDate: "",
+                  filterEndDate: "",
+                  filterSellorBuy: "",
+                  filterSearch: "",
+                };
+                this.setState({ activeFilter });
+                document.getElementById("start-date").value = "default";
+                document.getElementById("end-date").value = "default";
+                document.getElementById("location").value = "default";
+                document.getElementById("category").value = "default";
+                document.getElementById("saleOrBuy").value = "default";
+                this.refreshList();
+              }}
+            >
+              Reset filters
             </Button>
           </ModalFooter>
         </div>
