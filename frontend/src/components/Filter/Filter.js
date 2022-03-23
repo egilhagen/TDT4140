@@ -34,6 +34,7 @@ export default class Filter extends Component {
         filterEndDate: "",
         filterSellorBuy: "",
         filterSearch: "",
+        sortByString: "",
       },
       filteredPostList: [],
       rawPostList: [],
@@ -42,6 +43,21 @@ export default class Filter extends Component {
 
   componentDidMount() {
     this.refreshList();
+  }
+
+  sortBy(a, b) {
+    switch (this.state.activeFilter.sortByString) {
+      case "PriceLowToHigh":
+        return a.price - b.price;
+      case "PriceHighToLow":
+        return b.price - a.price;
+      case "DateEarlyToLate":
+        return new Date(a.date) - new Date(b.date);
+      case "DateLateToEarly":
+        return new Date(b.date) - new Date(a.date);
+      default:
+        return a, b;
+    }
   }
 
   /**Metoden som etterhvert har kriteriene for filtreringa */
@@ -74,9 +90,11 @@ export default class Filter extends Component {
   /** Setter filteredPostList staten til en liste med den ønskede filteringen */
   updateFilteredPostList = () => {
     this.setState({
-      filteredPostList: this.state.rawPostList.filter((post) =>
-        this.matchesCriteria(post)
-      ),
+      filteredPostList: this.state.rawPostList
+        .sort((a, b) => {
+          return this.sortBy(a, b);
+        })
+        .filter((post) => this.matchesCriteria(post)),
     });
   };
 
@@ -92,7 +110,7 @@ export default class Filter extends Component {
       .catch((err) => console.log(err));
   };
 
-  /**Post legges inn her, og får med lista med ferdig filtrerte objecter, og metoden for å refreshe lista
+  /**Post legges inn her, og får med lista med ferdig filtrerte objekter, og metoden for å refreshe lista
    * slik at den kan brukes når man oppretter nye annonser
    */
 
@@ -185,6 +203,25 @@ export default class Filter extends Component {
                 </option>
                 <option value="Sale">Sell</option>
                 <option value="Buy">Buy</option>
+              </select>
+            </FormGroup>
+            <FormGroup>
+              <select
+                id="sort-by"
+                name="sortByString"
+                onChange={this.handleChange}
+              >
+                <option value="default" hidden>
+                  Sort by:
+                </option>
+                <option value="PriceLowToHigh">Prices: low to high</option>
+                <option value="PriceHighToLow">Prices: high to low</option>
+                <option value="DateEarlyToLate">
+                  Date: earliest to latest
+                </option>
+                <option value="DateLateToEarly">
+                  Date: latest to earliest
+                </option>
               </select>
             </FormGroup>
           </Form>
