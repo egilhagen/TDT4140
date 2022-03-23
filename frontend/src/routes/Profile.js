@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 // Redux
 import { connect } from "react-redux";
 import axios from "axios";
+import RegisterUser from "../components/auth/RegisterUser";
 // import { useEffect } from "react";
 
 /* Functional component because Router useParams hook only works in func.comp. Class.comp is possible, but more work ? */
@@ -12,7 +13,10 @@ function Profile({ loggedInUser }) {
   TODO: finn ut av kordan ein kan koble til redux-state her, evt sjå om ein kan bruke useParams() med ein klassebasert komponent */
 
   let params = useParams();
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
+  const currUser = users.find((user) => user.username == params.username);
+  const [edit, setEdit] = useState(false);
+  /* alert(typeof users); object!*/
   // const getMatchingUser = function (userList) {
   //   return userList;
   // };
@@ -33,59 +37,87 @@ function Profile({ loggedInUser }) {
 
   useEffect(() => {
     axios.get("/api/users").then((users) => {
-      setUsers(users);
+      setUsers(Object.values(users.data)); /* Object.values(users.data) */
     });
   }, []);
 
   return (
     <div>
-      {/* {alert({ users })}; user.filter(users => userItem.id !=
-      this.props.auth.user.id).map()}
-      {/* user.find((user) => {
-          return user.username == params.username;
-        }) */}
-      {loggedInUser.username == params.username ? (
+      {/* {users
+        ? users.map((item) => <div>{"Hei" + item.username}</div>)
+        : "Loading profile page link..."} */}
+
+      {/* Check if currUser is loaded --> show list ELSE --> loading... */}
+      {currUser ? (
         <div>
-          <h2>
-            My profile
-            {/*  Edit button  */}
-            <button
-              className="btn"
-              /* denne vises når du svever over knappen */
-              title="Click here to edit your user"
-              onClick={() => {
-                alert("Få dette til å funke:)");
-                /* this.props.toggleCreatePostWindow();
+          {loggedInUser.username == params.username ? (
+            <div>
+              <h2>
+                My profile
+                {/*  Edit button  */}
+                <button
+                  className="btn"
+                  /* denne vises når du svever over knappen */
+                  title="Click here to edit your user"
+                  onClick={() => {
+                    setEdit(true);
+                    /* alert("Få dette til å funke:)"); */
+
+                    /* this.props.toggleCreatePostWindow();
               this.editPost(post);
                 this.setModalTitle("Edit post");  */
-              }}
-            >
-              {/* Edit-icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="36px"
-                viewBox="0 0 24 24"
-                width="36px"
-                fill="#000000"
-              >
-                <path d="M0 0h24v24H0V0z" fill="none" />
-                <path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
-              </svg>
-            </button>
-          </h2>
+                  }}
+                >
+                  {/* Edit-icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="36px"
+                    viewBox="0 0 24 24"
+                    width="36px"
+                    fill="#000000"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
+                  </svg>
+                </button>
+              </h2>
 
-          <h3>{loggedInUser.username}</h3>
+              <h3>{loggedInUser.username}</h3>
+              {/* TODO: LAG EIT NYTT SKJEMA MED RELEVANTE FELT HER. SKJUL NÅR DU TRYKKE PÅ SAVE */}
+              {/* if edit --> show edit form. ELSE --> show list of user info */}
+              {edit ? (
+                <RegisterUser></RegisterUser>
+              ) : (
+                <div>
+                  <h4>Avatar </h4>
+                  <h4>Name: {/* {currUser.name} */} </h4>
+                  <h4>Last name: {/* {currUser.lastName} */}</h4>
+                  <h4>Email: {currUser.email}</h4>
+                  <h4>Rating: {/* {currUser.rating}  */}</h4>
+                  <br />
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <h2>Profile: {params.username}</h2>
+              <h4>Avatar </h4>
+              <h4>Name: {/* {currUser.name} */} </h4>
+              <h4>Last name: {/* {currUser.lastName} */}</h4>
+              <h4>Email: {currUser.email}</h4>
+              <h4>Rating: {/* {currUser.rating}  */}</h4>
+              <br />
+            </div>
+          )}
         </div>
       ) : (
-        <h2>Profile: {params.username}</h2>
+        "Loading..."
       )}
-      <h4>Avatar </h4>
-      <h4>Name: </h4>
-      <h4>Last name: </h4>
-      <h4>Email: </h4>
-      <h4>Rating: </h4>
-      <br />
+
+      {/* End main div */}
     </div>
+
+    /* End return */
   );
 }
 
