@@ -41,6 +41,13 @@ function Profile({ loggedInUser }) {
     });
   }, []);
 
+  const toggleEdit = () => {
+    setEdit(!edit);
+  };
+  /* toggleEdit(() => {
+    setEdit(!edit);
+  }); */
+
   return (
     <div>
       {/* {users
@@ -60,7 +67,9 @@ function Profile({ loggedInUser }) {
                   /* denne vises når du svever over knappen */
                   title="Click here to edit your user"
                   onClick={() => {
-                    setEdit(true);
+                    toggleEdit();
+                    /* setEdit(!edit); */
+
                     /* alert("Få dette til å funke:)"); */
 
                     /* this.props.toggleCreatePostWindow();
@@ -83,15 +92,15 @@ function Profile({ loggedInUser }) {
               </h2>
 
               <h3>{loggedInUser.username}</h3>
-              {/* TODO: LAG EIT NYTT SKJEMA MED RELEVANTE FELT HER. SKJUL NÅR DU TRYKKE PÅ SAVE */}
+
               {/* if edit --> show edit form. ELSE --> show list of user info */}
               {edit ? (
-                <RegisterUser></RegisterUser>
+                <RegisterUser toggleRegisterUserWindow={toggleEdit} />
               ) : (
                 <div>
                   <h4>Avatar </h4>
-                  <h4>Name: {/* {currUser.name} */} </h4>
-                  <h4>Last name: {/* {currUser.lastName} */}</h4>
+                  <h4>Name: {currUser.first_name} </h4>
+                  <h4>Last name: {currUser.last_name} </h4>
                   <h4>Email: {currUser.email}</h4>
                   <h4>Rating: {/* {currUser.rating}  */}</h4>
                   <br />
@@ -102,8 +111,8 @@ function Profile({ loggedInUser }) {
             <div>
               <h2>Profile: {params.username}</h2>
               <h4>Avatar </h4>
-              <h4>Name: {/* {currUser.name} */} </h4>
-              <h4>Last name: {/* {currUser.lastName} */}</h4>
+              <h4>Name: {currUser.first_name} </h4>
+              <h4>Last name: {currUser.last_name}</h4>
               <h4>Email: {currUser.email}</h4>
               <h4>Rating: {/* {currUser.rating}  */}</h4>
               <br />
@@ -111,7 +120,10 @@ function Profile({ loggedInUser }) {
           )}
         </div>
       ) : (
-        "Loading..."
+        <div>
+          Loading...
+          {/* TODO: denne vises for alltid dersom du legger inn feil username i url´en */}
+        </div>
       )}
 
       {/* End main div */}

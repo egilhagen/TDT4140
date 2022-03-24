@@ -23,6 +23,8 @@ export class RegisterUser extends Component {
   state = {
     username: "",
     email: "",
+    first_name: "",
+    last_name: "",
     password: "",
     password2: "",
   };
@@ -34,7 +36,8 @@ export class RegisterUser extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { username, email, password, password2 } = this.state;
+    const { username, email, first_name, last_name, password, password2 } =
+      this.state;
     const { toggleRegisterUserWindow } = this.props;
     if (password !== password2) {
       this.props.createMessage({ passwordNotMatch: "Passwords do not match" });
@@ -42,6 +45,8 @@ export class RegisterUser extends Component {
       const newUser = {
         username,
         email,
+        first_name,
+        last_name,
         password,
       };
       this.props.register(newUser);
@@ -60,21 +65,48 @@ export class RegisterUser extends Component {
     }
     */
 
-    const { username, email, password, password2 } = this.state;
+    const { username, email, first_name, last_name, password, password2 } =
+      this.state;
 
     return (
       <div>
         {/* onSubmit kjøres når en knapp med type="submit" trykkes inne i Form */}
         <Form onSubmit={this.onSubmit}>
+          {/* If user NOT logged in --> register, show username-field. ELSE we are on a profile page ie edit --> hide username-field */}
+          {!this.props.isAuthenticated ? (
+            <FormGroup>
+              <Label for="user-username">Username</Label>
+              <Input
+                type="text"
+                id="user-username"
+                name="username"
+                value={username}
+                onChange={this.onChange}
+                placeholder="Enter username"
+              />
+            </FormGroup>
+          ) : null}
+
           <FormGroup>
-            <Label for="user-username">Username</Label>
+            <Label for="user-first_name">First name</Label>
             <Input
               type="text"
-              id="user-username"
-              name="username"
-              value={username}
+              id="user-first_name"
+              name="first_name"
+              value={first_name}
               onChange={this.onChange}
-              placeholder="Enter username"
+              placeholder="Enter your first name"
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="user-last_name">Last name</Label>
+            <Input
+              type="text"
+              id="user-last_name"
+              name="last_name"
+              value={last_name}
+              onChange={this.onChange}
+              placeholder="Enter your last name"
             />
           </FormGroup>
           <FormGroup>
