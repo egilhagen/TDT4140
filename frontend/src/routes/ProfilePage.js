@@ -56,7 +56,7 @@ export class ProfilePage extends Component {
           <Outlet />
           {/* {user.username} */}
 
-          <h2>List of users </h2>
+          <h3>List of users </h3>
           {/* TODO: kanskje bake dette inn i ei dropdown-liste isteden for ListGroup? */}
           <ListGroup>
             {users.map((user) => (

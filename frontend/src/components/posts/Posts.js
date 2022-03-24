@@ -11,7 +11,7 @@ import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-// React router
+// React Router
 import { Link } from "react-router-dom";
 
 // Post reactstrap-cards
@@ -48,6 +48,7 @@ export class Posts extends Component {
         user: "",
         contactInfo: "",
       },
+
       activeTransaction: {
         post: "",
         user: "",
@@ -201,12 +202,12 @@ export class Posts extends Component {
     }
   };
 
-  /* Yalla måte å hente ut brukernavn fra id i post loop´en siden me kun har tilgang på id. brukes til å lage lenke til eiers profilside */
+  /*FUNKE, MEN GÅR AAALTFOR TREIGT, SPAMME GET-REQUESTS. Yalla måte å hente ut brukernavn fra id i post loop´en siden me kun har tilgang på id. brukes til å lage lenke til eiers profilside */
   /*   getUsernameFromID = (postOwnerId) => {
-    return axios
+    axios
       .get(`/api/users/${postOwnerId}`)
 
-      .then((res) => res.data.username)
+      .then((res) => this.setState({ activeUser: res.data.username }))
       .catch((err) => console.log(err));
   }; */
 
@@ -259,9 +260,11 @@ export class Posts extends Component {
                     {/* TODO: Burde egentlig ha eit felt for hidden og eit for deleted. For å vise DELETED isteden for SOLD/BOUGHT  */}
                     {/* IF hidden --> already sold/bought ELSE see comment below */}
                     {post.hidden ? (
-                      <div>
-                        <label>SOLD/BOUGHT</label>
-                      </div>
+                      post.saleOrBuy == "Sale" ? (
+                        <label>SOLD</label>
+                      ) : (
+                        <label>BOUGHT</label>
+                      )
                     ) : isAuthenticated ? (
                       <div>
                         {/* IF user isAuthenticated and postOwnerId == this.props.auth.user.id ---> show edit and delete buttons ELSE --> null  */}
@@ -347,7 +350,12 @@ export class Posts extends Component {
 
                 <CardSubtitle>
                   <br />
-                  <h5>Buying or selling: {post.saleOrBuy} </h5>
+                  {/*  <h5>Buying or selling: {post.saleOrBuy} </h5>  */}
+                  {post.saleOrBuy == "Sale" ? (
+                    <h5>Selling</h5>
+                  ) : (
+                    <h5>Buying</h5>
+                  )}
                 </CardSubtitle>
                 <CardSubtitle>
                   {post.category} ticket in {post.location}
@@ -363,13 +371,30 @@ export class Posts extends Component {
                 </CardText>
                 {/* IF hidden --> already sold. ELSE (IF isAuthenticated --> show contactInfo. ELSE --> log in to show Contactinfo.) */}
                 {post.hidden ? (
-                  <div>
-                    <label>
-                      Contact: This post has already been sold/bought.
-                    </label>
-                  </div>
+                  post.saleOrBuy == "Sale" ? (
+                    <label>Contact: This ticket has already been sold.</label>
+                  ) : (
+                    <label>Contact: This ticket has already been bought.</label>
+                  )
                 ) : isAuthenticated ? (
                   <div>
+                    <label>
+                      {/* TODO: legg inn lenke til eiers profilside her */}
+                      {/* Det blir for mange get requests, går treigt */}
+                      {/*  {this.getUsernameFromID(post.user)} */}
+                      {"Seller: "}
+                      <Link
+                        style={{ margin: "1rem 0" }}
+                        to={`/profiles/${post.user}`}
+                      >
+                        {/* {alert(JSON.stringify(post))} */}
+                        {/*  */}
+                        username here (link to profile)
+                      </Link>
+                    </label>
+
+                    <label>Rating: x/5 stars</label>
+
                     <label>
                       {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
                       {"Contact: "}
@@ -384,14 +409,6 @@ export class Posts extends Component {
                       >
                         {post.contactInfo}
                       </a>
-                      {/* TODO: legg inn lenke til eiers profilside her */}
-                      {/*  {alert(this.getUsernameFromID(post.user))} */}
-                      {/*     <Link
-                        style={{ display: "block", margin: "1rem 0" }}
-                        to={`/profiles/${this.getUsernameFromID(post.user)}`}
-                      >
-                        Profile
-                      </Link> */}
                     </label>
                     {this.isActiveUserPost(post.user) ? (
                       <button
@@ -480,11 +497,14 @@ export class Posts extends Component {
             justifyContent: "center",
           }}
         >
-          <img
-            src={process.env.PUBLIC_URL + "/Icons/Asset-1.svg"}
+          <h2>Tickets</h2>
+          {/*         <img
+            src={
+              process.env.PUBLIC_URL + "/Icons/Logo_GoldKing.svg"
+            } Asset-1.svg, Logo_GoldKing.svg, Logo_BlackKing.svg  
             style={{ height: 150 }}
             alt="TickingLogo"
-          />
+          /> */}
         </div>
         <div className="container">
           {/* md=medium, sm=small, no prefix= xtra small */}

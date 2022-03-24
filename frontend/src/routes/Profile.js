@@ -59,7 +59,13 @@ function Profile({ loggedInUser }) {
         <div>
           {loggedInUser.username == params.username ? (
             <div>
-              <h2>
+              <h2
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 My profile
                 {/*  Edit button  */}
                 <button
@@ -99,29 +105,47 @@ function Profile({ loggedInUser }) {
               ) : (
                 <div>
                   <h4>Avatar </h4>
-                  <h4>Name: {currUser.first_name} </h4>
-                  <h4>Last name: {currUser.last_name} </h4>
-                  <h4>Email: {currUser.email}</h4>
+                  {/* Name */}
+                  <h4>{currUser.first_name} </h4>
+                  {/* Last name */}
+                  <h4>{currUser.last_name} </h4>
+                  {/* Email */}
+                  <h4> {currUser.email}</h4>
                   <h4>Rating: {/* {currUser.rating}  */}</h4>
+                  <h4>Description: {/* {currUser.desctription}  */}</h4>
                   <br />
                 </div>
               )}
             </div>
           ) : (
             <div>
-              <h2>Profile: {params.username}</h2>
+              <h2
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                Profile page
+              </h2>
+              <h3>{params.username}</h3>
               <h4>Avatar </h4>
               <h4>Name: {currUser.first_name} </h4>
               <h4>Last name: {currUser.last_name}</h4>
               <h4>Email: {currUser.email}</h4>
               <h4>Rating: {/* {currUser.rating}  */}</h4>
+              <h4>Description: {/* {currUser.desctription}  */}</h4>
               <br />
             </div>
           )}
         </div>
       ) : (
         <div>
-          Loading...
+          <br />
+          <h5>Cannot find a user named {params.username}...</h5>
+          <br />
+
+          {/* Loading... */}
           {/* TODO: denne vises for alltid dersom du legger inn feil username i url´en */}
         </div>
       )}
