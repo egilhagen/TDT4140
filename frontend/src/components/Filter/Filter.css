@@ -1,9 +1,13 @@
 .box {
-  width: 200px;
+  color: rgb(226, 193, 122);
 }
 
 #one {
   position: fixed;
   top: 80px;
   left: 20px;
+}
+
+.buttons {
+  width: 200px;
 }

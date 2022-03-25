@@ -125,156 +125,179 @@ export default class Filter extends Component {
 
   render() {
     return (
-      <div>
-        <Posts
-          filteredPostList={this.state.filteredPostList}
-          refreshList={this.refreshList}
-        />
-        <div class="box" id="one">
-          <Form>
-            <FormGroup>
-              <Label for="search">Search</Label>
-              <Input
-                type="text"
-                id="search-term"
-                name="filterSearch"
-                value={this.state.activeFilter.filterSearch}
-                onChange={this.handleChange}
-                placeholder="Enter a keyword"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="Start date">From</Label>
-              <Input
-                type="date"
-                id="start-date"
-                name="filterStartDate"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="End date">To</Label>
-              <Input
-                type="date"
-                id="end-date"
-                name="filterEndDate"
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <select
-                id="location"
-                name="filterLocation"
-                onChange={this.handleChange}
-              >
-                <option value="default" hidden>
-                  Location
-                </option>
-                <option value="OS">Oslo</option>
-                <option value="BR">Bergen</option>
-                <option value="TR">Trondheim</option>
-                <option value="BO">Bodø</option>
-              </select>
-            </FormGroup>
-            <FormGroup>
-              <select
-                type="text"
-                id="category"
-                name="filterCategory"
-                onChange={this.handleChange}
-              >
-                <option value="default" hidden>
-                  Category
-                </option>
-                <option value="Consert">Consert</option>
-                <option value="Cinema">Cinema</option>
-                <option value="Theater">Theater</option>
-                <option value="Other">Other</option>
-              </select>
-            </FormGroup>
-            <FormGroup>
-              <select
-                type="text"
-                id="saleOrBuy"
-                name="filterSellorBuy"
-                onChange={this.handleChange}
-              >
-                <option value="default" hidden>
-                  Sell or buy
-                </option>
-                <option value="Sale">Sell</option>
-                <option value="Buy">Buy</option>
-              </select>
-            </FormGroup>
-            <FormGroup>
-              <select
-                id="sort-by"
-                name="sortByString"
-                onChange={this.handleChange}
-              >
-                <option value="default" hidden>
-                  Sort by:
-                </option>
-                <option value="PriceLowToHigh">Prices: low to high</option>
-                <option value="PriceHighToLow">Prices: high to low</option>
-                <option value="DateEarlyToLate">
-                  Date: earliest to latest
-                </option>
-                <option value="DateLateToEarly">
-                  Date: latest to earliest
-                </option>
-              </select>
-            </FormGroup>
-            <FormGroup>
-              <Label for="hidden">
+      <div className="container">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={process.env.PUBLIC_URL + "/Icons/Asset-1.svg"}
+            style={{ height: 150 }}
+            alt="TickingLogo"
+          />
+        </div>
+        <div className="row row-cols-md-2">
+          <div className="col-md-2">
+            <Form>
+              <h2>Filtration</h2>
+              <FormGroup>
+                <Label for="search">Search</Label>
                 <Input
-                  type="checkbox"
-                  id="showSold"
-                  name="filterSold"
-                  value="true"
+                  type="text"
+                  id="search-term"
+                  name="filterSearch"
+                  value={this.state.activeFilter.filterSearch}
+                  onChange={this.handleChange}
+                  placeholder="Enter a keyword"
+                />
+              </FormGroup>
+              <FormGroup>
+                <Label for="Start date">From</Label>
+                <Input
+                  type="date"
+                  id="start-date"
+                  name="filterStartDate"
                   onChange={this.handleChange}
                 />
-                Show inactive posts
-              </Label>
-            </FormGroup>
-          </Form>
-          {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
-          <ModalFooter>
-            <div class="buttonBox">
-              <Button
-                color="success"
-                onClick={() => this.updateFilteredPostList()}
-                // TODO: bruker bør bli logget inn etter Save.
-              >
-                Apply
-              </Button>
-              <Button
-                color="success"
-                onClick={() => {
-                  const activeFilter = {
-                    ...this.state.activeFilter,
-                    filterCategory: "",
-                    filterLocation: "",
-                    filterStartDate: "",
-                    filterEndDate: "",
-                    filterSellorBuy: "",
-                    filterSearch: "",
-                    filterSold: false,
-                  };
-                  this.setState({ activeFilter });
-                  document.getElementById("start-date").value = "default";
-                  document.getElementById("end-date").value = "default";
-                  document.getElementById("location").value = "default";
-                  document.getElementById("category").value = "default";
-                  document.getElementById("saleOrBuy").value = "default";
-                  document.getElementById("showSold").value = "deafult";
-                  this.refreshList();
-                }}
-              >
-                Reset filters
-              </Button>
-            </div>
-          </ModalFooter>
+              </FormGroup>
+              <FormGroup>
+                <Label for="End date">To</Label>
+                <Input
+                  type="date"
+                  id="end-date"
+                  name="filterEndDate"
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+              <FormGroup>
+                <select
+                  id="location"
+                  name="filterLocation"
+                  onChange={this.handleChange}
+                >
+                  <option value="default" hidden>
+                    Location
+                  </option>
+                  <option value="OS">Oslo</option>
+                  <option value="BR">Bergen</option>
+                  <option value="TR">Trondheim</option>
+                  <option value="BO">Bodø</option>
+                </select>
+              </FormGroup>
+              <FormGroup>
+                <select
+                  type="text"
+                  id="category"
+                  name="filterCategory"
+                  onChange={this.handleChange}
+                >
+                  <option value="default" hidden>
+                    Category
+                  </option>
+                  <option value="Consert">Consert</option>
+                  <option value="Cinema">Cinema</option>
+                  <option value="Theater">Theater</option>
+                  <option value="Other">Other</option>
+                </select>
+              </FormGroup>
+              <FormGroup>
+                <select
+                  type="text"
+                  id="saleOrBuy"
+                  name="filterSellorBuy"
+                  onChange={this.handleChange}
+                >
+                  <option value="default" hidden>
+                    Sell or buy
+                  </option>
+                  <option value="Sale">Sell</option>
+                  <option value="Buy">Buy</option>
+                </select>
+              </FormGroup>
+              <FormGroup>
+                <select
+                  id="sort-by"
+                  name="sortByString"
+                  onChange={this.handleChange}
+                >
+                  <option value="default" hidden>
+                    Sort by:
+                  </option>
+                  <option value="PriceLowToHigh">Prices: low to high</option>
+                  <option value="PriceHighToLow">Prices: high to low</option>
+                  <option value="DateEarlyToLate">
+                    Date: earliest to latest
+                  </option>
+                  <option value="DateLateToEarly">
+                    Date: latest to earliest
+                  </option>
+                </select>
+              </FormGroup>
+              <FormGroup>
+                <Label for="hidden">
+                  <Input
+                    type="checkbox"
+                    id="showSold"
+                    name="filterSold"
+                    value="true"
+                    onChange={this.handleChange}
+                  />
+                  Show inactive posts
+                </Label>
+              </FormGroup>
+            </Form>
+            {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
+            <ModalFooter>
+              <div className="d-grid gap-2">
+                <Button
+                  color="success"
+                  onClick={() => this.updateFilteredPostList()}
+                  // TODO: bruker bør bli logget inn etter Save.
+                  size="sm"
+                  block
+                >
+                  Apply
+                </Button>
+                {"  "}
+                <Button
+                  color="success"
+                  onClick={() => {
+                    const activeFilter = {
+                      ...this.state.activeFilter,
+                      filterCategory: "",
+                      filterLocation: "",
+                      filterStartDate: "",
+                      filterEndDate: "",
+                      filterSellorBuy: "",
+                      filterSearch: "",
+                      filterSold: false,
+                    };
+                    this.setState({ activeFilter });
+                    document.getElementById("start-date").value = "default";
+                    document.getElementById("end-date").value = "default";
+                    document.getElementById("location").value = "default";
+                    document.getElementById("category").value = "default";
+                    document.getElementById("saleOrBuy").value = "default";
+                    document.getElementById("showSold").value = "";
+                    this.refreshList();
+                  }}
+                  size="sm"
+                  block
+                >
+                  Reset filters
+                </Button>
+              </div>
+            </ModalFooter>
+          </div>
+          <div className="col-md-10">
+            <Posts
+              filteredPostList={this.state.filteredPostList}
+              refreshList={this.refreshList}
+            />
+          </div>
         </div>
       </div>
     );
