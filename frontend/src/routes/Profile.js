@@ -1,3 +1,5 @@
+import Modal from "../components/layout/Modal";
+
 // Ruter URL parameters (:username)
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -6,6 +8,9 @@ import { connect } from "react-redux";
 import axios from "axios";
 import RegisterUser from "../components/auth/RegisterUser";
 // import { useEffect } from "react";
+
+//Reactstrap
+import { Card, CardTitle, CardText, CardImg, CardBody } from "reactstrap";
 
 /* Functional component because Router useParams hook only works in func.comp. Class.comp is possible, but more work ? */
 function Profile({ loggedInUser }) {
@@ -97,25 +102,91 @@ function Profile({ loggedInUser }) {
                 </button>
               </h2>
 
-              <h3>{loggedInUser.username}</h3>
-
-              {/* if edit --> show edit form. ELSE --> show list of user info */}
+              {/* if edit --> show edit form in modal. ELSE --> null*/}
               {edit ? (
-                <RegisterUser toggleRegisterUserWindow={toggleEdit} />
-              ) : (
-                <div>
-                  <h4>Avatar </h4>
-                  {/* Name */}
-                  <h4>{currUser.first_name} </h4>
-                  {/* Last name */}
-                  <h4>{currUser.last_name} </h4>
-                  {/* Email */}
-                  <h4> {currUser.email}</h4>
-                  <h4>Rating: {/* {currUser.rating}  */}</h4>
-                  <h4>Description: {/* {currUser.desctription}  */}</h4>
-                  <br />
-                </div>
-              )}
+                /*  <RegisterUser toggleRegisterUserWindow={toggleEdit} /> */
+                <Modal
+                  toggle={toggleEdit}
+                  modalTitle={<h3>Edit your profile</h3>}
+                  modalContent={
+                    <RegisterUser toggleRegisterUserWindow={toggleEdit} />
+                  }
+                />
+              ) : null}
+
+              {/* TODO: Format the profile page nicely */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Card body inverse color="primary">
+                  {/*  <CardTitle
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <h3>{loggedInUser.username}</h3>
+                    <h4>Rating: {currUser.rating}/5 </h4>
+                  </CardTitle> */}
+
+                  {/* <h4>TODO: Avatar (Temp test-bilde under) </h4> */}
+
+                  <CardText>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <img
+                        width="150px"
+                        height="150px"
+                        src={process.env.PUBLIC_URL + "/Icons/kino.jpg"}
+                        alt="Profile image"
+                        style={{
+                          borderRadius: "50%",
+                        }}
+                      />
+                      <div
+                        style={{
+                          alignSelf: "flex-end",
+                        }}
+                      >
+                        <h3>{loggedInUser.username}</h3>
+
+                        {/* Name */}
+                        <h4>
+                          {currUser.first_name} {currUser.last_name}
+                        </h4>
+                        {/* Last name */}
+                        {/*  <h4>{currUser.last_name} </h4> */}
+
+                        {/* Email */}
+                        <h5> {currUser.email}</h5>
+                        <h5>Rating: x/5{/* {currUser.rating}  */}</h5>
+                      </div>
+                    </div>
+                  </CardText>
+
+                  <CardText>
+                    <div>
+                      <h5> Description </h5>
+                      <p>
+                        {/* {currUser.desctription}  */}
+                        Temp-testtext: hello hello fuglekassa osv. osv. OBS:
+                        Bildet er temp, må fortsatt få til å legge til eit
+                        bildefelt i backend...
+                      </p>
+                    </div>
+                  </CardText>
+                </Card>
+
+                <br />
+              </div>
             </div>
           ) : (
             <div>
