@@ -106,12 +106,12 @@ export class Posts extends Component {
         className="list-group-item d-flex justify-content-between align-items-center"
       >
         <span
-          class="two"
-          /* onClick={() => alert("hallo")}
+
+        /* onClick={() => alert("hallo")}
           className={`todo-title mr-2 ${
             this.state.viewCompleted ? "completed-todo" : ""
           }`} */
-          //title={post.title}
+        //title={post.title}
         >
           <Card>
             <CardBody
