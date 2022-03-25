@@ -35,6 +35,7 @@ export default class Filter extends Component {
         filterSellorBuy: "",
         filterSearch: "",
         sortByString: "",
+        filterSold: false,
       },
       filteredPostList: [],
       rawPostList: [],
@@ -83,7 +84,8 @@ export default class Filter extends Component {
         post.title
           .toUpperCase()
           .includes(this.state.activeFilter.filterSearch.toUpperCase()) ||
-        this.state.activeFilter.filterSearch == "")
+        this.state.activeFilter.filterSearch == "") &&
+      this.state.activeFilter.filterSold == post.hidden
     );
   }
 
@@ -141,7 +143,6 @@ export default class Filter extends Component {
                 placeholder="Enter a keyword"
               />
             </FormGroup>
-            <Label id="error"></Label>
             <FormGroup>
               <Label for="Start date">From</Label>
               <Input
@@ -224,39 +225,55 @@ export default class Filter extends Component {
                 </option>
               </select>
             </FormGroup>
+            <FormGroup>
+              <Label for="hidden">
+                <Input
+                  type="checkbox"
+                  id="showSold"
+                  name="filterSold"
+                  value="true"
+                  onChange={this.handleChange}
+                />
+                Show inactive posts
+              </Label>
+            </FormGroup>
           </Form>
           {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
           <ModalFooter>
-            <Button
-              color="success"
-              onClick={() => this.updateFilteredPostList()}
-              // TODO: bruker bør bli logget inn etter Save.
-            >
-              Apply
-            </Button>
-            <Button
-              color="success"
-              onClick={() => {
-                const activeFilter = {
-                  ...this.state.activeFilter,
-                  filterCategory: "",
-                  filterLocation: "",
-                  filterStartDate: "",
-                  filterEndDate: "",
-                  filterSellorBuy: "",
-                  filterSearch: "",
-                };
-                this.setState({ activeFilter });
-                document.getElementById("start-date").value = "default";
-                document.getElementById("end-date").value = "default";
-                document.getElementById("location").value = "default";
-                document.getElementById("category").value = "default";
-                document.getElementById("saleOrBuy").value = "default";
-                this.refreshList();
-              }}
-            >
-              Reset filters
-            </Button>
+            <div class="buttonBox">
+              <Button
+                color="success"
+                onClick={() => this.updateFilteredPostList()}
+                // TODO: bruker bør bli logget inn etter Save.
+              >
+                Apply
+              </Button>
+              <Button
+                color="success"
+                onClick={() => {
+                  const activeFilter = {
+                    ...this.state.activeFilter,
+                    filterCategory: "",
+                    filterLocation: "",
+                    filterStartDate: "",
+                    filterEndDate: "",
+                    filterSellorBuy: "",
+                    filterSearch: "",
+                    filterSold: false,
+                  };
+                  this.setState({ activeFilter });
+                  document.getElementById("start-date").value = "default";
+                  document.getElementById("end-date").value = "default";
+                  document.getElementById("location").value = "default";
+                  document.getElementById("category").value = "default";
+                  document.getElementById("saleOrBuy").value = "default";
+                  document.getElementById("showSold").value = "deafult";
+                  this.refreshList();
+                }}
+              >
+                Reset filters
+              </Button>
+            </div>
           </ModalFooter>
         </div>
       </div>
