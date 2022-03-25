@@ -79,13 +79,6 @@ function Profile({ loggedInUser }) {
                   title="Click here to edit your user"
                   onClick={() => {
                     toggleEdit();
-                    /* setEdit(!edit); */
-
-                    /* alert("Få dette til å funke:)"); */
-
-                    /* this.props.toggleCreatePostWindow();
-              this.editPost(post);
-                this.setModalTitle("Edit post");  */
                   }}
                 >
                   {/* Edit-icon */}
@@ -113,80 +106,6 @@ function Profile({ loggedInUser }) {
                   }
                 />
               ) : null}
-
-              {/* TODO: Format the profile page nicely */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <Card body inverse color="primary">
-                  {/*  <CardTitle
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                    }}
-                  >
-                    <h3>{loggedInUser.username}</h3>
-                    <h4>Rating: {currUser.rating}/5 </h4>
-                  </CardTitle> */}
-
-                  {/* <h4>TODO: Avatar (Temp test-bilde under) </h4> */}
-
-                  <CardText>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <img
-                        width="150px"
-                        height="150px"
-                        src={process.env.PUBLIC_URL + "/Icons/kino.jpg"}
-                        alt="Profile image"
-                        style={{
-                          borderRadius: "50%",
-                        }}
-                      />
-                      <div
-                        style={{
-                          alignSelf: "flex-end",
-                        }}
-                      >
-                        <h3>{loggedInUser.username}</h3>
-
-                        {/* Name */}
-                        <h4>
-                          {currUser.first_name} {currUser.last_name}
-                        </h4>
-                        {/* Last name */}
-                        {/*  <h4>{currUser.last_name} </h4> */}
-
-                        {/* Email */}
-                        <h5> {currUser.email}</h5>
-                        <h5>Rating: x/5{/* {currUser.rating}  */}</h5>
-                      </div>
-                    </div>
-                  </CardText>
-
-                  <CardText>
-                    <div>
-                      <h5> Description </h5>
-                      <p>
-                        {/* {currUser.desctription}  */}
-                        Temp-testtext: hello hello fuglekassa osv. osv. OBS:
-                        Bildet er temp, må fortsatt få til å legge til eit
-                        bildefelt i backend...
-                      </p>
-                    </div>
-                  </CardText>
-                </Card>
-
-                <br />
-              </div>
             </div>
           ) : (
             <div>
@@ -199,16 +118,98 @@ function Profile({ loggedInUser }) {
               >
                 Profile page
               </h2>
-              <h3>{params.username}</h3>
+              {/*  <h3>{params.username}</h3>
               <h4>Avatar </h4>
               <h4>Name: {currUser.first_name} </h4>
               <h4>Last name: {currUser.last_name}</h4>
               <h4>Email: {currUser.email}</h4>
-              <h4>Rating: {/* {currUser.rating}  */}</h4>
-              <h4>Description: {/* {currUser.desctription}  */}</h4>
-              <br />
+              <h4>Rating: { {currUser.rating}  }</h4>
+              <h4>Description: { {currUser.desctription}  }</h4>
+              <br /> */}
             </div>
           )}
+
+          {/* TODO: Format the profile page nicely */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Card
+              body
+              inverse
+              color="primary"
+              style={{
+                width:
+                  "50%" /* TODO: denne gjer at ting blir fucka på mindre skjermer */,
+              }}
+            >
+              <CardBody>
+                {/*  <CardTitle
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                    }}
+                  >
+                    <h3>{loggedInUser.username}</h3>
+                    <h4>Rating: {currUser.rating}/5 </h4>
+                  </CardTitle> */}
+
+                {/* <h4>TODO: Avatar (Temp test-bilde under) </h4> */}
+
+                <CardText>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around" /* space-between */,
+                    }}
+                  >
+                    <img
+                      width="150px"
+                      height="150px"
+                      src={process.env.PUBLIC_URL + "/Icons/kino.jpg"}
+                      alt="Profile image"
+                      style={{
+                        borderRadius: "50%",
+                      }}
+                    />
+                    <div
+                      style={{
+                        alignSelf: "flex-end",
+                      }}
+                    >
+                      <h3>{currUser.username}</h3>
+
+                      {/* Name */}
+                      <h4>
+                        {currUser.first_name} {currUser.last_name}
+                      </h4>
+                      {/* Last name */}
+                      {/*  <h4>{currUser.last_name} </h4> */}
+
+                      {/* Email */}
+                      <h5> {currUser.email}</h5>
+                      <h5>Rating: x/5{/* {currUser.rating}  */}</h5>
+                    </div>
+                  </div>
+                </CardText>
+
+                <CardText>
+                  <div style={{}}>
+                    {/* <h5> Description </h5> */}
+                    <p>
+                      {/* {currUser.desctription}  */}
+                      Temp-testtext: hello hello fuglekassa osv. osv. OBS:
+                      Bildet er temp, må fortsatt få til å legge til eit
+                      bildefelt i backend...
+                    </p>
+                  </div>
+                </CardText>
+              </CardBody>
+            </Card>
+          </div>
         </div>
       ) : (
         <div>
