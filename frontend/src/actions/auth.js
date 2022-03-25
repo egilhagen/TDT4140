@@ -87,7 +87,7 @@ export const register =
     /* TODO: add types USER_EDIT_SUCCESS and USER_EDIT_FAIL */
     if (id) {
       axios
-        .put("/api/auth/register", body, config)
+        .put(`/api/auth/register/${id}/`, body, config)
         .then((res) => {
           dispatch({
             type: REGISTER_SUCCESS,
