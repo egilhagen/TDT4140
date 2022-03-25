@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 229.73 74.39"><defs><style>.cls-1{fill:#ffe67d;}.cls-2{fill:none;}.cls-2,.cls-6{stroke:#231f20;stroke-miterlimit:10;stroke-width:2px;}.cls-3{font-size:64.42px;fill:#231f20;font-family:MyriadPro-Regular, Myriad Pro;}.cls-4{letter-spacing:-0.01em;}.cls-5{letter-spacing:0.01em;}.cls-6{fill:#fbb040;}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M99.25,8.64c-7,7-18,6-27,6-22-9-47-15-70-6,1,10,0,21-1,31,0,8-1,16,1,24,15-11,33-4,49,1,16,6,33,6,49-1-4-16,2-32,0-48,0-2-1-5-1-7Z"/><path class="cls-2" d="M99.25,8.64c-7,7-18,6-27,6-22-9-47-15-70-6,1,10,0,21-1,31,0,8-1,16,1,24,15-11,33-4,49,1,16,6,33,6,49-1-4-16,2-32,0-48,0-2-1-5-1-7Z"/><text class="cls-3" transform="translate(23.64 58.29)"><tspan class="cls-4">T</tspan><tspan x="31.24" y="0">ic</tspan><tspan class="cls-5" x="75.17" y="0">K</tspan><tspan x="110.73" y="0">ing</tspan></text><path class="cls-6" d="M204.74,29.77a86.06,86.06,0,0,1,14.19,4.42l8.9-23.48-14.41,8L210,5.76l-8.52,10.33-10-13.31L190,27.9A84.33,84.33,0,0,1,204.74,29.77Z"/></g></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 229.73 74.39">
+<defs>
+    <style>.cls-1{fill:#ffe67d;}.cls-2{fill:none;}.cls-2,.cls-6{stroke:#231f20;stroke-miterlimit:10;stroke-width:2px;}.cls-3{font-size:64.42px;fill:#231f20;font-family:MyriadPro-Regular, Myriad Pro;}.cls-4{letter-spacing:-0.01em;}.cls-5{letter-spacing:0.01em;}.cls-6{fill:#fbb040;}
+    
+    </style>
+</defs>
+
+<g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1">
+<path class="cls-1" d="M99.25,8.64c-7,7-18,6-27,6-22-9-47-15-70-6,1,10,0,21-1,31,0,8-1,16,1,24,15-11,33-4,49,1,16,6,33,6,49-1-4-16,2-32,0-48,0-2-1-5-1-7Z"/>
+<path class="cls-2" d="M99.25,8.64c-7,7-18,6-27,6-22-9-47-15-70-6,1,10,0,21-1,31,0,8-1,16,1,24,15-11,33-4,49,1,16,6,33,6,49-1-4-16,2-32,0-48,0-2-1-5-1-7Z"/>
+<text class="cls-3" transform="translate(23.64 58.29)"><tspan class="cls-4">T</tspan><tspan x="31.24" y="0">ic</tspan><tspan class="cls-5" x="75.17" y="0">K</tspan><tspan x="110.73" y="0">ing</tspan></text>
+<path class="cls-6" d="M204.74,29.77a86.06,86.06,0,0,1,14.19,4.42l8.9-23.48-14.41,8L210,5.76l-8.52,10.33-10-13.31L190,27.9A84.33,84.33,0,0,1,204.74,29.77Z"/></g></g>
+
+</svg>
