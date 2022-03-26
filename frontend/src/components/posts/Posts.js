@@ -421,19 +421,6 @@ export class Posts extends Component {
                         Sell
                       </button>
                     ) : null}
-                    {this.state.modalCreateTransaction ? (
-                      <Modal
-                        toggle={this.toggleCreateTransactionWindow}
-                        modalTitle={<h3>Review Transaction</h3>}
-                        modalContent={
-                          <CreateTransactionWindow
-                            activeTransaction={this.state.activeTransaction}
-                            // activePost={post}
-                            onSave={this.handleSubmitTransaction}
-                          />
-                        }
-                      />
-                    ) : null}
                   </div>
                 ) : (
                   <div>
@@ -490,6 +477,22 @@ export class Posts extends Component {
         <div style={{ marginLeft: "80%", marginTop: "2%" }}>
           {isAuthenticated ? createPostButton : guestMessage}
         </div>
+
+        {/* Create Transaction */}
+        {this.state.modalCreateTransaction ? (
+          <Modal
+            toggle={this.toggleCreateTransactionWindow}
+            modalTitle={<h3>Review Transaction</h3>}
+            modalContent={
+              <CreateTransactionWindow
+                activeTransaction={this.state.activeTransaction}
+                // activePost={post}
+                onSave={this.handleSubmitTransaction}
+              />
+            }
+          />
+        ) : null}
+
         <div
           style={{
             display: "flex",
