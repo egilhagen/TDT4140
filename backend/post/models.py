@@ -35,12 +35,21 @@ class Transaction(models.Model):
         related_name="transaction",
         verbose_name=("Post"),
     )
-    user = models.ForeignKey(
+    seller = models.ForeignKey(
         to=User,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='transaction',
+        related_name='seller',
+        verbose_name=("Seller"),
+    )
+
+    buyer = models.ForeignKey(
+        to=User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='buyer',
         verbose_name=("Buyer"),
     )
     # ratingFromSeller = models.CharField(max_length=1, null=True)

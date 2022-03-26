@@ -50,7 +50,8 @@ export class Posts extends Component {
       },
       activeTransaction: {
         post: "",
-        user: "",
+        seller: "",
+        buyer: "",
         ratingFromSeller: "",
         ratingFromBuyer: "",
       },
@@ -137,7 +138,8 @@ export class Posts extends Component {
   createTransaction = (post) => {
     const transaction = {
       post: post.id,
-      user: this.props.auth.user.id,
+      seller: this.props.auth.user.id,
+      buyer: this.props.auth.user.id,
       ratingFromSeller: null,
       ratingFromBuyer: null,
     };

@@ -12,7 +12,10 @@ function Profile({ loggedInUser }) {
   TODO: finn ut av kordan ein kan koble til redux-state her, evt sjå om ein kan bruke useParams() med ein klassebasert komponent */
 
   let params = useParams();
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
+  let currUser = users.find((user) => user.username == params.username);
+  // alert(users);
+  // // const user = users.filter((userItem) => userItem.username == params.username);
   // const getMatchingUser = function (userList) {
   //   return userList;
   // };
@@ -32,18 +35,39 @@ function Profile({ loggedInUser }) {
   // });
 
   useEffect(() => {
-    axios.get("/api/users").then((users) => {
-      setUsers(users);
-    });
+    axios.get("/api/users").then((users) => setUsers(users.data));
   }, []);
 
   return (
     <div>
       {/* {alert({ users })}; user.filter(users => userItem.id !=
       this.props.auth.user.id).map()}
+
       {/* user.find((user) => {
           return user.username == params.username;
         }) */}
+      {/* {users} */}
+
+      <div>
+        {users.map((item) => (
+          <div>{item.username}</div>
+        ))}
+      </div>
+      {/* <div>
+        {users
+          .filter((users) => users.username == params.username)
+          .map((filteredUser) => (
+            <div>{filteredUser.username}</div>
+          ))}
+      </div> */}
+
+      {/*    {people
+        .filter((person) => person.age < 60)
+        .map((filteredPerson) => (
+          <li>{filteredPerson.name}</li>
+        ))} */}
+
+      {/*   {alert(user)} */}
       {loggedInUser.username == params.username ? (
         <div>
           <h2>
@@ -80,9 +104,9 @@ function Profile({ loggedInUser }) {
         <h2>Profile: {params.username}</h2>
       )}
       <h4>Avatar </h4>
-      <h4>Name: </h4>
+      <h4>Name: currUser </h4>
       <h4>Last name: </h4>
-      <h4>Email: </h4>
+      <h4>Email:currUser</h4>
       <h4>Rating: </h4>
       <br />
     </div>

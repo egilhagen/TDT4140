@@ -5,7 +5,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'price', 'date', 'location', 'description', 'hidden', 'category', 'user', 'saleOrBuy', 'contactInfo')
 
 class TransactionAdmin(admin.ModelAdmin):
-    list_display = ('post', 'user', 'ratingFromSeller', 'ratingFromBuyer')
+    list_display = ('post', 'buyer', 'seller', 'ratingFromSeller', 'ratingFromBuyer')
 # Register your models here.
 
 

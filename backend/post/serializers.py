@@ -11,5 +11,5 @@ class PostSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = ('id', 'post', 'user', 'ratingFromSeller', 'ratingFromBuyer')
+        fields = ('id', 'post', 'seller', 'buyer', 'ratingFromSeller', 'ratingFromBuyer')
         
