@@ -47,6 +47,7 @@ export class Posts extends Component {
         hidden: true,
         user: "",
         contactInfo: "",
+        postOwnerUsername: "",
       },
 
       activeTransaction: {
@@ -129,6 +130,7 @@ export class Posts extends Component {
       description: "",
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
+      postOwnerUsername: this.props.auth.user.username,
     };
 
     this.setState({
@@ -378,38 +380,45 @@ export class Posts extends Component {
                   )
                 ) : isAuthenticated ? (
                   <div>
-                    <label>
-                      {/* TODO: legg inn lenke til eiers profilside her */}
-                      {/* Det blir for mange get requests, går treigt */}
-                      {/*  {this.getUsernameFromID(post.user)} */}
-                      {"Seller: "}
-                      <Link
-                        style={{ margin: "1rem 0" }}
-                        to={`/profiles/${post.user}`}
-                      >
-                        {/* {alert(JSON.stringify(post))} */}
-                        {/*  */}
-                        username here (link to profile)
-                      </Link>
-                    </label>
+                    <div
+                      id="profile-and-rating-wrapper"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div>
+                        {/* TODO: legg inn lenke til eiers profilside her */}
+                        {/* Det blir for mange get requests, går treigt */}
+                        {/*  {this.getUsernameFromID(post.user)} */}
 
-                    <label>Rating: x/5 stars</label>
+                        {post.saleOrBuy == "Sale" ? "Seller: " : "Buyer: "}
 
-                    <label>
-                      {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
-                      {"Contact: "}
-                      {/* Kan sette subject og body på emailen: ?subject=TicKing ticket: &body=Hello!" */}
-                      <a
-                        href={
-                          "mailto:" +
-                          post.contactInfo +
-                          "?subject=TicKing ticket: " +
-                          post.title
-                        }
-                      >
-                        {post.contactInfo}
-                      </a>
-                    </label>
+                        <Link
+                          style={{ margin: "1rem 0" }}
+                          to={`/profiles/${post.postOwnerUsername}`}
+                        >
+                          {post.postOwnerUsername}
+                        </Link>
+                      </div>
+
+                      <div>Rating: x/5 stars</div>
+                    </div>
+
+                    {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
+                    {"Contact: "}
+                    {/* Kan sette subject og body på emailen: ?subject=TicKing ticket: &body=Hello!" */}
+                    <a
+                      href={
+                        "mailto:" +
+                        post.contactInfo +
+                        "?subject=TicKing ticket: " +
+                        post.title
+                      }
+                    >
+                      {post.contactInfo}
+                    </a>
+
                     {this.isActiveUserPost(post.user) ? (
                       <button
                         onClick={() => {

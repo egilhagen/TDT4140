@@ -44,6 +44,7 @@ function Profile({ loggedInUser }) {
     axios.get("/api/users").then((users) => {
       setUsers(Object.values(users.data)); /* Object.values(users.data) */
     });
+    window.scrollTo(0, 0);
   }, []);
 
   const toggleEdit = () => {
@@ -190,7 +191,19 @@ function Profile({ loggedInUser }) {
                       {/*  <h4>{currUser.last_name} </h4> */}
 
                       {/* Email */}
-                      <h5> {currUser.email}</h5>
+                      <h5>
+                        {/* {currUser.email} */}
+                        <a
+                          style={{ color: "white" }}
+                          href={
+                            "mailto:" +
+                            currUser.email +
+                            "?subject=TicKing: Your profile"
+                          }
+                        >
+                          {currUser.email}
+                        </a>
+                      </h5>
                       <h5>Rating: x/5{/* {currUser.rating}  */}</h5>
                     </div>
                   </div>
