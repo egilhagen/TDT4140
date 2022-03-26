@@ -82,10 +82,23 @@ export class Posts extends Component {
   //     .catch((err) => console.log(err));
   // };
 
+  scrollToBottom = () => {
+    this.el.scrollIntoView({ behavior: "smooth" });
+  };
+
   handleSubmitPost = (post) => {
     /* Close window on save */
     this.setState({ modalCreatePost: false });
     /* this.toggleCreatePostWindow(); */
+    /*  alert(JSON.stringify(post)); */
+    /*   window.scrollTo(0, window.scrollMaxY); */
+    /* 
+    window.scrollTo(0, document.querySelector(".post-div").scrollHeight);
+    alert(document.querySelector("post-div").scrollHeight); */
+    /*  const my_element = document.getElementById("bottom-div");
+    my_element.scrollIntoView(); */
+
+    this.scrollToBottom();
 
     //IF post exists --> update existing post (PUT-request)
     if (post.id) {
@@ -94,7 +107,7 @@ export class Posts extends Component {
         .then((res) => this.refreshList());
       return;
     }
-    // ELSE create new post (POST-request)
+    // ELSE create new post --> POST-request
     axios.post("/api/posts/", post).then((res) => this.refreshList());
   };
 
@@ -163,6 +176,7 @@ export class Posts extends Component {
       user: this.props.auth.user
         .id /* TODO: kan dette bli et problem? kan sjå på da som ein feature, e-post og id blir oppdatert dersom de har blitt endret ;) */,
       contactInfo: this.props.auth.user.email,
+      postOwnerUsername: this.props.auth.user.username,
     };
 
     this.setState({
@@ -184,6 +198,7 @@ export class Posts extends Component {
       hidden: true,
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
+      postOwnerUsername: this.props.auth.user.username,
     };
     this.setState({
       activePost: post,
@@ -398,7 +413,10 @@ export class Posts extends Component {
                           style={{ margin: "1rem 0" }}
                           to={`/profiles/${post.postOwnerUsername}`}
                         >
-                          {post.postOwnerUsername}
+                          {post.postOwnerUsername ==
+                          this.props.auth.user.username
+                            ? post.postOwnerUsername + "(Me)"
+                            : post.postOwnerUsername}
                         </Link>
                       </div>
 
@@ -466,7 +484,7 @@ export class Posts extends Component {
     const guestMessage = <h4>Log in to create a new post</h4>;
 
     return (
-      <div>
+      <div id="post-div">
         {/* Vis/skjul createPostWindow */}
         {this.state.modalCreatePost ? (
           <Modal
@@ -523,6 +541,11 @@ export class Posts extends Component {
           <div className="row row-cols-md-3 row-cols-1">
             {this.renderItems()}
           </div>
+          <div
+            ref={(el) => {
+              this.el = el;
+            }}
+          ></div>
         </div>
       </div>
     );
