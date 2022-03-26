@@ -256,7 +256,12 @@ export class Posts extends Component {
                 /* Change card background colour based on if post is hidden or not */
                 style={
                   post.hidden
-                    ? { backgroundColor: "#fc4103", borderColor: "#333" }
+                    ? {
+                        backgroundColor:
+                          "#D6DBDF" /* Old red colour: "#fc4103" */,
+                        borderColor: "#333",
+                        opacity: "0.5",
+                      }
                     : { backgroundColor: "#D6DBDF", borderColor: "#333" }
                 }
 

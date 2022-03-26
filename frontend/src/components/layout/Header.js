@@ -58,7 +58,17 @@ export class Header extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+      <nav
+        className="navbar navbar-expand-sm navbar-light bg-light"
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: "99",
+          /*  z-index: "99", */
+        }}
+      >
+        {/*  position: sticky;
+    top: 0; */}
         <div className="container">
           {/* TODO: kan vere nyttig når me får profilside, dropdownmeny */}
           {/*           <button
