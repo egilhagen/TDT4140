@@ -66,7 +66,7 @@ export const login = (username, password) => (dispatch) => {
 // REGISTER USER
 export const register =
   ({ id, username, password, email, first_name, last_name }) =>
-  (dispatch) => {
+  (dispatch, getState) => {
     // Headers
     const config = {
       headers: {
@@ -87,7 +87,7 @@ export const register =
     /* TODO: add types USER_EDIT_SUCCESS and USER_EDIT_FAIL */
     if (id) {
       axios
-        .put(`/api/users/${id}/`, body, config)
+        .put(`/api/auth/user`, body, tokenConfig(getState))
         .then((res) => {
           dispatch({
             type: REGISTER_SUCCESS,
@@ -95,7 +95,7 @@ export const register =
           });
         })
         .catch((err) => {
-          //console.log(err);
+          // console.log(err);
           dispatch(returnErrors(err.response.data, err.response.status));
           dispatch({
             type: REGISTER_FAIL,
