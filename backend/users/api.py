@@ -56,7 +56,6 @@ class UserAPI(generics.RetrieveAPIView):
         serializers.is_valid(raise_exception=True)
         
         user = serializers.save()
-        print(user)
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             #Gjør at man kan logge inn umiddelbart ved registrering. Vet hvem man er utifra token. Kommer i header.
