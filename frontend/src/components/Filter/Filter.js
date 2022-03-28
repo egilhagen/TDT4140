@@ -61,11 +61,13 @@ export default class Filter extends Component {
     }
   }
 
+  compareBoolean(a, b) {
+    if (a == "true" && b == true) return true;
+    else return false;
+  }
+
   /**Metoden som etterhvert har kriteriene for filtreringa */
   matchesCriteria(post) {
-    //if()
-    //alert(this.state.activeFilter.filterCategory);
-
     /* Med den gamle koden, vil du aldri få opp noen annoser, fordi det vil aldri matche */
     return (
       (post.date > this.state.activeFilter.filterStartDate ||
@@ -85,7 +87,8 @@ export default class Filter extends Component {
           .toUpperCase()
           .includes(this.state.activeFilter.filterSearch.toUpperCase()) ||
         this.state.activeFilter.filterSearch == "") &&
-      this.state.activeFilter.filterSold == post.hidden
+      (this.compareBoolean(this.state.activeFilter.filterSold, post.hidden) ||
+        post.hidden == false)
     );
   }
 
@@ -239,11 +242,14 @@ export default class Filter extends Component {
               </FormGroup>
               <FormGroup>
                 <Label for="hidden">
+                  {/** Jeg skjønner ikke helt hvorfor det funker å sette value til this.state.checked,
+                   * når det ikke finnes en this.state.checked, men det er det eneste som får det til å funke
+                   */}
                   <Input
                     type="checkbox"
                     id="showSold"
                     name="filterSold"
-                    value="checked"
+                    value={!this.state.checked}
                     onChange={this.handleChange}
                   />
                   Show inactive posts
@@ -274,6 +280,7 @@ export default class Filter extends Component {
                       filterEndDate: "",
                       filterSellorBuy: "",
                       filterSearch: "",
+                      sortByString: "",
                       filterSold: false,
                     };
                     this.setState({ activeFilter });
@@ -282,7 +289,11 @@ export default class Filter extends Component {
                     document.getElementById("location").value = "default";
                     document.getElementById("category").value = "default";
                     document.getElementById("saleOrBuy").value = "default";
+                    document.getElementById("sort-by").value = "default";
                     document.getElementById("showSold").checked = !checked;
+
+                    /** Må kjøres to ganger for å gå tilbake til ikkesortert tilstand */
+                    this.refreshList();
                     this.refreshList();
                   }}
                   size="sm"
