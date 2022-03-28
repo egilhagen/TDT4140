@@ -59,7 +59,7 @@ export class RegisterUser extends Component {
         last_name,
         password,
       };
-      alert(JSON.stringify(newUser));
+      /*  alert(JSON.stringify(newUser)); */
       this.props.register(newUser);
       toggleRegisterUserWindow();
     }
@@ -127,6 +127,38 @@ export class RegisterUser extends Component {
                 onChange={this.onChange}
                 placeholder="Enter username"
               />
+              <Label for="user-email">Email</Label>
+              <Input
+                type="text"
+                id="user-email"
+                name="email"
+                value={email}
+                onChange={this.onChange}
+                placeholder="Enter email"
+              />
+              {this.state.passwordErr ? (
+                <Alert color="danger">Passwords do not match</Alert>
+              ) : null}
+              <Label for="user-password">Password</Label>
+              <Input
+                type="password"
+                id="user-password"
+                name="password"
+                value={password}
+                onChange={this.onChange}
+                placeholder="Enter password"
+              />
+              <Label for="user-password2">Confirm password</Label>
+              <Input
+                type="password"
+                id="user-password2"
+                name="password2"
+                value={password2}
+                onChange={this.onChange}
+                placeholder="Enter password again"
+              />
+              <br></br>
+              <h5> Profile details</h5>
             </FormGroup>
           )}
 
@@ -152,44 +184,6 @@ export class RegisterUser extends Component {
               placeholder="Enter your last name"
             />
           </FormGroup>
-          <FormGroup>
-            <Label for="user-email">Email</Label>
-            <Input
-              type="text"
-              id="user-email"
-              name="email"
-              value={email}
-              onChange={this.onChange}
-              placeholder="Enter email"
-            />
-          </FormGroup>
-          <FormGroup>
-            {this.state.passwordErr ? (
-              <Alert color="danger">Passwords do not match</Alert>
-            ) : null}
-
-            <Label for="user-password">Password</Label>
-            <Input
-              type="password"
-              id="user-password"
-              name="password"
-              value={password}
-              onChange={this.onChange}
-              placeholder="Enter password"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="user-password2">Confirm password</Label>
-            <Input
-              type="password"
-              id="user-password2"
-              name="password2"
-              value={password2}
-              onChange={this.onChange}
-              placeholder="Enter password again"
-            />
-          </FormGroup>
-
           {/* CreateUserWindow har sin egen save knapp, vurder om det visuelt ser bedre ut med/uten ModalFooter... blir litt feit med ModalFooter fordi den blir mata inn i ModalHeader, istedenfor utenfor som den var originalt. */}
           <ModalFooter>
             <Button type="submit" className="btn btn-primary" color="success">

@@ -101,6 +101,7 @@ function Profile({ loggedInUser }) {
     //   // onUpload(file, url);
     // }
     // upload();
+    updateUserinfo();
     window.scrollTo(0, 0);
   }, [params.username]);
 
@@ -112,6 +113,21 @@ function Profile({ loggedInUser }) {
   // useEffect(() =>)
   // fillTransactions = () => {
 
+  /*    axios.get("/api/users").then((users) => {
+      setUsers(Object.values(users.data));
+    }); */
+  function updateUserinfo() {
+    axios.get("/api/users").then((users) => {
+      setUsers(Object.values(users.data)); /* Object.values(users.data) */
+    });
+  }
+
+  //Test: tving oppdatering. create your forceUpdate hook
+  // function useForceUpdate() {
+  //   const [value, setValue] = useState(0); // integer state
+  //   return () => setValue((value) => value + 1); // update the state to force render
+  // }
+
   // };
   // const currUser = users.find((user) => user.username == params.username);
   // const ratings = transactions.filter(
@@ -122,6 +138,9 @@ function Profile({ loggedInUser }) {
   // }, 0);
   const toggleEdit = () => {
     setEdit(!edit);
+    updateUserinfo();
+    updateUserinfo();
+    /*  forceUpdate(); */
   };
   const numRatings = ratings.length;
 

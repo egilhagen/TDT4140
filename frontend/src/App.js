@@ -6,6 +6,7 @@ import Posts from "./components/posts/Posts";
 import Login from "./components/auth/Login"; // OBS: { Login } gir feil. https://stackoverflow.com/questions/65915279/i-have-this-error-uncaught-typeerror-this-props-login-is-not-a-function
 import RegisterUser from "./components/auth/RegisterUser";
 import Header from "./components/layout/Header";
+import Filter from "./components/Filter/Filter";
 
 //Redux
 import { Provider } from "react-redux";
@@ -86,7 +87,10 @@ class App extends Component {
         {/* <ul className="list-group list-group-flush border-top-0"> */}
 
         {/* Post Component renders all posts in database */}
-        <Posts />
+
+
+        <Filter
+        />
 
         {/* </ul> */}
 

@@ -3,6 +3,10 @@ import React, { Component } from "react";
 // Components
 import Modal from "../layout/Modal";
 import CreatePostWindow from "../CreatePostWindow";
+import Filter from "../Filter/Filter";
+
+//styling
+import "./Post.css";
 
 // API requests
 import axios from "axios";
@@ -30,13 +34,13 @@ import CreateTransactionWindow from "./CreateTransactionWindow";
 export class Posts extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       postList: [],
       transactionList: [],
       modalCreatePost: false,
       modalCreateTransaction: false,
       modalTitle: "",
+      filteredPostList: [],
       activePost: {
         title: "",
         price: "",
@@ -45,10 +49,10 @@ export class Posts extends Component {
         category: "",
         saleOrBuy: "",
         description: "",
-        hidden: true,
         user: "",
         contactInfo: "",
         postOwnerUsername: "",
+        flagged: true,
       },
 
       activeTransaction: {
@@ -60,29 +64,28 @@ export class Posts extends Component {
       },
     };
   }
+
   static propTypes = {
     auth: PropTypes.object.isRequired,
   };
 
-  // Lifecycle method, invoked immediately after component is mounted.
+  /**Bruker nå refreshList fra Filter.js */
   componentDidMount() {
-    this.refreshList();
-    this.fillTransactions();
+    this.props.refreshList();
   }
 
-  refreshList = () => {
+  /* Dette fikser problemet med at du måtte refreshe sida for å sjå nye posts/endringer, MEEEN inf. loop... */
+  /* componentDidUpdate() {
+     this.props.refreshList(); 
+  } */
+
+  /*   refreshList = () => {
     axios
       .get("/api/posts")
 
       .then((res) => this.setState({ postList: res.data }))
       .catch((err) => console.log(err));
-  };
-  fillTransactions = () => {
-    axios
-      .get("/api/transactions")
-      .then((res) => this.setState({ transactionList: res.data }))
-      .catch((err) => console.log(err));
-  };
+  }; */
 
   // refreshList = () => {
   //   axios
@@ -96,28 +99,24 @@ export class Posts extends Component {
   };
 
   handleSubmitPost = (post) => {
+    const { refreshList } = this.props;
+    /* this.toggleCreatePostWindow(); */
     /* Close window on save */
     this.setState({ modalCreatePost: false });
-    /* this.toggleCreatePostWindow(); */
-    /*  alert(JSON.stringify(post)); */
-    /*   window.scrollTo(0, window.scrollMaxY); */
-    /* 
-    window.scrollTo(0, document.querySelector(".post-div").scrollHeight);
-    alert(document.querySelector("post-div").scrollHeight); */
-    /*  const my_element = document.getElementById("bottom-div");
-    my_element.scrollIntoView(); */
 
-    this.scrollToBottom();
-
-    //IF post exists --> update existing post (PUT-request)
+    //IF post exists, update post --> PUT-request
     if (post.id) {
-      axios
-        .put(`/api/posts/${post.id}/`, post)
-        .then((res) => this.refreshList());
+      axios.put(`/api/posts/${post.id}/`, post).then((res) => refreshList());
+      refreshList();
+      refreshList();
+
       return;
     }
     // ELSE create new post --> POST-request
-    axios.post("/api/posts/", post).then((res) => this.refreshList());
+    axios.post("/api/posts/", post).then((res) => refreshList());
+    refreshList();
+    refreshList();
+    this.scrollToBottom();
   };
 
   handleSubmitTransaction = (transaction) => {
@@ -132,7 +131,10 @@ export class Posts extends Component {
   // }
 
   toggleCreatePostWindow = (event) => {
+    //alert("toggleCreateUserWindow");
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
+    //event.preventDefault();
+    //this.setState({ modal: false });
   };
 
   toggleCreateTransactionWindow = (event) => {
@@ -153,6 +155,7 @@ export class Posts extends Component {
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
       postOwnerUsername: this.props.auth.user.username,
+      flagged: false,
     };
 
     this.setState({
@@ -187,6 +190,7 @@ export class Posts extends Component {
         .id /* TODO: kan dette bli et problem? kan sjå på da som ein feature, e-post og id blir oppdatert dersom de har blitt endret ;) */,
       contactInfo: this.props.auth.user.email,
       postOwnerUsername: this.props.auth.user.username,
+      flagged: existingPost.flagged,
     };
 
     this.setState({
@@ -209,6 +213,31 @@ export class Posts extends Component {
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
       postOwnerUsername: this.props.auth.user.username,
+      flagged: existingPost.flagged,
+    };
+    this.setState({
+      activePost: post,
+    });
+    /* TODO: dette er ein workaround, activePost: post funke ikkje før andre knappetrykk. vil egentlig submitte this.state.activePost */
+    this.handleSubmitPost(post);
+    /* this.handleSubmitPost(this.state.activePost); */
+  };
+
+  flagPost = (existingPost) => {
+    const post = {
+      id: existingPost.id,
+      title: existingPost.title,
+      price: existingPost.price,
+      date: existingPost.date,
+      location: existingPost.location,
+      category: existingPost.category,
+      saleOrBuy: existingPost.saleOrBuy,
+      description: existingPost.description,
+      hidden: existingPost.hidden,
+      user: existingPost.user,
+      contactInfo: existingPost.contactInfo,
+      postOwnerUsername: existingPost.postOwnerUsername,
+      flagged: true,
     };
     this.setState({
       activePost: post,
@@ -251,9 +280,9 @@ export class Posts extends Component {
   // render posts
   renderItems = () => {
     const { isAuthenticated } = this.props.auth;
-    const transactionItems = this.state.transactionList;
-    const newItems = this.state.postList;
-    return newItems.map((post) => (
+    const { filteredPostList } = this.props;
+
+    return filteredPostList.map((post) => (
       /*p-0= no padding. Column width depends on screen size and is set by: md=medium, sm=small, no prefix= extra small  */
       <div className="p-0 col-md-4 col-sm-6">
         {/* li gir litt luft mellom cards */}
@@ -275,6 +304,8 @@ export class Posts extends Component {
                         borderColor: "#333",
                         opacity: "0.5",
                       }
+                    : post.flagged
+                    ? { backgroundColor: "#fcb103", borderColor: "#333" }
                     : { backgroundColor: "#D6DBDF", borderColor: "#333" }
                 }
 
@@ -300,6 +331,10 @@ export class Posts extends Component {
                       ) : (
                         <label>BOUGHT</label>
                       )
+                    ) : post.flagged ? (
+                      <div>
+                        <label>REPORTED</label>
+                      </div>
                     ) : isAuthenticated ? (
                       <div>
                         {/* IF user isAuthenticated and postOwnerId == this.props.auth.user.id ---> show edit and delete buttons ELSE --> null  */}
@@ -358,7 +393,35 @@ export class Posts extends Component {
                               </svg>
                             </button>
                           </div>
-                        ) : null}
+                        ) : post.flagged ? (
+                          <div>
+                            <label>REPORTED</label>
+                          </div>
+                        ) : (
+                          <div>
+                            {/* Report button */}
+                            <button
+                              className="btn"
+                              /* denne vises når du svever over knappen */
+                              title="Click here to report this post"
+                              onClick={() => {
+                                this.flagPost(post);
+                              }}
+                            >
+                              {/* Flag-icon */}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="36px"
+                                viewBox="0 0 24 24"
+                                width="36px"
+                                fill="#000000"
+                              >
+                                <path d="M0 0h24v24H0V0z" fill="none" />
+                                <path d="M12.36 6l.4 2H18v6h-3.36l-.4-2H7V6h5.36M14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6L14 4z" />
+                              </svg>
+                            </button>
+                          </div>
+                        )}
                       </div>
                     ) : null}
                   </div>
@@ -565,6 +628,7 @@ export class Posts extends Component {
             alt="TickingLogo"
           /> */}
         </div>
+
         <div className="container">
           {/* md=medium, sm=small, no prefix= xtra small */}
           <div className="row row-cols-md-3 row-cols-1">
