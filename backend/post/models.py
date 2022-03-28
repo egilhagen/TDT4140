@@ -9,12 +9,13 @@ from post.enums import LocationChoices, TypeChoices, SaleOrBuy
 
 class Post(models.Model):
     title = models.CharField(max_length=120)
-    price = models.CharField(max_length=120)
+    price = models.IntegerField()
     date=models.DateField(default=datetime.date.today)
     location=models.CharField(max_length=50, choices=LocationChoices.choices())
     category=models.CharField(max_length=50, choices=TypeChoices.choices())
     description=models.CharField(max_length=300)
     hidden=models.BooleanField(default=False)
+    flagged = models.BooleanField(default=False)
     user = models.ForeignKey(
         to=User,
         on_delete=models.SET_NULL,
@@ -57,6 +58,7 @@ class Transaction(models.Model):
     # ratingFromBuyer = models.CharField(max_length=1, null=True)
     ratingFromSeller = models.IntegerField(blank=True, null=True)
     ratingFromBuyer = models.IntegerField(blank=True, null=True)
+
 
     def _str_(self):
         return self.title

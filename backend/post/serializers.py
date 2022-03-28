@@ -5,7 +5,7 @@ from .models import Post, Transaction
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('id', 'title', 'price', 'date', 'description','hidden', 'location', 'category', 'user', 'saleOrBuy', 'contactInfo', 'postOwnerUsername' )
+        fields = ('id', 'title', 'price', 'date', 'description','hidden', 'location', 'category', 'user', 'saleOrBuy', 'contactInfo', 'postOwnerUsername', 'flagged')
 
 
 class TransactionSerializer(serializers.ModelSerializer):
