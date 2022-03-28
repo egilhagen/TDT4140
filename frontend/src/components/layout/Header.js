@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../actions/auth";
+
+//React router navigation links
+import { Link } from "react-router-dom";
 
 export class Header extends Component {
   static propTypes = {
@@ -16,7 +18,14 @@ export class Header extends Component {
     const authLinks = (
       <ul className="navbar-nav ml-auto mt-2 mt-lg-0">
         <span className="navbar-text mr-3">
-          <strong>{user ? `Welcome ${user.username}` : ""}</strong>
+          {/* Check if Redux-store has populated the user, if not show loading untill it has. */}
+          {user ? (
+            <Link to={`/profiles/${user.username}`}>
+              <strong>{`Welcome ${user.username}`}</strong>
+            </Link>
+          ) : (
+            "Loading profile page link..."
+          )}
         </span>
         <li className="nav-item">
           <button
@@ -49,7 +58,17 @@ export class Header extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+      <nav
+        className="navbar navbar-expand-sm navbar-light bg-light"
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: "99",
+          /*  z-index: "99", */
+        }}
+      >
+        {/*  position: sticky;
+    top: 0; */}
         <div className="container">
           {/* TODO: kan vere nyttig når me får profilside, dropdownmeny */}
           {/*           <button
@@ -65,9 +84,18 @@ export class Header extends Component {
           </button> */}
           {/* className="collapse navbar-collapse" */}
           <div id="navbarTogglerDemo01">
-            <a className="navbar-brand" href="#">
+            {/*  <Link className="navbar-brand" to="/">
               TicKing
-            </a>
+            </Link> */}
+            <Link className="navbar-brand" to="/">
+              <img
+                src={
+                  process.env.PUBLIC_URL + "/Icons/Logo_BlackKing.svg"
+                } /* Asset-1.svg, Logo_GoldKing.svg, Logo_BlackKing.svg  */
+                style={{ height: 38 }}
+                alt="TickingLogo"
+              />
+            </Link>
           </div>
           {/* Show login or logout button depending on authentication state */}
           {isAuthenticated ? authLinks : guestLinks}

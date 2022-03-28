@@ -20,6 +20,7 @@ class RegisterAPI(generics.GenericAPIView):
             #Gjør at man kan logge inn umiddelbart ved registrering. Vet hvem man er utifra token. Kommer i header.
             "token": AuthToken.objects.create(user)[1]
         })
+
 # Login API
 class LoginAPI(generics.GenericAPIView):
     serializer_class = LoginUserSerializer
@@ -47,3 +48,16 @@ class UserAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+        
+    def put(self, request, *args, **kwargs):
+
+        user = self.request.user
+        serializers = self.get_serializer(user,data=request.data)
+        serializers.is_valid(raise_exception=True)
+        
+        user = serializers.save()
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            #Gjør at man kan logge inn umiddelbart ved registrering. Vet hvem man er utifra token. Kommer i header.
+            "token": AuthToken.objects.create(user)[1]
+        })

@@ -15,6 +15,9 @@ import axios from "axios";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
+// React Router
+import { Link } from "react-router-dom";
+
 // Post reactstrap-cards
 import {
   Card,
@@ -26,6 +29,7 @@ import {
   CardSubtitle,
   CardBody,
 } from "reactstrap";
+import CreateTransactionWindow from "./CreateTransactionWindow";
 
 export class Posts extends Component {
   constructor(props) {
@@ -33,6 +37,8 @@ export class Posts extends Component {
     this.state = {
       postList: [],
       modalCreatePost: false,
+      modalCreateTransaction: false,
+      modalTitle: "",
       filteredPostList: [],
       activePost: {
         title: "",
@@ -44,7 +50,16 @@ export class Posts extends Component {
         description: "",
         user: "",
         contactInfo: "",
+        postOwnerUsername: "",
         flagged: true,
+      },
+
+      activeTransaction: {
+        post: "",
+        seller: "",
+        buyer: "",
+        ratingFromSeller: "",
+        ratingFromBuyer: "",
       },
     };
   }
@@ -58,24 +73,68 @@ export class Posts extends Component {
     this.props.refreshList();
   }
 
+
+ /*  refreshList = () => {
+    axios
+      .get("/api/posts")
+
+      .then((res) => this.setState({ postList: res.data }))
+      .catch((err) => console.log(err));
+  }; */
+
+  // refreshList = () => {
+  //   axios
+  //     .get("/api/users")
+  //     .then((res) => this.setState({ userList: res.data }))
+  //     .catch((err) => console.log(err));
+  // };
+
+  scrollToBottom = () => {
+    this.el.scrollIntoView({ behavior: "smooth" });
+  };
+
+ 
   handleSubmitPost = (post) => {
     const { refreshList } = this.props;
-    this.toggleCreatePostWindow();
-    //if user exists, update user(PUT) ?
+    /* this.toggleCreatePostWindow(); */
+     /* Close window on save */
+    this.setState({ modalCreatePost: false });
+
+    this.scrollToBottom();
+
+    //IF user exists, update user --> PUT-request 
     if (post.id) {
       axios.put(`/api/posts/${post.id}/`, post).then((res) => refreshList());
       return;
     }
-    // else create new user (POST)
+    // ELSE create new user (POST)
     axios.post("/api/posts/", post).then((res) => refreshList());
     refreshList();
+
   };
+
+  handleSubmitTransaction = (transaction) => {
+    this.toggleCreateTransactionWindow();
+    axios
+      .post("/api/transactions/", transaction)
+      .then((res) => this.refreshList());
+  };
+
+  // handleSellPost = (post, user) => {
+
+  // }
 
   toggleCreatePostWindow = (event) => {
     //alert("toggleCreateUserWindow");
     this.setState({ modalCreatePost: !this.state.modalCreatePost });
     //event.preventDefault();
     //this.setState({ modal: false });
+  };
+
+  toggleCreateTransactionWindow = (event) => {
+    this.setState({
+      modalCreateTransaction: !this.state.modalCreateTransaction,
+    });
   };
 
   createPost = () => {
@@ -89,11 +148,25 @@ export class Posts extends Component {
       description: "",
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
-      flagged: false
+      postOwnerUsername: this.props.auth.user.username,
+      flagged: false,
     };
 
     this.setState({
       activePost: post,
+    });
+  };
+  createTransaction = (post) => {
+    const transaction = {
+      post: post.id,
+      seller: this.props.auth.user.id,
+      buyer: this.props.auth.user.id,
+      ratingFromSeller: null,
+      ratingFromBuyer: null,
+    };
+
+    this.setState({
+      activeTransaction: transaction,
     });
   };
 
@@ -110,7 +183,9 @@ export class Posts extends Component {
       user: this.props.auth.user
         .id /* TODO: kan dette bli et problem? kan sjå på da som ein feature, e-post og id blir oppdatert dersom de har blitt endret ;) */,
       contactInfo: this.props.auth.user.email,
+      postOwnerUsername: this.props.auth.user.username,
       flagged: existingPost.flagged
+
     };
 
     this.setState({
@@ -132,6 +207,7 @@ export class Posts extends Component {
       hidden: true,
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
+      postOwnerUsername: this.props.auth.user.username,
       flagged: existingPost.flagged
     };
     this.setState({
@@ -166,7 +242,7 @@ export class Posts extends Component {
   };
 
   /* OBS: Denne kan kun brukes der isAuthenticated == true, aka vi vet at bruker er innlogget */
-  canEditPost = (postOwnerId) => {
+  isActiveUserPost = (postOwnerId) => {
     /*  alert(postId);
     alert(this.props.auth.user.id); */
     if (this.props.auth.user.id == postOwnerId) {
@@ -175,6 +251,15 @@ export class Posts extends Component {
       return false;
     }
   };
+
+  /*FUNKE, MEN GÅR AAALTFOR TREIGT, SPAMME GET-REQUESTS. Yalla måte å hente ut brukernavn fra id i post loop´en siden me kun har tilgang på id. brukes til å lage lenke til eiers profilside */
+  /*   getUsernameFromID = (postOwnerId) => {
+    axios
+      .get(`/api/users/${postOwnerId}`)
+
+      .then((res) => this.setState({ activeUser: res.data.username }))
+      .catch((err) => console.log(err));
+  }; */
 
   /* Used to change modal title between "create post" and "edit post" depending on what button is pushed */
   setModalTitle = (title) => {
@@ -204,7 +289,14 @@ export class Posts extends Component {
                 /* Change card background colour based on if post is hidden or not */
                 style={
                   post.hidden
-                    ? { backgroundColor: "#fc4103", borderColor: "#333" }
+                    ? {
+                        backgroundColor:
+                          "#D6DBDF" /* Old red colour: "#fc4103" */,
+                        borderColor: "#333",
+                        opacity: "0.5",
+                      }
+
+                    
                     : post.flagged ? { backgroundColor: "#fcb103", borderColor: "#333" }
                     : { backgroundColor: "#D6DBDF", borderColor: "#333" }
                 }
@@ -226,16 +318,18 @@ export class Posts extends Component {
                     {/* TODO: Burde egentlig ha eit felt for hidden og eit for deleted. For å vise DELETED isteden for SOLD/BOUGHT  */}
                     {/* IF hidden --> already sold/bought ELSE see comment below */}
                     {post.hidden ? (
-                      <div>
-                        <label>SOLD/BOUGHT</label>
-                      </div>
-                    ) : post.flagged ?
+                      post.saleOrBuy == "Sale" ? (
+                        <label>SOLD</label>
+                      ) : (
+                        <label>BOUGHT</label>
+                      )
+                    )  : post.flagged ?
                     <div>
                       <label>REPORTED</label>
                     </div> :isAuthenticated ? (
                       <div>
                         {/* IF user isAuthenticated and postOwnerId == this.props.auth.user.id ---> show edit and delete buttons ELSE --> null  */}
-                        {this.canEditPost(post.user) ? (
+                        {this.isActiveUserPost(post.user) ? (
                           <div>
                             {/* Delete button */}
                             <button
@@ -345,7 +439,12 @@ export class Posts extends Component {
 
                 <CardSubtitle>
                   <br />
-                  <h5>Buying or selling: {post.saleOrBuy} </h5>
+                  {/*  <h5>Buying or selling: {post.saleOrBuy} </h5>  */}
+                  {post.saleOrBuy == "Sale" ? (
+                    <h5>Selling</h5>
+                  ) : (
+                    <h5>Buying</h5>
+                  )}
                 </CardSubtitle>
                 <CardSubtitle>
                   {post.category} ticket in {post.location}
@@ -361,28 +460,66 @@ export class Posts extends Component {
                 </CardText>
                 {/* IF hidden --> already sold. ELSE (IF isAuthenticated --> show contactInfo. ELSE --> log in to show Contactinfo.) */}
                 {post.hidden ? (
-                  <div>
-                    <label>
-                      Contact: This post has already been sold/bought.
-                    </label>
-                  </div>
+                  post.saleOrBuy == "Sale" ? (
+                    <label>Contact: This ticket has already been sold.</label>
+                  ) : (
+                    <label>Contact: This ticket has already been bought.</label>
+                  )
                 ) : isAuthenticated ? (
                   <div>
-                    <label>
-                      {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
-                      {"Contact: "}
-                      {/* Kan sette subject og body på emailen: ?subject=TicKing ticket: &body=Hello!" */}
-                      <a
-                        href={
-                          "mailto:" +
-                          post.contactInfo +
-                          "?subject=TicKing ticket: " +
-                          post.title
-                        }
+                    <div
+                      id="profile-and-rating-wrapper"
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div>
+                        {/* TODO: legg inn lenke til eiers profilside her */}
+                        {/* Det blir for mange get requests, går treigt */}
+                        {/*  {this.getUsernameFromID(post.user)} */}
+
+                        {post.saleOrBuy == "Sale" ? "Seller: " : "Buyer: "}
+
+                        <Link
+                          style={{ margin: "1rem 0" }}
+                          to={`/profiles/${post.postOwnerUsername}`}
+                        >
+                          {post.postOwnerUsername ==
+                          this.props.auth.user.username
+                            ? post.postOwnerUsername + "(Me)"
+                            : post.postOwnerUsername}
+                        </Link>
+                      </div>
+
+                      <div>Rating: x/5 stars</div>
+                    </div>
+
+                    {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
+                    {"Contact: "}
+                    {/* Kan sette subject og body på emailen: ?subject=TicKing ticket: &body=Hello!" */}
+                    <a
+                      href={
+                        "mailto:" +
+                        post.contactInfo +
+                        "?subject=TicKing ticket: " +
+                        post.title
+                      }
+                    >
+                      {post.contactInfo}
+                    </a>
+
+                    {this.isActiveUserPost(post.user) ? (
+                      <button
+                        onClick={() => {
+                          this.toggleCreateTransactionWindow();
+                          this.createTransaction(post);
+                        }}
+                        className="nav-link btn btn-info btn-sm text-light"
                       >
-                        {post.contactInfo}
-                      </a>
-                    </label>
+                        Sell
+                      </button>
+                    ) : null}
                   </div>
                 ) : (
                   <div>
@@ -419,7 +556,7 @@ export class Posts extends Component {
     const guestMessage = <h4>Log in to create a new post</h4>;
 
     return (
-      <div>
+      <div id="post-div">
         {/* Vis/skjul createPostWindow */}
         {this.state.modalCreatePost ? (
           <Modal
@@ -440,11 +577,48 @@ export class Posts extends Component {
           {isAuthenticated ? createPostButton : guestMessage}
         </div>
 
+        {/* Create Transaction */}
+        {this.state.modalCreateTransaction ? (
+          <Modal
+            toggle={this.toggleCreateTransactionWindow}
+            modalTitle={<h3>Review Transaction</h3>}
+            modalContent={
+              <CreateTransactionWindow
+                activeTransaction={this.state.activeTransaction}
+                // activePost={post}
+                onSave={this.handleSubmitTransaction}
+              />
+            }
+          />
+        ) : null}
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <h2>Tickets</h2>
+          {/*         <img
+            src={
+              process.env.PUBLIC_URL + "/Icons/Logo_GoldKing.svg"
+            } Asset-1.svg, Logo_GoldKing.svg, Logo_BlackKing.svg  
+            style={{ height: 150 }}
+            alt="TickingLogo"
+          /> */}
+        </div>
+
         <div className="container">
           {/* md=medium, sm=small, no prefix= xtra small */}
           <div className="row row-cols-md-3 row-cols-1">
             {this.renderItems()}
           </div>
+          <div
+            ref={(el) => {
+              this.el = el;
+            }}
+          ></div>
         </div>
       </div>
     );
