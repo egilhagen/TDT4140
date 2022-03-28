@@ -42,6 +42,7 @@ export class Posts extends Component {
         hidden: true,
         user: "",
         contactInfo: "",
+        flagged: true,
       },
     };
   }
@@ -93,6 +94,7 @@ export class Posts extends Component {
       description: "",
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
+      flagged: false
     };
 
     this.setState({
@@ -113,6 +115,7 @@ export class Posts extends Component {
       user: this.props.auth.user
         .id /* TODO: kan dette bli et problem? kan sjå på da som ein feature, e-post og id blir oppdatert dersom de har blitt endret ;) */,
       contactInfo: this.props.auth.user.email,
+      flagged: existingPost.flagged
     };
 
     this.setState({
@@ -134,6 +137,30 @@ export class Posts extends Component {
       hidden: true,
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
+      flagged: existingPost.flagged
+    };
+    this.setState({
+      activePost: post,
+    });
+    /* TODO: dette er ein workaround, activePost: post funke ikkje før andre knappetrykk. vil egentlig submitte this.state.activePost */
+    this.handleSubmitPost(post);
+    /* this.handleSubmitPost(this.state.activePost); */
+  };
+
+  flagPost = (existingPost) => {
+    const post = {
+      id: existingPost.id,
+      title: existingPost.title,
+      price: existingPost.price,
+      date: existingPost.date,
+      location: existingPost.location,
+      category: existingPost.category,
+      saleOrBuy: existingPost.saleOrBuy,
+      description: existingPost.description,
+      hidden: existingPost.hidden,
+      user: existingPost.user,
+      contactInfo: existingPost.contactInfo,
+      flagged: true
     };
     this.setState({
       activePost: post,
@@ -183,6 +210,7 @@ export class Posts extends Component {
                 style={
                   post.hidden
                     ? { backgroundColor: "#fc4103", borderColor: "#333" }
+                    : post.flagged ? { backgroundColor: "#fcb103", borderColor: "#333" }
                     : { backgroundColor: "#D6DBDF", borderColor: "#333" }
                 }
 
@@ -206,7 +234,10 @@ export class Posts extends Component {
                       <div>
                         <label>SOLD/BOUGHT</label>
                       </div>
-                    ) : isAuthenticated ? (
+                    ) : post.flagged ?
+                    <div>
+                      <label>REPORTED</label>
+                    </div> :isAuthenticated ? (
                       <div>
                         {/* IF user isAuthenticated and postOwnerId == this.props.auth.user.id ---> show edit and delete buttons ELSE --> null  */}
                         {this.canEditPost(post.user) ? (
@@ -264,11 +295,39 @@ export class Posts extends Component {
                               </svg>
                             </button>
                           </div>
-                        ) : null}
-                      </div>
+                         
+                        ) : post.flagged ?
+                        <div>
+                          <label>REPORTED</label>
+                        </div> :
+                        (
+                          <div>
+                            {/* Report button */}
+                            <button
+                              className="btn"
+                              /* denne vises når du svever over knappen */
+                              title="Click here to report this post"
+                              
+                              onClick={() => {this.flagPost(post)}}
+                            >
+                              {/* Flag-icon */}
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                height="36px"
+                                viewBox="0 0 24 24"
+                                width="36px"
+                                fill="#000000"
+                              >
+                                <path d="M0 0h24v24H0V0z" fill="none" />
+                               <path d="M12.36 6l.4 2H18v6h-3.36l-.4-2H7V6h5.36M14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6L14 4z" />
+                              </svg>
+                            </button>
+                          </div> 
+                    )
+                        }</div> 
                     ) : null}
-                  </div>
-                </CardTitle>
+                  </div>  
+                  </CardTitle>
                 <CardImg
                   top
                   width="100%"

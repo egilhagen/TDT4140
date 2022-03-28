@@ -24,6 +24,7 @@ class Post(models.Model):
     )
     saleOrBuy = models.CharField(max_length=30, choices=SaleOrBuy.choices(), default='Sell')
     contactInfo = models.CharField(max_length=120)
+    flagged = models.BooleanField(default=False)
 
     def _str_(self):
         return self.title
