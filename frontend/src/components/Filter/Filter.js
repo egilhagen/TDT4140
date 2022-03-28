@@ -124,6 +124,7 @@ export default class Filter extends Component {
   };
 
   render() {
+    const [checked] = "false";
     return (
       <div className="container">
         <div
@@ -242,7 +243,7 @@ export default class Filter extends Component {
                     type="checkbox"
                     id="showSold"
                     name="filterSold"
-                    value="true"
+                    value="checked"
                     onChange={this.handleChange}
                   />
                   Show inactive posts
@@ -281,7 +282,7 @@ export default class Filter extends Component {
                     document.getElementById("location").value = "default";
                     document.getElementById("category").value = "default";
                     document.getElementById("saleOrBuy").value = "default";
-                    document.getElementById("showSold").value = "";
+                    document.getElementById("showSold").checked = !checked;
                     this.refreshList();
                   }}
                   size="sm"
