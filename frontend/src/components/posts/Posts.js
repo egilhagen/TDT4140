@@ -36,6 +36,7 @@ export class Posts extends Component {
     super(props);
     this.state = {
       postList: [],
+      transactionList: [],
       modalCreatePost: false,
       modalCreateTransaction: false,
       modalTitle: "",
@@ -119,10 +120,9 @@ export class Posts extends Component {
   };
 
   handleSubmitTransaction = (transaction) => {
+    const { refreshList } = this.props;
     this.toggleCreateTransactionWindow();
-    axios
-      .post("/api/transactions/", transaction)
-      .then((res) => this.refreshList());
+    axios.post("/api/transactions/", transaction).then((res) => refreshList());
   };
 
   // handleSellPost = (post, user) => {
@@ -256,6 +256,9 @@ export class Posts extends Component {
       return false;
     }
   };
+  // canRateBack = (postOwnerId, postId) => {
+  //   if
+  // }
 
   /*FUNKE, MEN GÅR AAALTFOR TREIGT, SPAMME GET-REQUESTS. Yalla måte å hente ut brukernavn fra id i post loop´en siden me kun har tilgang på id. brukes til å lage lenke til eiers profilside */
   /*   getUsernameFromID = (postOwnerId) => {
@@ -499,7 +502,6 @@ export class Posts extends Component {
 
                       <div>Rating: x/5 stars</div>
                     </div>
-
                     {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
                     {"Contact: "}
                     {/* Kan sette subject og body på emailen: ?subject=TicKing ticket: &body=Hello!" */}
@@ -513,7 +515,6 @@ export class Posts extends Component {
                     >
                       {post.contactInfo}
                     </a>
-
                     {this.isActiveUserPost(post.user) ? (
                       <button
                         onClick={() => {
@@ -525,6 +526,19 @@ export class Posts extends Component {
                         Sell
                       </button>
                     ) : null}
+                    {/* {transactionItems.find(
+                      (transactionItem) =>
+                        transactionItem.buyer === this.props.auth.user.id &&
+                        transactionItem.post === post.id
+                    ) != null ? (
+                      <button
+                        onClick={() => {}}
+                        className="nav-link btn btn-info btn-sm text-light"
+                      >
+                        Rate back
+                      </button>
+                    ) : null}
+                    ; */}
                   </div>
                 ) : (
                   <div>
