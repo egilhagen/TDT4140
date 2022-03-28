@@ -500,7 +500,7 @@ export class Posts extends Component {
                         </Link>
                       </div>
 
-                      <div>Rating: x/5 stars</div>
+                      {/* <div>Rating: x/5 stars</div> */}
                     </div>
                     {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
                     {"Contact: "}
@@ -515,6 +515,8 @@ export class Posts extends Component {
                     >
                       {post.contactInfo}
                     </a>
+                    <br></br>
+                    <br></br>
                     {this.isActiveUserPost(post.user) ? (
                       <button
                         onClick={() => {
@@ -523,7 +525,9 @@ export class Posts extends Component {
                         }}
                         className="nav-link btn btn-info btn-sm text-light"
                       >
-                        Sell
+                        {post.saleOrBuy == "Sale"
+                          ? "Complete sale"
+                          : "Complete purchase"}
                       </button>
                     ) : null}
                     {/* {transactionItems.find(

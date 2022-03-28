@@ -318,7 +318,7 @@ function Profile({ loggedInUser }) {
                           {/* alert({ratings.length}); */}
                           {numRatings > 0 ? (
                             <h5>
-                              Rating: {rating / numRatings} ({numRatings})
+                              Rating: {rating / numRatings}/5 ({numRatings})
                             </h5>
                           ) : (
                             <h5>0 (0)</h5>
