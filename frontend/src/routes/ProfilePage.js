@@ -63,7 +63,6 @@ export class ProfilePage extends Component {
           >
             <Outlet />
 
-            {/* TODO: kanskje bake dette inn i ei dropdown-liste isteden for ListGroup? */}
             <div>
               <h3>Userlist </h3>
               <div

@@ -103,15 +103,19 @@ export class Posts extends Component {
     /* Close window on save */
     this.setState({ modalCreatePost: false });
 
-    //IF post exists, update user --> PUT-request
+    //IF post exists, update post --> PUT-request
     if (post.id) {
       axios.put(`/api/posts/${post.id}/`, post).then((res) => refreshList());
+      refreshList();
+      refreshList();
+
       return;
     }
     // ELSE create new post --> POST-request
-    this.scrollToBottom();
     axios.post("/api/posts/", post).then((res) => refreshList());
     refreshList();
+    refreshList();
+    this.scrollToBottom();
   };
 
   handleSubmitTransaction = (transaction) => {

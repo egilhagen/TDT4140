@@ -67,6 +67,7 @@ function Profile({ loggedInUser }) {
   const toggleEdit = () => {
     setEdit(!edit);
     updateUserinfo();
+    updateUserinfo();
     /*  forceUpdate(); */
   };
 
