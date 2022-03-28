@@ -5,7 +5,20 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username','first_name', 'last_name', 'email')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')
+    
+    def update(self, instance, validated_data):
+        """
+        Update and return an existing `Snippet` instance, given the validated data.
+        """
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        # instance.password = validate_data['password']
+        instance.first_name = validated_data.get('first_name', instance.first_name)
+        instance.last_name = validated_data.get('last_name', instance.last_name)
+
+        instance.save()
+        return instance
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,7 +35,6 @@ class RegisterUserSerializer(serializers.ModelSerializer):
             last_name = validate_data['last_name']
                  
             )
-        
         return user
 
 # Validere bare en bruker så 
