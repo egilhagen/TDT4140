@@ -33,6 +33,7 @@ export class Posts extends Component {
 
     this.state = {
       postList: [],
+      transactionList: [],
       modalCreatePost: false,
       modalCreateTransaction: false,
       modalTitle: "",
@@ -66,6 +67,7 @@ export class Posts extends Component {
   // Lifecycle method, invoked immediately after component is mounted.
   componentDidMount() {
     this.refreshList();
+    this.fillTransactions();
   }
 
   refreshList = () => {
@@ -73,6 +75,12 @@ export class Posts extends Component {
       .get("/api/posts")
 
       .then((res) => this.setState({ postList: res.data }))
+      .catch((err) => console.log(err));
+  };
+  fillTransactions = () => {
+    axios
+      .get("/api/transactions")
+      .then((res) => this.setState({ transactionList: res.data }))
       .catch((err) => console.log(err));
   };
 
@@ -220,6 +228,9 @@ export class Posts extends Component {
       return false;
     }
   };
+  // canRateBack = (postOwnerId, postId) => {
+  //   if
+  // }
 
   /*FUNKE, MEN GÅR AAALTFOR TREIGT, SPAMME GET-REQUESTS. Yalla måte å hente ut brukernavn fra id i post loop´en siden me kun har tilgang på id. brukes til å lage lenke til eiers profilside */
   /*   getUsernameFromID = (postOwnerId) => {
@@ -240,7 +251,7 @@ export class Posts extends Component {
   // render posts
   renderItems = () => {
     const { isAuthenticated } = this.props.auth;
-
+    const transactionItems = this.state.transactionList;
     const newItems = this.state.postList;
     return newItems.map((post) => (
       /*p-0= no padding. Column width depends on screen size and is set by: md=medium, sm=small, no prefix= extra small  */
@@ -429,7 +440,6 @@ export class Posts extends Component {
 
                       <div>Rating: x/5 stars</div>
                     </div>
-
                     {/* Todo: dette kan umulig være rett måte å få mellomrom etter "Contact" :] */}
                     {"Contact: "}
                     {/* Kan sette subject og body på emailen: ?subject=TicKing ticket: &body=Hello!" */}
@@ -443,7 +453,6 @@ export class Posts extends Component {
                     >
                       {post.contactInfo}
                     </a>
-
                     {this.isActiveUserPost(post.user) ? (
                       <button
                         onClick={() => {
@@ -455,6 +464,19 @@ export class Posts extends Component {
                         Sell
                       </button>
                     ) : null}
+                    {/* {transactionItems.find(
+                      (transactionItem) =>
+                        transactionItem.buyer === this.props.auth.user.id &&
+                        transactionItem.post === post.id
+                    ) != null ? (
+                      <button
+                        onClick={() => {}}
+                        className="nav-link btn btn-info btn-sm text-light"
+                      >
+                        Rate back
+                      </button>
+                    ) : null}
+                    ; */}
                   </div>
                 ) : (
                   <div>
