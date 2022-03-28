@@ -58,7 +58,17 @@ export class Header extends Component {
     );
 
     return (
-      <nav className="navbar navbar-expand-sm navbar-light bg-light">
+      <nav
+        className="navbar navbar-expand-sm navbar-light bg-light"
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: "99",
+          /*  z-index: "99", */
+        }}
+      >
+        {/*  position: sticky;
+    top: 0; */}
         <div className="container">
           {/* TODO: kan vere nyttig når me får profilside, dropdownmeny */}
           {/*           <button
@@ -74,8 +84,17 @@ export class Header extends Component {
           </button> */}
           {/* className="collapse navbar-collapse" */}
           <div id="navbarTogglerDemo01">
-            <Link className="navbar-brand" to="/">
+            {/*  <Link className="navbar-brand" to="/">
               TicKing
+            </Link> */}
+            <Link className="navbar-brand" to="/">
+              <img
+                src={
+                  process.env.PUBLIC_URL + "/Icons/Logo_BlackKing.svg"
+                } /* Asset-1.svg, Logo_GoldKing.svg, Logo_BlackKing.svg  */
+                style={{ height: 38 }}
+                alt="TickingLogo"
+              />
             </Link>
           </div>
           {/* Show login or logout button depending on authentication state */}

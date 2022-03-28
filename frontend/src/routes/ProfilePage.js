@@ -52,31 +52,49 @@ export class ProfilePage extends Component {
       >
         <div className="container">
           <Link to="/">Go back home</Link>
-          {/* TODO: send inn {prop = this.state.userList} */}
-          <Outlet />
-          {/* {user.username} */}
 
-          <h2>List of users </h2>
-          {/* TODO: kanskje bake dette inn i ei dropdown-liste isteden for ListGroup? */}
-          <ListGroup>
-            {users.map((user) => (
-              <ListGroupItem
-                tag="a"
-                action /* La til "profile: " fordi ein key må vere unik for HEILE nettsida */
-                key={"profile: " + user.username}
+          {/* Mater ut profilsida i Outlet */}
+          <div
+            id="profile-and-userlist-container"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Outlet />
+
+            {/* TODO: kanskje bake dette inn i ei dropdown-liste isteden for ListGroup? */}
+            <div>
+              <h3>Userlist </h3>
+              <div
+                style={{
+                  maxHeight: "300px",
+                  overflow: "scroll",
+                  /* border: "solid", */
+                }}
               >
-                <Link
-                  style={{ display: "block", margin: "1rem 0" }}
-                  to={`/profiles/${user.username}`}
-                >
-                  {/* Highlight the logged-in user´s profile-link */}
-                  {this.props.auth.user.username == user.username
-                    ? user.username + "(Me) - TODO: vis profilbilde her !"
-                    : user.username + "- TODO: vis profilbilde her !"}
-                </Link>
-              </ListGroupItem>
-            ))}
-          </ListGroup>
+                <ListGroup>
+                  {users.map((user) => (
+                    <ListGroupItem
+                      tag="a"
+                      action /* La til "profile: " fordi ein key må vere unik for HEILE nettsida */
+                      key={"profile: " + user.username}
+                    >
+                      <Link
+                        style={{ display: "block", margin: "1rem 0" }}
+                        to={`/profiles/${user.username}`}
+                      >
+                        {/* Highlight the logged-in user´s profile-link */}
+                        {this.props.auth.user.username == user.username
+                          ? user.username + "(Me) [ profilbilde ]"
+                          : user.username + " [ profilbilde ]"}
+                      </Link>
+                    </ListGroupItem>
+                  ))}
+                </ListGroup>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     );

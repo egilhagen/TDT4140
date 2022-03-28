@@ -5,19 +5,22 @@ from django.contrib.auth import authenticate
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email')
+        fields = ('id', 'username','first_name', 'last_name', 'email')
 
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password')
     # TODO: Make class password write only 
-
+# grunn til first_name = ... --> https://stackoverflow.com/questions/49385119/create-user-takes-from-2-to-4-positional-arguments-but-6-were-given
     def create(self, validate_data):
         user = User.objects.create_user(
             validate_data['username'],
             validate_data['email'],
-            validate_data['password'],           
+            validate_data['password'],  
+            first_name = validate_data['first_name'],
+            last_name = validate_data['last_name']
+                 
             )
         
         return user

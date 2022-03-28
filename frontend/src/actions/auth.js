@@ -65,7 +65,7 @@ export const login = (username, password) => (dispatch) => {
 
 // REGISTER USER
 export const register =
-  ({ username, password, email }) =>
+  ({ id, username, password, email, first_name, last_name }) =>
   (dispatch) => {
     // Headers
     const config = {
@@ -75,7 +75,34 @@ export const register =
     };
 
     // Request Body
-    const body = JSON.stringify({ username, email, password });
+    const body = JSON.stringify({
+      username,
+      email,
+      first_name,
+      last_name,
+      password,
+    });
+
+    /* IF body has an ID we are editing a user(on the profile page) --> PUT request */
+    /* TODO: add types USER_EDIT_SUCCESS and USER_EDIT_FAIL */
+    if (id) {
+      axios
+        .put(`/api/auth/register/${id}/`, body, config)
+        .then((res) => {
+          dispatch({
+            type: REGISTER_SUCCESS,
+            payload: res.data,
+          });
+        })
+        .catch((err) => {
+          //console.log(err);
+          dispatch(returnErrors(err.response.data, err.response.status));
+          dispatch({
+            type: REGISTER_FAIL,
+          });
+        });
+      return;
+    }
 
     axios
       .post("/api/auth/register", body, config)

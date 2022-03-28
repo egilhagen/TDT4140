@@ -41,9 +41,18 @@ ReactDOM.render(
           <Route
             path="*"
             element={
-              <main style={{ padding: "1rem" }}>
-                <p>There's nothing here! You entered an invalid URL</p>
-                <Link to="/">Go back home</Link>
+              <main
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <h4>
+                  There's nothing here! You entered an invalid URL
+                  <br />
+                  <Link to="/">Go back home</Link>
+                </h4>
               </main>
             }
           />
