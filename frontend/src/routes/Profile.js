@@ -116,6 +116,7 @@ function Profile({ loggedInUser }) {
   /*    axios.get("/api/users").then((users) => {
       setUsers(Object.values(users.data));
     }); */
+
   function updateUserinfo() {
     axios.get("/api/users").then((users) => {
       setUsers(Object.values(users.data)); /* Object.values(users.data) */
@@ -279,7 +280,10 @@ function Profile({ loggedInUser }) {
                         <img
                           width="150px"
                           height="150px"
-                          src={process.env.PUBLIC_URL + "/Icons/kino.jpg"}
+                          src={
+                            process.env.PUBLIC_URL +
+                            "/Icons/blank-profile-picture.png"
+                          }
                           alt="Profile image"
                           style={{
                             borderRadius: "50%",
