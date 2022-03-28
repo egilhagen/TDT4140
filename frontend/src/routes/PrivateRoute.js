@@ -26,7 +26,8 @@ function PrivateRoute({ passedInComponent, auth }) {
   } else if (!auth.isAuthenticated) {
     /* Dersom bruker ikkje er logget inn, redirect til startsida */
     /* TODO: kunne vert nice å få login til å poppe opp, redirect til /login */
-    alert("Please log in to se your profile");
+    /*  alert("Please log in to se your profile"); */
+
     return <Navigate to="/" />;
   } else {
     return <>{passedInComponent}</>;

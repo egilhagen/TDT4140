@@ -21,6 +21,8 @@ function Profile({ loggedInUser }) {
   const [users, setUsers] = useState([]);
   const currUser = users.find((user) => user.username == params.username);
   const [edit, setEdit] = useState(false);
+  const forceUpdate = useForceUpdate();
+
   /* alert(typeof users); object!*/
   // const getMatchingUser = function (userList) {
   //   return userList;
@@ -41,18 +43,32 @@ function Profile({ loggedInUser }) {
   // });
 
   useEffect(() => {
-    axios.get("/api/users").then((users) => {
-      setUsers(Object.values(users.data)); /* Object.values(users.data) */
-    });
+    updateUserinfo();
+
+    /*    axios.get("/api/users").then((users) => {
+      setUsers(Object.values(users.data));
+    }); */
+
     window.scrollTo(0, 0);
   }, []);
 
+  function updateUserinfo() {
+    axios.get("/api/users").then((users) => {
+      setUsers(Object.values(users.data)); /* Object.values(users.data) */
+    });
+  }
+
+  //Test: tving oppdatering. create your forceUpdate hook
+  function useForceUpdate() {
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue((value) => value + 1); // update the state to force render
+  }
+
   const toggleEdit = () => {
     setEdit(!edit);
+    updateUserinfo();
+    /*  forceUpdate(); */
   };
-  /* toggleEdit(() => {
-    setEdit(!edit);
-  }); */
 
   return (
     <div>
