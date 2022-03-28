@@ -90,7 +90,7 @@ export class Header extends Component {
             <Link className="navbar-brand" to="/">
               <img
                 src={
-                  process.env.PUBLIC_URL + "/Icons/Logo_BlackKing.svg"
+                  process.env.PUBLIC_URL + "/Icons/Logo_BlackKing.png"
                 } /* Asset-1.svg, Logo_GoldKing.svg, Logo_BlackKing.svg  */
                 style={{ height: 38 }}
                 alt="TickingLogo"
