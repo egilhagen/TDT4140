@@ -120,10 +120,9 @@ export class Posts extends Component {
   };
 
   handleSubmitTransaction = (transaction) => {
+    const { refreshList } = this.props;
     this.toggleCreateTransactionWindow();
-    axios
-      .post("/api/transactions/", transaction)
-      .then((res) => this.refreshList());
+    axios.post("/api/transactions/", transaction).then((res) => refreshList());
   };
 
   // handleSellPost = (post, user) => {
