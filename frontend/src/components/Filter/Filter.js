@@ -107,6 +107,8 @@ export default class Filter extends Component {
   måtte updateFilteredPostList legges inn her, i then, for at annonsene skulle vises når 
   man åpna siden */
   refreshList = () => {
+    /*   alert("Refreshlist!"); */
+
     axios
       .get("/api/posts/")
       .then((res) =>
@@ -130,7 +132,8 @@ export default class Filter extends Component {
     const [checked] = "false";
     return (
       <div className="container">
-        <div
+        {/* Gammel logo */}
+        {/*  <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -142,10 +145,15 @@ export default class Filter extends Component {
             style={{ height: 150 }}
             alt="TickingLogo"
           />
-        </div>
+        </div> */}
         <div className="row row-cols-md-2">
           <div className="col-md-2">
             <Form>
+              <br />
+              <br />
+              <br />
+              <br />
+
               <h2>Filtration</h2>
               <FormGroup>
                 <Label for="search">Search</Label>

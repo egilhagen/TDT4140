@@ -73,8 +73,12 @@ export class Posts extends Component {
     this.props.refreshList();
   }
 
+  /* Dette fikser problemet med at du måtte refreshe sida for å sjå nye posts/endringer, MEEEN inf. loop... */
+  /* componentDidUpdate() {
+     this.props.refreshList(); 
+  } */
 
- /*  refreshList = () => {
+  /*   refreshList = () => {
     axios
       .get("/api/posts")
 
@@ -93,24 +97,23 @@ export class Posts extends Component {
     this.el.scrollIntoView({ behavior: "smooth" });
   };
 
- 
   handleSubmitPost = (post) => {
     const { refreshList } = this.props;
     /* this.toggleCreatePostWindow(); */
-     /* Close window on save */
+    /* Close window on save */
     this.setState({ modalCreatePost: false });
-
     this.scrollToBottom();
 
-    //IF user exists, update user --> PUT-request 
+    //IF post exists, update user --> PUT-request
     if (post.id) {
       axios.put(`/api/posts/${post.id}/`, post).then((res) => refreshList());
+
       return;
     }
-    // ELSE create new user (POST)
+    // ELSE create new post --> POST-request
+
     axios.post("/api/posts/", post).then((res) => refreshList());
     refreshList();
-
   };
 
   handleSubmitTransaction = (transaction) => {
@@ -184,8 +187,7 @@ export class Posts extends Component {
         .id /* TODO: kan dette bli et problem? kan sjå på da som ein feature, e-post og id blir oppdatert dersom de har blitt endret ;) */,
       contactInfo: this.props.auth.user.email,
       postOwnerUsername: this.props.auth.user.username,
-      flagged: existingPost.flagged
-
+      flagged: existingPost.flagged,
     };
 
     this.setState({
@@ -208,7 +210,7 @@ export class Posts extends Component {
       user: this.props.auth.user.id,
       contactInfo: this.props.auth.user.email,
       postOwnerUsername: this.props.auth.user.username,
-      flagged: existingPost.flagged
+      flagged: existingPost.flagged,
     };
     this.setState({
       activePost: post,
@@ -231,7 +233,8 @@ export class Posts extends Component {
       hidden: existingPost.hidden,
       user: existingPost.user,
       contactInfo: existingPost.contactInfo,
-      flagged: true
+      postOwnerUsername: existingPost.postOwnerUsername,
+      flagged: true,
     };
     this.setState({
       activePost: post,
@@ -295,9 +298,8 @@ export class Posts extends Component {
                         borderColor: "#333",
                         opacity: "0.5",
                       }
-
-                    
-                    : post.flagged ? { backgroundColor: "#fcb103", borderColor: "#333" }
+                    : post.flagged
+                    ? { backgroundColor: "#fcb103", borderColor: "#333" }
                     : { backgroundColor: "#D6DBDF", borderColor: "#333" }
                 }
 
@@ -323,10 +325,11 @@ export class Posts extends Component {
                       ) : (
                         <label>BOUGHT</label>
                       )
-                    )  : post.flagged ?
-                    <div>
-                      <label>REPORTED</label>
-                    </div> :isAuthenticated ? (
+                    ) : post.flagged ? (
+                      <div>
+                        <label>REPORTED</label>
+                      </div>
+                    ) : isAuthenticated ? (
                       <div>
                         {/* IF user isAuthenticated and postOwnerId == this.props.auth.user.id ---> show edit and delete buttons ELSE --> null  */}
                         {this.isActiveUserPost(post.user) ? (
@@ -384,20 +387,20 @@ export class Posts extends Component {
                               </svg>
                             </button>
                           </div>
-                         
-                        ) : post.flagged ?
-                        <div>
-                          <label>REPORTED</label>
-                        </div> :
-                        (
+                        ) : post.flagged ? (
+                          <div>
+                            <label>REPORTED</label>
+                          </div>
+                        ) : (
                           <div>
                             {/* Report button */}
                             <button
                               className="btn"
                               /* denne vises når du svever over knappen */
                               title="Click here to report this post"
-                              
-                              onClick={() => {this.flagPost(post)}}
+                              onClick={() => {
+                                this.flagPost(post);
+                              }}
                             >
                               {/* Flag-icon */}
                               <svg
@@ -408,15 +411,15 @@ export class Posts extends Component {
                                 fill="#000000"
                               >
                                 <path d="M0 0h24v24H0V0z" fill="none" />
-                               <path d="M12.36 6l.4 2H18v6h-3.36l-.4-2H7V6h5.36M14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6L14 4z" />
+                                <path d="M12.36 6l.4 2H18v6h-3.36l-.4-2H7V6h5.36M14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6L14 4z" />
                               </svg>
                             </button>
-                          </div> 
-                    )
-                        }</div> 
+                          </div>
+                        )}
+                      </div>
                     ) : null}
-                  </div>  
-                  </CardTitle>
+                  </div>
+                </CardTitle>
                 <CardImg
                   top
                   width="100%"
