@@ -459,7 +459,7 @@ export class Posts extends Component {
                   <br />
                   {post.date}
                   <br />
-                  Price: {post.price}
+                  Price: {post.price} kr
                 </CardSubtitle>
                 <CardText>
                   <br />

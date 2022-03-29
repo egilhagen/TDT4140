@@ -154,7 +154,7 @@ export default class Filter extends Component {
               <br />
               <br />
 
-              <h2>Filtration</h2>
+              <h2>Filters</h2>
               <FormGroup>
                 <Label for="search">Search</Label>
                 <Input

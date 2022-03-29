@@ -332,9 +332,9 @@ function Profile({ loggedInUser }) {
                         {/* <h5> Description </h5> */}
                         <p>
                           {/* {currUser.desctription}  */}
-                          Temp-testtext: hello hello fuglekassa osv. osv. OBS:
-                          Bildet er temp, må fortsatt få til å legge til eit
-                          bildefelt i backend...
+                          Dette er ett eksempel på hvordan en beskrivelse kan se
+                          ut, her ligger informasjon om brukeren. Dette kan være
+                          interesser, hobbyer osv.
                         </p>
                       </div>
                     </CardText>
