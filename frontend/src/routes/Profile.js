@@ -299,8 +299,7 @@ function Profile({ loggedInUser }) {
                           <h4>
                             {currUser.first_name} {currUser.last_name}
                           </h4>
-                          {/* Last name */}
-                          <h4>{currUser.last_name} </h4>
+
                           {/* Email */}
                           <h5>
                             {/* {currUser.email} */}
